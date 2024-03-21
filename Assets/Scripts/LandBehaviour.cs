@@ -9,9 +9,11 @@ public class LandBehaviour : MonoBehaviour
 {
     public enum Neighbor{
         Left = 1,
-        Up = 2,
-        Right = 4,
-        Down = 8
+        Right = 2,
+        LUp = 4,
+        RUp = 8,
+        LDown = 16,
+        RDown = 32
     };
     public List<Color> colors;
     // Start is called before the first frame update
@@ -19,7 +21,7 @@ public class LandBehaviour : MonoBehaviour
     public int hp;
     public Neighbor neighbor;
 
-    void Start()
+    void Awake()
     {
         owner = -1;
         hp = 3;
@@ -36,6 +38,8 @@ public class LandBehaviour : MonoBehaviour
         return energy >= hp;
     }
     public void ChangeImg() {
+        Debug.Log(owner);
+        Debug.Log(colors);
         SpriteRenderer s = GetComponent<SpriteRenderer>();
         Sprite t = Resources.Load<Sprite>(String.Format("Textures/{0}",(int)neighbor));
         s.color = colors[owner];

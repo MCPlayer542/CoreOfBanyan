@@ -13,26 +13,33 @@ public class GameServer : MonoBehaviour
 {
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
-  int n = 20;
+  int n = 5;
   public List<List<GameObject>> map = new();
   public void Awake() {
+    transform.position = new(n,0,-10);
+    GetComponent<Camera>().orthographicSize = (n+1)*0.866025f;
     bornPos.Clear();
-    bornPos.Add(new(1,1,-1));
-    bornPos.Add(new(20,20,-1));
+    bornPos.Add(new(0,0,-1));
+    bornPos.Add(new(2*n,0,-1));
     keySet.Clear();
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
     keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
 
-    map.Clear(); map.Add(new());
-    for(int i=1;i<=n;++i) {
-      map.Add(new List<GameObject>(){new()});
-      for(int j=1;j<=n;++j) {
-        map[i].Add(Instantiate(Resources.Load("Land") as GameObject));
-        map[i][j].transform.localPosition = new(i,j,0);
+    map.Clear();
+    for(int i=0;i<=2*n;++i) {
+      map.Add(new List<GameObject>());
+      for(int j=0;j<=2*n;++j) {
+        if(i-j<=n&&j-i<=n){
+          map[i].Add(Instantiate(Resources.Load("Land") as GameObject));
+          map[i][j].transform.localPosition = new((i+j)*0.5f,(i-j)*0.866025f,0);
+        }
+        else{
+          map[i].Add(new());
+        }
       }
     }
   }
   public bool OutOfScreen(Vector3 p){
-    return p.x < 0.5 || p.x > n+0.5 || p.y < 0.5 || p.y > n+0.5;
+    return false;
   }
 }

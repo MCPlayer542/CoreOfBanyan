@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.Collections;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -17,8 +19,11 @@ public class PlayerBehaviour : MonoBehaviour
         s = Camera.main.GetComponent<GameServer>();
         transform.position = s.bornPos[pid]; 
         speed = 3.0f;
-        energy = 0;
         energyGrowthSpeed = 5;
+        Vector2Int b = PosToCell(s.bornPos[pid]);
+        LandBehaviour bornLand = s.map[b.x][b.y].GetComponent<LandBehaviour>();
+        energy = bornLand.hp;
+        Capture(bornLand,bornLand,b,b);
     }
 
     // Update is called once per frame
@@ -33,44 +38,69 @@ public class PlayerBehaviour : MonoBehaviour
 
         if(s.OutOfScreen(p)) return;
 
-        int index = (int)Math.Round(p.x), jndex = (int)Math.Round(p.y);
-        LandBehaviour l = s.map[index][jndex].GetComponent<LandBehaviour>();
-        if(l.owner != pid && !l.CanBeCapturedBy(energy)) return;
-        if(l.owner != pid) Capture(l,index,jndex);
-        if(l.owner == pid) {
-            int preindex = (int)Math.Round(transform.position.x), prejndex = (int)Math.Round(transform.position.y);
-            LandBehaviour pre = s.map[preindex][prejndex].GetComponent<LandBehaviour>();
-            if(preindex+1 == index && (pre.neighbor&LandBehaviour.Neighbor.Right)==0) return;
-            if(preindex-1 == index && (pre.neighbor&LandBehaviour.Neighbor.Left)==0) return;
-            if(prejndex+1 == jndex && (pre.neighbor&LandBehaviour.Neighbor.Up)==0) return;
-            if(prejndex-1 == jndex && (pre.neighbor&LandBehaviour.Neighbor.Down)==0) return;
+        Vector2Int pre = PosToCell(transform.position), cur = PosToCell(p);
+        if(pre==cur) {
+            transform.position = p;
+            return;
+        }
+        LandBehaviour preLand = s.map[pre.x][pre.y].GetComponent<LandBehaviour>();
+        LandBehaviour curLand = s.map[cur.x][cur.y].GetComponent<LandBehaviour>();
+        if(curLand.owner == pid){
+            if(!IsNeighbor(curLand,preLand)) return;
+        }
+        else{
+            Debug.Log("!");
+            if(!Capture(curLand,preLand,cur,pre)) return;
+            Debug.Log("?");
         }
 
         transform.position = p;
     }
-    void Capture(LandBehaviour l,int index, int jndex){
-        energy -= l.hp;
-        l.owner = pid;
-        l.neighbor = 0;
-        int preindex = (int)Math.Round(transform.position.x), prejndex = (int)Math.Round(transform.position.y);
-        LandBehaviour pre = s.map[preindex][prejndex].GetComponent<LandBehaviour>();
-        if(preindex+1 == index){
-            pre.neighbor |= LandBehaviour.Neighbor.Right;
-            l.neighbor |= LandBehaviour.Neighbor.Left;
+    Vector2Int PosToCell(Vector3 p){
+        return new Vector2Int( (int)Math.Round(p.x+p.y/1.732051f), (int)Math.Round(p.x-p.y/1.732051f) );
+    }
+    bool IsNeighbor(LandBehaviour a, LandBehaviour b){
+        return true;
+    }
+    bool Capture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
+        if(energy<curLand.hp) return false;
+        LandBehaviour.Neighbor tmp = curLand.neighbor;
+        curLand.neighbor = 0;
+        if( cur.x+1==pre.x && cur.y==pre.y){
+            curLand.neighbor |= LandBehaviour.Neighbor.RUp;
+            preLand.neighbor |= LandBehaviour.Neighbor.LDown;
         }
-        else if(preindex-1 == index){
-            pre.neighbor |= LandBehaviour.Neighbor.Left;
-            l.neighbor |= LandBehaviour.Neighbor.Right;
+        else if( cur.x-1==pre.x && cur.y==pre.y){
+            curLand.neighbor |= LandBehaviour.Neighbor.LDown;
+            preLand.neighbor |= LandBehaviour.Neighbor.RUp;
         }
-        else if(prejndex+1 == jndex){
-            pre.neighbor |= LandBehaviour.Neighbor.Up;
-            l.neighbor |= LandBehaviour.Neighbor.Down;
+        else if( cur.x==pre.x && cur.y+1==pre.y){
+            curLand.neighbor |= LandBehaviour.Neighbor.RDown;
+            preLand.neighbor |= LandBehaviour.Neighbor.LUp;
         }
-        else if(prejndex-1 == jndex){
-            pre.neighbor |= LandBehaviour.Neighbor.Down;
-            l.neighbor |= LandBehaviour.Neighbor.Up;
+        else if( cur.x==pre.x && cur.y-1==pre.y){
+            curLand.neighbor |= LandBehaviour.Neighbor.LUp;
+            preLand.neighbor |= LandBehaviour.Neighbor.RDown;
         }
-        pre.ChangeImg();
-        l.ChangeImg();
+        else if( cur.x+1==pre.x && cur.y+1==pre.y){
+            curLand.neighbor |= LandBehaviour.Neighbor.Right;
+            preLand.neighbor |= LandBehaviour.Neighbor.Left;
+        }
+        else if( cur.x-1==pre.x && cur.y-1==pre.y){
+            curLand.neighbor |= LandBehaviour.Neighbor.Left;
+            preLand.neighbor |= LandBehaviour.Neighbor.Right;
+        }
+        else if( cur.x==pre.x && cur.y==pre.y){
+            
+        }
+        else{
+            curLand.neighbor = tmp;
+            return false;
+        }
+        energy -= curLand.hp;
+        curLand.owner = pid;
+        curLand.ChangeImg();
+        preLand.ChangeImg();
+        return true;
     }
 }
