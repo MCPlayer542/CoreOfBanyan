@@ -52,6 +52,26 @@ public class GameServer : MonoBehaviour
       players[i].pid=i;
     }
   }
+  float CalcDis(Vector3 p, Vector2Int q){
+    // only used in PosToCell
+    return (p.x-(q.x+q.y)*0.5f)*(p.x-(q.x+q.y)*0.5f) + (p.y-(q.x-q.y)*0.866025f)*(p.y-(q.x-q.y)*0.866025f);
+  }
+  public Vector2Int PosToCell(Vector3 p){
+    Vector2Int res = new(0,0);
+    float dis2 = CalcDis(p,res);
+    for(int i=0;i<=2*n;++i) {
+      for(int j=0;j<=2*n;++j) {
+        if(i-j<=n&&j-i<=n){
+          float tmp = CalcDis(p,new(i,j));
+          if(tmp<dis2){
+            dis2=tmp;
+            res=new(i,j);
+          }
+        }
+      }
+    }
+    return res;
+  }
   public bool OutOfScreen(Vector2Int p){
     return ! ( (p.x>=0)&&(p.x<=2*n)&&(p.y>=0)&&(p.y<=2*n)&&(p.x-p.y<=n)&&(p.y-p.x<=n) );
   }
@@ -62,17 +82,6 @@ public class GameServer : MonoBehaviour
     if((tmp&Neighbor.RDown)!=0) {LBmap[x][y+1].neighbor &= ~Neighbor.LUp;LBmap[x][y+1].ChangeImg();}
     if((tmp&Neighbor.RUp)!=0) {LBmap[x+1][y].neighbor &= ~Neighbor.LDown;LBmap[x+1][y].ChangeImg();}
     if((tmp&Neighbor.LDown)!=0) {LBmap[x-1][y].neighbor &= ~Neighbor.RUp;LBmap[x-1][y].ChangeImg();}
-  }
-  public void Regain(Vector2Int p){
-    if(OutOfScreen(p)) return;
-    if(LBmap[p.x][p.y].nearPlayer) return;
-    Neighbor tmp = LBmap[p.x][p.y].neighbor;
-    if((tmp&Neighbor.Left)!=0) Regain(p+NeighborPos.Left);
-    if((tmp&Neighbor.Right)!=0) Regain(p+NeighborPos.Right);
-    if((tmp&Neighbor.LUp)!=0) Regain(p+NeighborPos.LUp);
-    if((tmp&Neighbor.RDown)!=0) Regain(p+NeighborPos.RDown);
-    if((tmp&Neighbor.RUp)!=0) Regain(p+NeighborPos.RUp);
-    if((tmp&Neighbor.LDown)!=0) Regain(p+NeighborPos.LDown);
   }
   public void UpdateMap(){
     for(int i=0;i<=2*n;++i) {

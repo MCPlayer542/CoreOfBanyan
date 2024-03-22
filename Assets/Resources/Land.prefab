@@ -192,6 +192,10 @@ MonoBehaviour:
   owner: 0
   hp: 0
   neighbor: 0
+  nearPlayer: 0
+  nearRoot: 0
+  mPest: {fileID: 0}
+  mFruit: {fileID: 0}
 --- !u!1 &5148185047357033053
 GameObject:
   m_ObjectHideFlags: 0

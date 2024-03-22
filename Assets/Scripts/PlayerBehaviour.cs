@@ -21,10 +21,10 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = s.bornPos[pid]; 
         speed = 3.0f;
         energyGrowthSpeed = 5;
-        curpos = PosToCell(s.bornPos[pid]);
+        curpos = s.PosToCell(s.bornPos[pid]);
         LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
         energy = 114514; //big enough
-        TryCapture(bornLand,bornLand,curpos,curpos);
+        TryCapture(bornLand,bornLand,curpos,curpos,true);
         energy = 0;
     }
 
@@ -38,7 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
         if(Input.GetKey(s.keySet[pid].Left))    p.x -= speed * Time.smoothDeltaTime;
         if(Input.GetKey(s.keySet[pid].Right))   p.x += speed * Time.smoothDeltaTime;
 
-        Vector2Int pre = PosToCell(transform.position), cur = PosToCell(p);
+        Vector2Int pre = s.PosToCell(transform.position), cur = s.PosToCell(p);
         if(s.OutOfScreen(cur)) return;
         if(pre==cur) {
             transform.position = p;
@@ -52,12 +52,11 @@ public class PlayerBehaviour : MonoBehaviour
                     return;
             }
             else{
-                s.Regain(cur);
-                if(!TryCapture(curLand,preLand,cur,pre)) return;
+                if(!TryCapture(curLand,preLand,cur,pre,false)) return;
             }
         }
         else{
-            if(!TryCapture(curLand,preLand,cur,pre)) return;
+            if(!TryCapture(curLand,preLand,cur,pre,true)) return;
         }
         s.UpdateMap();
         transform.position = p;
@@ -96,9 +95,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
         return true;
     }
-    Vector2Int PosToCell(Vector3 p){
-        return new Vector2Int( (int)Math.Round(p.x+p.y/1.732051f), (int)Math.Round(p.x-p.y/1.732051f) );
-    }
     bool IsNeighbor(LandBehaviour a, LandBehaviour b, Vector2Int pa, Vector2Int pb){
         if(pa+NeighborPos.Left==pb && (a.neighbor&Neighbor.Left)!=0) return true;
         if(pa+NeighborPos.Right==pb && (a.neighbor&Neighbor.Right)!=0) return true;
@@ -108,16 +104,16 @@ public class PlayerBehaviour : MonoBehaviour
         if(pa+NeighborPos.RDown==pb && (a.neighbor&Neighbor.RDown)!=0) return true;
         return false;
     }
-    bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
+    bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre, bool clearPastEdge){
         if(energy<curLand.hp) return false;
         Neighbor tmp = curLand.neighbor;
-        curLand.neighbor = 0;
+        if(clearPastEdge) curLand.neighbor = 0;
         if(!TryConnect(curLand,preLand,cur,pre)){
             curLand.neighbor = tmp;
             return false;
         }
         energy -= curLand.hp;
-        if(curLand.owner != -1) s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
+        if(curLand.owner != -1 && clearPastEdge) s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
         curLand.owner = pid;
         curLand.ChangeImg();
         preLand.ChangeImg();
