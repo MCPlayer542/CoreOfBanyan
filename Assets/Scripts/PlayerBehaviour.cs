@@ -22,8 +22,9 @@ public class PlayerBehaviour : MonoBehaviour
         energyGrowthSpeed = 5;
         Vector2Int b = PosToCell(s.bornPos[pid]);
         LandBehaviour bornLand = s.map[b.x][b.y].GetComponent<LandBehaviour>();
-        energy = bornLand.hp;
-        Capture(bornLand,bornLand,b,b);
+        energy = 114514; //big enough
+        TryCapture(bornLand,bornLand,b,b);
+        energy = 0;
     }
 
     // Update is called once per frame
@@ -46,58 +47,74 @@ public class PlayerBehaviour : MonoBehaviour
         LandBehaviour preLand = s.map[pre.x][pre.y].GetComponent<LandBehaviour>();
         LandBehaviour curLand = s.map[cur.x][cur.y].GetComponent<LandBehaviour>();
         if(curLand.owner == pid){
-            if(!IsNeighbor(curLand,preLand)) return;
+            if(!IsNeighbor(curLand,preLand,cur,pre))
+                return;
+        }
+        else if(curLand.owner == pid+s.PlayerNumber){
+            s.Regain(cur);
+            if(!TryCapture(curLand,preLand,cur,pre)) return;
         }
         else{
-            Debug.Log("!");
-            if(!Capture(curLand,preLand,cur,pre)) return;
-            Debug.Log("?");
+            if(!TryCapture(curLand,preLand,cur,pre)) return;
         }
 
         transform.position = p;
     }
-    Vector2Int PosToCell(Vector3 p){
-        return new Vector2Int( (int)Math.Round(p.x+p.y/1.732051f), (int)Math.Round(p.x-p.y/1.732051f) );
-    }
-    bool IsNeighbor(LandBehaviour a, LandBehaviour b){
-        return true;
-    }
-    bool Capture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
-        if(energy<curLand.hp) return false;
-        LandBehaviour.Neighbor tmp = curLand.neighbor;
-        curLand.neighbor = 0;
-        if( cur.x+1==pre.x && cur.y==pre.y){
-            curLand.neighbor |= LandBehaviour.Neighbor.RUp;
-            preLand.neighbor |= LandBehaviour.Neighbor.LDown;
+    bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
+        if(cur+NeighborPos.RUp==pre){
+            curLand.neighbor |= Neighbor.RUp;
+            preLand.neighbor |= Neighbor.LDown;
         }
-        else if( cur.x-1==pre.x && cur.y==pre.y){
-            curLand.neighbor |= LandBehaviour.Neighbor.LDown;
-            preLand.neighbor |= LandBehaviour.Neighbor.RUp;
+        else if(cur+NeighborPos.LDown==pre){
+            curLand.neighbor |= Neighbor.LDown;
+            preLand.neighbor |= Neighbor.RUp;
         }
-        else if( cur.x==pre.x && cur.y+1==pre.y){
-            curLand.neighbor |= LandBehaviour.Neighbor.RDown;
-            preLand.neighbor |= LandBehaviour.Neighbor.LUp;
+        else if(cur+NeighborPos.RDown==pre){
+            curLand.neighbor |= Neighbor.RDown;
+            preLand.neighbor |= Neighbor.LUp;
         }
-        else if( cur.x==pre.x && cur.y-1==pre.y){
-            curLand.neighbor |= LandBehaviour.Neighbor.LUp;
-            preLand.neighbor |= LandBehaviour.Neighbor.RDown;
+        else if(cur+NeighborPos.LUp==pre){
+            curLand.neighbor |= Neighbor.LUp;
+            preLand.neighbor |= Neighbor.RDown;
         }
-        else if( cur.x+1==pre.x && cur.y+1==pre.y){
-            curLand.neighbor |= LandBehaviour.Neighbor.Right;
-            preLand.neighbor |= LandBehaviour.Neighbor.Left;
+        else if(cur+NeighborPos.Right==pre){
+            curLand.neighbor |= Neighbor.Right;
+            preLand.neighbor |= Neighbor.Left;
         }
-        else if( cur.x-1==pre.x && cur.y-1==pre.y){
-            curLand.neighbor |= LandBehaviour.Neighbor.Left;
-            preLand.neighbor |= LandBehaviour.Neighbor.Right;
+        else if(cur+NeighborPos.Left==pre){
+            curLand.neighbor |= Neighbor.Left;
+            preLand.neighbor |= Neighbor.Right;
         }
-        else if( cur.x==pre.x && cur.y==pre.y){
+        else if(cur==pre){
             
         }
         else{
+            return false;
+        }
+        return true;
+    }
+    Vector2Int PosToCell(Vector3 p){
+        return new Vector2Int( (int)Math.Round(p.x+p.y/1.732051f), (int)Math.Round(p.x-p.y/1.732051f) );
+    }
+    bool IsNeighbor(LandBehaviour a, LandBehaviour b, Vector2Int pa, Vector2Int pb){
+        if(pa+NeighborPos.Left==pb && (a.neighbor&Neighbor.Left)!=0) return true;
+        if(pa+NeighborPos.Right==pb && (a.neighbor&Neighbor.Right)!=0) return true;
+        if(pa+NeighborPos.LUp==pb && (a.neighbor&Neighbor.LUp)!=0) return true;
+        if(pa+NeighborPos.LDown==pb && (a.neighbor&Neighbor.LDown)!=0) return true;
+        if(pa+NeighborPos.RUp==pb && (a.neighbor&Neighbor.RUp)!=0) return true;
+        if(pa+NeighborPos.RDown==pb && (a.neighbor&Neighbor.RDown)!=0) return true;
+        return false;
+    }
+    bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
+        if(energy<curLand.hp) return false;
+        Neighbor tmp = curLand.neighbor;
+        curLand.neighbor = 0;
+        if(!TryConnect(curLand,preLand,cur,pre)){
             curLand.neighbor = tmp;
             return false;
         }
         energy -= curLand.hp;
+        if(curLand.owner != -1) s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
         curLand.owner = pid;
         curLand.ChangeImg();
         preLand.ChangeImg();
