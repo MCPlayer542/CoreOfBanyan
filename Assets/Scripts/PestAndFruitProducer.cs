@@ -25,6 +25,12 @@ public class PestAndFruitProducer : MonoBehaviour
                 if(i-j<=0&&j-i<=n){
                     if(!mGameServer.LBmap[i][j].nearRoot)continue;
                     if(mGameServer.LBmap[i][j].mPest!=null||mGameServer.LBmap[i][j].mFruit!=null)continue;
+                    bool ContinueFlag=false;
+                    for(int k=0;k<mGameServer.PlayerNumber;k++){
+                        Vector2Int p=new(i,j);
+                        if(mGameServer.players[k].curpos==p)ContinueFlag=true;
+                    }
+                    if(ContinueFlag)continue;
                     if(Random.Range(0f,1f)<FruitsProbability*Time.smoothDeltaTime){
                         var t = mGameServer.LBmap[i][j];
                         t.mFruit=Instantiate(Resources.Load("Fruit")as GameObject);
