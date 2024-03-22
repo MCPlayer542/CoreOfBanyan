@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Unity.Collections;
 using UnityEditor.Build.Content;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -140,6 +141,8 @@ public class PlayerBehaviour : MonoBehaviour
     }
     bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre, bool clearPastEdge){
         if(energy<curLand.hp) return false;
+        if(curLand.owner!=-1 && s.players[curLand.owner].curpos==cur && energy<=s.players[curLand.owner].energy+curLand.hp)
+            return false;
         Neighbor tmp = curLand.neighbor;
         if(clearPastEdge) curLand.neighbor = 0;
         if(!TryConnect(curLand,preLand,cur,pre)){
