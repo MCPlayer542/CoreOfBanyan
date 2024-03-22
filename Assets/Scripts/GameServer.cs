@@ -59,14 +59,12 @@ public class GameServer : MonoBehaviour
   public Vector2Int PosToCell(Vector3 p){
     Vector2Int res = new(0,0);
     float dis2 = CalcDis(p,res);
-    for(int i=0;i<=2*n;++i) {
-      for(int j=0;j<=2*n;++j) {
-        if(i-j<=n&&j-i<=n){
-          float tmp = CalcDis(p,new(i,j));
-          if(tmp<dis2){
-            dis2=tmp;
-            res=new(i,j);
-          }
+    for(int i=-1;i<=2*n+1;++i) {
+      for(int j=-1;j<=2*n+1;++j) {
+        float tmp = CalcDis(p,new(i,j));
+        if(tmp<dis2){
+          dis2=tmp;
+          res=new(i,j);
         }
       }
     }
@@ -96,7 +94,7 @@ public class GameServer : MonoBehaviour
     }
     for(int i=0;i<PlayerNumber;++i){
       dfsp(players[i].curpos);
-      dfsr(new((int)bornPos[i].x,(int)bornPos[i].y));
+      dfsr(PosToCell(bornPos[i]));
     }
   }
   void dfsp(Vector2Int cur){
