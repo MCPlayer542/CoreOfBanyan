@@ -35,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(s.GameOverFlag)return;
         energy += energyGrowthSpeed * Time.smoothDeltaTime;
         Vector3 p = transform.position;
         int tx=0,ty=0;
@@ -74,10 +75,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else{
             if(!TryCapture(curLand,preLand,cur,pre,true)) return;
+            Vector2Int p1=new(0,0),p2=new(2*s.n,2*s.n);
+            if(cur==p1||cur==p2)s.GameOverFlag=true;
         }
         s.UpdateMap();
         transform.position = p;
         curpos = cur;
+        s.LBmap[pre.x][pre.y].hp -= energy;
+        s.LBmap[cur.x][cur.y].hp += energy;
     }
     bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
         if(cur+NeighborPos.RUp==pre){

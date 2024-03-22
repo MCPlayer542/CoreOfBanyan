@@ -21,7 +21,7 @@ public class LandBehaviour : MonoBehaviour
     public List<Color> colors;
     // Start is called before the first frame update
     public int owner;
-    public int hp;
+    public float hp;
     public Neighbor neighbor;
     public bool nearPlayer, nearRoot;
     public GameObject mPest=null;

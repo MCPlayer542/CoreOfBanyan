@@ -13,6 +13,7 @@ public class MKeySetClass{
 }
 public class GameServer : MonoBehaviour
 {
+  public bool GameOverFlag=false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
   public int n = 5;
