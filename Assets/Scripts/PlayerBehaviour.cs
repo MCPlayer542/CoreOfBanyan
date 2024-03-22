@@ -82,6 +82,16 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = p;
         curpos = cur;
         s.LBmap[pre.x][pre.y].hp -= energy;
+        if(s.LBmap[cur.x][cur.y].mFruit!=null){
+            Destroy(s.LBmap[cur.x][cur.y].mFruit);
+            energy+=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
+            s.LBmap[cur.x][cur.y].mFruit=null;
+        }
+        if(s.LBmap[cur.x][cur.y].mPest!=null){
+            Destroy(s.LBmap[cur.x][cur.y].mPest);
+            energy-=s.LBmap[cur.x][cur.y].GetPestsEnergy();
+            s.LBmap[cur.x][cur.y].mPest=null;
+        }
         s.LBmap[cur.x][cur.y].hp += energy;
         Conflict();
     }

@@ -7,7 +7,7 @@ public class PestAndFruitProducer : MonoBehaviour
 {
     private float PestsProbability;
     private float FruitsProbability;
-    public GameServer mGameServer;
+    private GameServer mGameServer;
     // Start is called before the first frame update
     void Start()
     {
