@@ -83,6 +83,7 @@ public class PlayerBehaviour : MonoBehaviour
         curpos = cur;
         s.LBmap[pre.x][pre.y].hp -= energy;
         s.LBmap[cur.x][cur.y].hp += energy;
+        Conflict();
     }
     bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
         if(cur+NeighborPos.RUp==pre){
@@ -140,5 +141,20 @@ public class PlayerBehaviour : MonoBehaviour
         curLand.ChangeImg();
         preLand.ChangeImg();
         return true;
+    }
+    void Conflict()
+    {
+        //Debug.Log("shit " + curpos + " " + s.players[1 - pid].curpos);
+        for (int i = 0; i < s.PlayerNumber; ++i)
+        {
+            if (i != pid && curpos == s.players[i].curpos)
+            {
+                s.players[i].energy = 0;
+                s.players[i].transform.localPosition = s.bornPos[i];
+                s.players[i].curpos = s.PosToCell(s.bornPos[i]);
+                s.LBmap[s.players[i].curpos.x][s.players[i].curpos.y].hp -= s.players[i].energy;
+            }
+        }
+        Update();
     }
 }
