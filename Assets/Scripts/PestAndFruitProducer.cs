@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class PestAndFruitProducer : MonoBehaviour
 {
-    public float PestsProbability=0.002f;
-    public float FruitsProbability=0.01f;
+    private float PestsProbability;
+    private float FruitsProbability;
     public GameServer mGameServer=null;
     // Start is called before the first frame update
     void Start()
     {
         Debug.Assert(mGameServer!=null);
+        PestsProbability=0.01f;
+        FruitsProbability=0.05f;
     }
 
     // Update is called once per frame
@@ -23,11 +25,21 @@ public class PestAndFruitProducer : MonoBehaviour
                 if(i-j<=0&&j-i<=n){
                     if(!mGameServer.LBmap[i][j].nearRoot)continue;
                     if(mGameServer.LBmap[i][j].mPest!=null||mGameServer.LBmap[i][j].mFruit!=null)continue;
-                    if(Random.Range(0f,1f)>FruitsProbability*Time.smoothDeltaTime){
-                        mGameServer.LBmap[i][j].mFruit=Instantiate(Resources.Load("Fruits")as GameObject);
+                    if(Random.Range(0f,1f)<FruitsProbability*Time.smoothDeltaTime){
+                        var t = mGameServer.LBmap[i][j];
+                        t.mFruit=Instantiate(Resources.Load("Fruit")as GameObject);
+                        var v=t.transform.localPosition;
+                        v.z=-3;
+                        v.y+=0.2f;
+                        t.mFruit.transform.localPosition=v;
                     }
-                    else if(Random.Range(0f,1f)>PestsProbability*Time.smoothDeltaTime){
-                        mGameServer.LBmap[i][j].mPest=Instantiate(Resources.Load("Pests")as GameObject);
+                    else if(Random.Range(0f,1f)<PestsProbability*Time.smoothDeltaTime){
+                        var t = mGameServer.LBmap[i][j];
+                        t.mPest=Instantiate(Resources.Load("Pest")as GameObject);
+                        var v=t.transform.localPosition;
+                        v.z=-3;
+                        v.y+=0.2f;
+                        t.mPest.transform.localPosition=v;
                     }
                 }
             }
