@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Unity.Collections;
-using UnityEditor.Build.Content;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
