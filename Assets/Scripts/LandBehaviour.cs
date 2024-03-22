@@ -53,4 +53,6 @@ public class LandBehaviour : MonoBehaviour
                 s.color = colors[owner];
         }
     }
+    public float GetFruitsEnergy(){return 10;}
+    public float GetPestsEnergy(){return 10;}
 }

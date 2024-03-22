@@ -78,11 +78,23 @@ public class PlayerBehaviour : MonoBehaviour
             Vector2Int p1=new(0,0),p2=new(2*s.n,2*s.n);
             if(cur==p1||cur==p2)s.GameOverFlag=true;
         }
+        
         s.UpdateMap();
         if(!Conflict(cur)) return;
         transform.position = p;
         curpos = cur;
         s.UpdateMap();
+
+        if(s.LBmap[cur.x][cur.y].mFruit!=null){
+            Destroy(s.LBmap[cur.x][cur.y].mFruit);
+            energy+=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
+            s.LBmap[cur.x][cur.y].mFruit=null;
+        }
+        if(s.LBmap[cur.x][cur.y].mPest!=null){
+            Destroy(s.LBmap[cur.x][cur.y].mPest);
+            energy-=s.LBmap[cur.x][cur.y].GetPestsEnergy();
+            s.LBmap[cur.x][cur.y].mPest=null;
+        }
     }
     bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
         if(cur+NeighborPos.RUp==pre){
