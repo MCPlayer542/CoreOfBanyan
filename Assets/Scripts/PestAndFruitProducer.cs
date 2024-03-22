@@ -7,11 +7,11 @@ public class PestAndFruitProducer : MonoBehaviour
 {
     private float PestsProbability;
     private float FruitsProbability;
-    public GameServer mGameServer=null;
+    public GameServer mGameServer;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Assert(mGameServer!=null);
+        mGameServer = Camera.main.GetComponent<GameServer>();
         PestsProbability=0.01f;
         FruitsProbability=0.05f;
     }
