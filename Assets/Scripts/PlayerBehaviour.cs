@@ -12,6 +12,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float speed;
     public float energy;
     public float energyGrowthSpeed;
+    public Vector2Int curpos;
     GameServer s;
     // Start is called before the first frame update
     void Start()
@@ -20,10 +21,10 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = s.bornPos[pid]; 
         speed = 3.0f;
         energyGrowthSpeed = 5;
-        Vector2Int b = PosToCell(s.bornPos[pid]);
-        LandBehaviour bornLand = s.map[b.x][b.y].GetComponent<LandBehaviour>();
+        curpos = PosToCell(s.bornPos[pid]);
+        LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
         energy = 114514; //big enough
-        TryCapture(bornLand,bornLand,b,b);
+        TryCapture(bornLand,bornLand,curpos,curpos);
         energy = 0;
     }
 
@@ -47,18 +48,21 @@ public class PlayerBehaviour : MonoBehaviour
         LandBehaviour preLand = s.map[pre.x][pre.y].GetComponent<LandBehaviour>();
         LandBehaviour curLand = s.map[cur.x][cur.y].GetComponent<LandBehaviour>();
         if(curLand.owner == pid){
-            if(!IsNeighbor(curLand,preLand,cur,pre))
-                return;
-        }
-        else if(curLand.owner == pid+s.PlayerNumber){
-            s.Regain(cur);
-            if(!TryCapture(curLand,preLand,cur,pre)) return;
+            if(curLand.nearPlayer){
+                if(!IsNeighbor(curLand,preLand,cur,pre))
+                    return;
+            }
+            else{
+                s.Regain(cur);
+                if(!TryCapture(curLand,preLand,cur,pre)) return;
+            }
         }
         else{
             if(!TryCapture(curLand,preLand,cur,pre)) return;
         }
 
         transform.position = p;
+        curpos = cur;
     }
     bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
         if(cur+NeighborPos.RUp==pre){
@@ -114,7 +118,10 @@ public class PlayerBehaviour : MonoBehaviour
             return false;
         }
         energy -= curLand.hp;
-        if(curLand.owner != -1) s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
+        if(curLand.owner != -1) {
+            s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
+            s.UpdateMap();
+        }
         curLand.owner = pid;
         curLand.ChangeImg();
         preLand.ChangeImg();

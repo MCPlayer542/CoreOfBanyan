@@ -23,6 +23,7 @@ public class LandBehaviour : MonoBehaviour
     public int owner;
     public int hp;
     public Neighbor neighbor;
+    public bool nearPlayer, nearRoot;
 
     void Awake()
     {
@@ -41,11 +42,13 @@ public class LandBehaviour : MonoBehaviour
         return energy >= hp;
     }
     public void ChangeImg() {
-        Debug.Log(owner);
-        Debug.Log(colors);
-        SpriteRenderer s = GetComponent<SpriteRenderer>();
-        Sprite t = Resources.Load<Sprite>(String.Format("Textures/{0}",(int)neighbor));
-        s.color = colors[owner];
-        s.sprite = t;
+        transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
+        for(int i=0;i<6;++i){
+            SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
+            if(((int)neighbor&(1<<i))==0)
+                s.color = Color.white;
+            else
+                s.color = colors[owner];
+        }
     }
 }

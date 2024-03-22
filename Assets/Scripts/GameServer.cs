@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,12 +19,13 @@ public class GameServer : MonoBehaviour
   public int PlayerNumber = 2;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
+  public List<PlayerBehaviour> players = new();
   public void Awake() {
     transform.position = new(n,0,-10);
     GetComponent<Camera>().orthographicSize = (n+1)*0.866025f;
     bornPos.Clear();
-    bornPos.Add(new(0,0,-1));
-    bornPos.Add(new(2*n,0,-1));
+    bornPos.Add(new(0,0,-4));
+    bornPos.Add(new(2*n,0,-4));
     keySet.Clear();
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
     keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
@@ -44,17 +46,22 @@ public class GameServer : MonoBehaviour
         }
       }
     }
+
+    for(int i=0;i<PlayerNumber;++i){
+      players.Add(Instantiate(Resources.Load("Player") as GameObject).GetComponent<PlayerBehaviour>());
+      players[i].pid=i;
+    }
   }
   public bool OutOfScreen(Vector3 p){
     return false;
   }
   public void ChangeNeighborOfNeighbor(int x,int y,Neighbor tmp){
-    if((tmp&Neighbor.Left)!=0) LBmap[x-1][y-1].neighbor &= ~Neighbor.Right;
-    if((tmp&Neighbor.Right)!=0) LBmap[x+1][y+1].neighbor &= ~Neighbor.Left;
-    if((tmp&Neighbor.LUp)!=0) LBmap[x][y-1].neighbor &= ~Neighbor.RDown;
-    if((tmp&Neighbor.RDown)!=0) LBmap[x][y+1].neighbor &= ~Neighbor.LUp;;
-    if((tmp&Neighbor.RUp)!=0) LBmap[x+1][y].neighbor &= ~Neighbor.LDown;
-    if((tmp&Neighbor.LDown)!=0) LBmap[x-1][y].neighbor &= ~Neighbor.RUp;
+    if((tmp&Neighbor.Left)!=0) {LBmap[x-1][y-1].neighbor &= ~Neighbor.Right;LBmap[x-1][y-1].ChangeImg();}
+    if((tmp&Neighbor.Right)!=0) {LBmap[x+1][y+1].neighbor &= ~Neighbor.Left;LBmap[x+1][y+1].ChangeImg();}
+    if((tmp&Neighbor.LUp)!=0) {LBmap[x][y-1].neighbor &= ~Neighbor.RDown;LBmap[x][y-1].ChangeImg();}
+    if((tmp&Neighbor.RDown)!=0) {LBmap[x][y+1].neighbor &= ~Neighbor.LUp;LBmap[x][y+1].ChangeImg();}
+    if((tmp&Neighbor.RUp)!=0) {LBmap[x+1][y].neighbor &= ~Neighbor.LDown;LBmap[x+1][y].ChangeImg();}
+    if((tmp&Neighbor.LDown)!=0) {LBmap[x-1][y].neighbor &= ~Neighbor.RUp;LBmap[x-1][y].ChangeImg();}
   }
   public void Regain(Vector2Int p){
     LBmap[p.x][p.y].owner -= PlayerNumber;
@@ -65,5 +72,7 @@ public class GameServer : MonoBehaviour
     if((tmp&Neighbor.RDown)!=0) Regain(p+NeighborPos.RDown);
     if((tmp&Neighbor.RUp)!=0) Regain(p+NeighborPos.RUp);
     if((tmp&Neighbor.LDown)!=0) Regain(p+NeighborPos.LDown);
+  }
+  public void UpdateMap(){
   }
 }
