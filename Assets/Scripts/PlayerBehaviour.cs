@@ -27,16 +27,33 @@ public class PlayerBehaviour : MonoBehaviour
         TryCapture(bornLand,bornLand,curpos,curpos,true);
         energy = 0;
     }
-
+    private const float S3_2=0.8660254f;
+    public class DirVector{
+        static public Vector3 Left=new(-1f,0f,0f), Right=new(1f,0f,0f), Up=new(0f,1f,0f),Down=new(0f,-1f,0f),
+        RUp=new(0.5f,S3_2,0f), LDown=new(-0.5f,-S3_2,0f), RDown=new(0.5f,-S3_2,0f), LUp=new(-0.5f,S3_2,0f);
+    }
     // Update is called once per frame
     void Update()
     {
         energy += energyGrowthSpeed * Time.smoothDeltaTime;
         Vector3 p = transform.position;
-        if(Input.GetKey(s.keySet[pid].Up))      p.y += speed * Time.smoothDeltaTime;
-        if(Input.GetKey(s.keySet[pid].Down))    p.y -= speed * Time.smoothDeltaTime;
-        if(Input.GetKey(s.keySet[pid].Left))    p.x -= speed * Time.smoothDeltaTime;
-        if(Input.GetKey(s.keySet[pid].Right))   p.x += speed * Time.smoothDeltaTime;
+        int tx=0,ty=0;
+        if(Input.GetKey(s.keySet[pid].Up))      ty++;
+        if(Input.GetKey(s.keySet[pid].Down))    ty--;
+        if(Input.GetKey(s.keySet[pid].Left))    tx--;
+        if(Input.GetKey(s.keySet[pid].Right))   tx++;
+        if(tx!=0&&ty!=0){
+            if(tx==1&&ty==1)p+=speed*Time.smoothDeltaTime*DirVector.RUp;
+            if(tx==1&&ty==-1)p+=speed*Time.smoothDeltaTime*DirVector.RDown;
+            if(tx==-1&&ty==1)p+=speed*Time.smoothDeltaTime*DirVector.LUp;
+            if(tx==-1&&ty==-1)p+=speed*Time.smoothDeltaTime*DirVector.LDown;
+        }
+        else{
+            if(tx==1)p+=speed*Time.smoothDeltaTime*DirVector.Right;
+            if(tx==-1)p+=speed*Time.smoothDeltaTime*DirVector.Left;
+            if(ty==1)p+=speed*Time.smoothDeltaTime*DirVector.Up;
+            if(ty==-1)p+=speed*Time.smoothDeltaTime*DirVector.Down;
+        }
 
         Vector2Int pre = s.PosToCell(transform.position), cur = s.PosToCell(p);
         if(s.OutOfScreen(cur)) return;
