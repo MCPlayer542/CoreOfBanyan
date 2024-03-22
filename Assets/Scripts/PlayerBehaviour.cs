@@ -38,9 +38,8 @@ public class PlayerBehaviour : MonoBehaviour
         if(Input.GetKey(s.keySet[pid].Left))    p.x -= speed * Time.smoothDeltaTime;
         if(Input.GetKey(s.keySet[pid].Right))   p.x += speed * Time.smoothDeltaTime;
 
-        if(s.OutOfScreen(p)) return;
-
         Vector2Int pre = PosToCell(transform.position), cur = PosToCell(p);
+        if(s.OutOfScreen(cur)) return;
         if(pre==cur) {
             transform.position = p;
             return;
@@ -60,7 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
         else{
             if(!TryCapture(curLand,preLand,cur,pre)) return;
         }
-
+        s.UpdateMap();
         transform.position = p;
         curpos = cur;
     }
@@ -118,10 +117,7 @@ public class PlayerBehaviour : MonoBehaviour
             return false;
         }
         energy -= curLand.hp;
-        if(curLand.owner != -1) {
-            s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
-            s.UpdateMap();
-        }
+        if(curLand.owner != -1) s.ChangeNeighborOfNeighbor(cur.x,cur.y,tmp);
         curLand.owner = pid;
         curLand.ChangeImg();
         preLand.ChangeImg();

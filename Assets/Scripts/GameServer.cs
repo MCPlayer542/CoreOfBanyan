@@ -52,8 +52,8 @@ public class GameServer : MonoBehaviour
       players[i].pid=i;
     }
   }
-  public bool OutOfScreen(Vector3 p){
-    return false;
+  public bool OutOfScreen(Vector2Int p){
+    return ! ( (p.x>=0)&&(p.x<=2*n)&&(p.y>=0)&&(p.y<=2*n)&&(p.x-p.y<=n)&&(p.y-p.x<=n) );
   }
   public void ChangeNeighborOfNeighbor(int x,int y,Neighbor tmp){
     if((tmp&Neighbor.Left)!=0) {LBmap[x-1][y-1].neighbor &= ~Neighbor.Right;LBmap[x-1][y-1].ChangeImg();}
@@ -64,7 +64,8 @@ public class GameServer : MonoBehaviour
     if((tmp&Neighbor.LDown)!=0) {LBmap[x-1][y].neighbor &= ~Neighbor.RUp;LBmap[x-1][y].ChangeImg();}
   }
   public void Regain(Vector2Int p){
-    LBmap[p.x][p.y].owner -= PlayerNumber;
+    if(OutOfScreen(p)) return;
+    if(LBmap[p.x][p.y].nearPlayer) return;
     Neighbor tmp = LBmap[p.x][p.y].neighbor;
     if((tmp&Neighbor.Left)!=0) Regain(p+NeighborPos.Left);
     if((tmp&Neighbor.Right)!=0) Regain(p+NeighborPos.Right);
@@ -74,5 +75,43 @@ public class GameServer : MonoBehaviour
     if((tmp&Neighbor.LDown)!=0) Regain(p+NeighborPos.LDown);
   }
   public void UpdateMap(){
+    for(int i=0;i<=2*n;++i) {
+      for(int j=0;j<=2*n;++j) {
+        if(i-j<=n&&j-i<=n){
+          if(LBmap[i][j].owner != -1){
+            LBmap[i][j].nearPlayer = false;
+            LBmap[i][j].nearRoot = false;
+          }
+        }
+      }
+    }
+    for(int i=0;i<PlayerNumber;++i){
+      dfsp(players[i].curpos);
+      dfsr(new((int)bornPos[i].x,(int)bornPos[i].y));
+    }
+  }
+  void dfsp(Vector2Int cur){
+    if(OutOfScreen(cur)) return;
+    if(LBmap[cur.x][cur.y].nearPlayer) return;
+    LBmap[cur.x][cur.y].nearPlayer = true;
+    Neighbor tmp = LBmap[cur.x][cur.y].neighbor;
+    if((tmp&Neighbor.Left)!=0) dfsp(cur+NeighborPos.Left);
+    if((tmp&Neighbor.Right)!=0) dfsp(cur+NeighborPos.Right);
+    if((tmp&Neighbor.LUp)!=0) dfsp(cur+NeighborPos.LUp);
+    if((tmp&Neighbor.RDown)!=0) dfsp(cur+NeighborPos.RDown);
+    if((tmp&Neighbor.RUp)!=0) dfsp(cur+NeighborPos.RUp);
+    if((tmp&Neighbor.LDown)!=0) dfsp(cur+NeighborPos.LDown);
+  }
+  void dfsr(Vector2Int cur){
+    if(OutOfScreen(cur)) return;
+    if(LBmap[cur.x][cur.y].nearRoot) return;
+    LBmap[cur.x][cur.y].nearRoot = true;
+    Neighbor tmp = LBmap[cur.x][cur.y].neighbor;
+    if((tmp&Neighbor.Left)!=0) dfsr(cur+NeighborPos.Left);
+    if((tmp&Neighbor.Right)!=0) dfsr(cur+NeighborPos.Right);
+    if((tmp&Neighbor.LUp)!=0) dfsr(cur+NeighborPos.LUp);
+    if((tmp&Neighbor.RDown)!=0) dfsr(cur+NeighborPos.RDown);
+    if((tmp&Neighbor.RUp)!=0) dfsr(cur+NeighborPos.RUp);
+    if((tmp&Neighbor.LDown)!=0) dfsr(cur+NeighborPos.LDown);
   }
 }
