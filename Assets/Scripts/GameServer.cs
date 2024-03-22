@@ -15,7 +15,7 @@ public class GameServer : MonoBehaviour
 {
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
-  int n = 5;
+  public int n = 5;
   public int PlayerNumber = 2;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();

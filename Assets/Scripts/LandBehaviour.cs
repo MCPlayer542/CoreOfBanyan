@@ -24,6 +24,8 @@ public class LandBehaviour : MonoBehaviour
     public int hp;
     public Neighbor neighbor;
     public bool nearPlayer, nearRoot;
+    public GameObject mPest=null;
+    public GameObject mFruit=null;
 
     void Awake()
     {
