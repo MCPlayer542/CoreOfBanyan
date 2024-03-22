@@ -155,6 +155,6 @@ public class PlayerBehaviour : MonoBehaviour
                 s.LBmap[s.players[i].curpos.x][s.players[i].curpos.y].hp -= s.players[i].energy;
             }
         }
-        Update();
+        s.UpdateMap();
     }
 }
