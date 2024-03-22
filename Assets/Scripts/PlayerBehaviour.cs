@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Unity.Collections;
 using UnityEditor.Build.Content;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -78,10 +79,13 @@ public class PlayerBehaviour : MonoBehaviour
             Vector2Int p1=new(0,0),p2=new(2*s.n,2*s.n);
             if(cur==p1||cur==p2)s.GameOverFlag=true;
         }
+        
         s.UpdateMap();
+        if(!Conflict(cur)) return;
         transform.position = p;
         curpos = cur;
-        s.LBmap[pre.x][pre.y].hp -= energy;
+        s.UpdateMap();
+
         if(s.LBmap[cur.x][cur.y].mFruit!=null){
             Destroy(s.LBmap[cur.x][cur.y].mFruit);
             energy+=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
@@ -92,8 +96,6 @@ public class PlayerBehaviour : MonoBehaviour
             energy-=s.LBmap[cur.x][cur.y].GetPestsEnergy();
             s.LBmap[cur.x][cur.y].mPest=null;
         }
-        s.LBmap[cur.x][cur.y].hp += energy;
-        Conflict();
     }
     bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre){
         if(cur+NeighborPos.RUp==pre){
@@ -139,6 +141,8 @@ public class PlayerBehaviour : MonoBehaviour
     }
     bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre, bool clearPastEdge){
         if(energy<curLand.hp) return false;
+        if(curLand.owner!=-1 && s.players[curLand.owner].curpos==cur && energy<=s.players[curLand.owner].energy+curLand.hp)
+            return false;
         Neighbor tmp = curLand.neighbor;
         if(clearPastEdge) curLand.neighbor = 0;
         if(!TryConnect(curLand,preLand,cur,pre)){
@@ -152,19 +156,24 @@ public class PlayerBehaviour : MonoBehaviour
         preLand.ChangeImg();
         return true;
     }
-    void Conflict()
+    bool Conflict(Vector2Int cur)
     {
         //Debug.Log("shit " + curpos + " " + s.players[1 - pid].curpos);
         for (int i = 0; i < s.PlayerNumber; ++i)
         {
-            if (i != pid && curpos == s.players[i].curpos)
+            if (i != pid && cur == s.players[i].curpos)
             {
-                s.players[i].energy = 0;
-                s.players[i].transform.localPosition = s.bornPos[i];
-                s.players[i].curpos = s.PosToCell(s.bornPos[i]);
-                s.LBmap[s.players[i].curpos.x][s.players[i].curpos.y].hp -= s.players[i].energy;
+                if(s.players[i].energy<energy){
+                    energy -= s.players[i].energy;
+                    s.players[i].energy = 0;
+                    s.players[i].transform.localPosition = s.bornPos[i];
+                    s.players[i].curpos = s.PosToCell(s.bornPos[i]);
+                }
+                else{
+                    return false;
+                }
             }
         }
-        s.UpdateMap();
+        return true;
     }
 }
