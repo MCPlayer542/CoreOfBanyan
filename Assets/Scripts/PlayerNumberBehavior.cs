@@ -17,7 +17,7 @@ public class PlayerNumberBehavior : MonoBehaviour
     void Update()
     {
         var p = transform.gameObject.GetComponent<PlayerBehaviour>();
-        Debug.Log(p);
+        //Debug.Log(p);
         if (p != null)
         {
             var t = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
@@ -30,7 +30,7 @@ public class PlayerNumberBehavior : MonoBehaviour
                 t.rectTransform.localPosition = new Vector2(Screen.width / 2 - t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
             }
             t.fontSize = sizeOfFont * (RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)).x - RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)).x);
-            t.text = "E" + (p.pid + 1) + ": " + (int)p.energy;
+            t.text = "E" + (p.pid + 1) + ": " + (long)p.energy;
         }
     }
 }

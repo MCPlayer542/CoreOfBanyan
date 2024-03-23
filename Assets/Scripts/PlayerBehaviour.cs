@@ -7,26 +7,32 @@ using Unity.Collections;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-class OPQ{
+class OPQ
+{
     private List<Vector2Int> data;
-    private int head,tail;
-    public void Clear(){
+    private int head, tail;
+    public void Clear()
+    {
         data.Clear();
         head = 0;
         tail = 0;
     }
-    public void PushBack(Vector2Int x){
+    public void PushBack(Vector2Int x)
+    {
         data.Add(x);
         ++tail;
     }
-    public Vector2Int PopFront(){
-        if(head==tail) return new(0,0);
+    public Vector2Int PopFront()
+    {
+        if (head == tail) return new(0, 0);
         return data[head++];
     }
-    public bool Empty(){
-        return head==tail;
+    public bool Empty()
+    {
+        return head == tail;
     }
-    public OPQ(){
+    public OPQ()
+    {
         data = new();
     }
 }
@@ -36,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool Movable;
     public int pid;
     public float speed;
-    public float energy;
+    public double energy;
     public Vector2Int curpos;
     public static GameServer s;
     private OPQ opQueue;
@@ -61,7 +67,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (s.GameOverFlag) return;
 
-        if(Input.GetKeyDown(s.keySet[pid].Back)&&curpos!=s.PosToCell(s.bornPos[pid]))
+        if (Input.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid]))
         {
             s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
             s.LBmap[curpos.x][curpos.y].neighbor = 0;
@@ -73,32 +79,34 @@ public class PlayerBehaviour : MonoBehaviour
             opQueue.Clear();
         }
 
-        if(Input.GetKeyDown(s.keySet[pid].Reinforce)) {
+        if (Input.GetKeyDown(s.keySet[pid].Reinforce))
+        {
             Reinforce();
             opQueue.Clear();
         }
 
-        if(Input.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
+        if (Input.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos + NeighborPos.Left))
             opQueue.PushBack(NeighborPos.Left);
-        else if(Input.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos+NeighborPos.Right))
+        else if (Input.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos + NeighborPos.Right))
             opQueue.PushBack(NeighborPos.Right);
-        else if(Input.GetKey(s.keySet[pid].LUp) && !s.OutOfScreen(curpos+NeighborPos.LUp))
+        else if (Input.GetKey(s.keySet[pid].LUp) && !s.OutOfScreen(curpos + NeighborPos.LUp))
             opQueue.PushBack(NeighborPos.LUp);
-        else if(Input.GetKey(s.keySet[pid].RUp) && !s.OutOfScreen(curpos+NeighborPos.RUp))
+        else if (Input.GetKey(s.keySet[pid].RUp) && !s.OutOfScreen(curpos + NeighborPos.RUp))
             opQueue.PushBack(NeighborPos.RUp);
-        else if(Input.GetKey(s.keySet[pid].LDown) && !s.OutOfScreen(curpos+NeighborPos.LDown))
+        else if (Input.GetKey(s.keySet[pid].LDown) && !s.OutOfScreen(curpos + NeighborPos.LDown))
             opQueue.PushBack(NeighborPos.LDown);
-        else if(Input.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos+NeighborPos.RDown))
+        else if (Input.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos + NeighborPos.RDown))
             opQueue.PushBack(NeighborPos.RDown);
 
-        if(!Movable) {
+        if (!Movable)
+        {
             opQueue.Clear();
             return;
         }
-        if(opQueue.Empty()) return;
+        if (opQueue.Empty()) return;
         Movable = false;
 
-        Vector2Int pre = curpos, cur = curpos+opQueue.PopFront();
+        Vector2Int pre = curpos, cur = curpos + opQueue.PopFront();
         Vector3 p = s.LBmap[cur.x][cur.y].transform.position;
         p.z = -4;
         if (pre == cur)
@@ -127,7 +135,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (cur == p1 || cur == p2) s.GameOverFlag = true;
         }
 
-        
+
         if (!Conflict(cur)) return;
         transform.position = p;
         curpos = cur;
@@ -241,12 +249,12 @@ public class PlayerBehaviour : MonoBehaviour
     }
     void Reinforce()
     {
-        float amount=energy*0.025f;
-        energy*=0.9f;
-        s.LBmap[curpos.x][curpos.y].hp+=amount;
-        for(int i=0,n=(int)s.LBmap[curpos.x][curpos.y].neighbor;i<6;++i)
-            if((n>>i&1)==1)
-                s.LBmap[curpos.x+NeighborPos.Seek[i].x][curpos.y+NeighborPos.Seek[i].y].hp+=amount;
+        float amount = (float)energy * 0.025f;
+        energy *= 0.9f;
+        s.LBmap[curpos.x][curpos.y].hp += amount;
+        for (int i = 0, n = (int)s.LBmap[curpos.x][curpos.y].neighbor; i < 6; ++i)
+            if ((n >> i & 1) == 1)
+                s.LBmap[curpos.x + NeighborPos.Seek[i].x][curpos.y + NeighborPos.Seek[i].y].hp += amount;
     }
     public void EndGame()
     {

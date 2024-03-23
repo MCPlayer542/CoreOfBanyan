@@ -130,7 +130,7 @@ Transform:
   m_GameObject: {fileID: 6827371779498110885}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.6535285, y: -3.5583467, z: 0}
+  m_LocalPosition: {x: 4.0277777, y: -7.662037, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73341516015e7f24cb2ed831a32fb4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Movable: 0
   pid: 0
   speed: 0
   energy: 0
@@ -285,7 +286,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b438d7008c09f9f4499c430af6905aa6, type: 2}
-  m_sharedMaterial: {fileID: 3642135735580738664, guid: b438d7008c09f9f4499c430af6905aa6, type: 2}
+  m_sharedMaterial: {fileID: 3451045709443019363, guid: b438d7008c09f9f4499c430af6905aa6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
