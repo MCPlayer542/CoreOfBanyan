@@ -19,6 +19,7 @@ public class MKeySetClass
     LUp = lup; RUp = rup; Left = left; Right = right; LDown = ldown; RDown = rdown; Back = back; Reinforce = reinforce;
   }
 }
+
 public class GameServer : MonoBehaviour
 {
   public int ControlType;
@@ -30,12 +31,14 @@ public class GameServer : MonoBehaviour
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
+  public List<VJoystickBehavior> vjoysticks = new();
   float timeKeeper;
   public void Awake()
   {
     LandBehaviour.s = this;
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
+    VJoystickBehavior.s = this;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
     bornPos.Clear();
@@ -66,11 +69,20 @@ public class GameServer : MonoBehaviour
         }
       }
     }
+    VJoystickAnchor anchor=new();
+    anchor.prepos=map[n][n].transform.position;
+    for(int i=0;i<6;++i) anchor.curpos.Add(map[n+NeighborPos.Seek[i].x][n+NeighborPos.Seek[i].y].transform.position);
+    anchor.curpos.Add(map[n][n].transform.position);
+    VJoystickBehavior.anchor=anchor;
     players.Clear();
     for (int i = 0; i < PlayerNumber; ++i)
     {
       players.Add(Instantiate(Resources.Load("Player") as GameObject).GetComponent<PlayerBehaviour>());
+      vjoysticks.Add(Instantiate(Resources.Load("VJoystick") as GameObject).GetComponent<VJoystickBehavior>());
       players[i].pid = i;
+      vjoysticks[i].pid=i;
+      vjoysticks[i].player=players[i];
+      vjoysticks[i].transform.position=map[n][n].transform.position;
     }
 
     Camera.main.AddComponent<PestAndFruitProducer>();
@@ -176,7 +188,7 @@ public class GameServer : MonoBehaviour
 
   void UpdateControlKeyCode()
   {
-    keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
+    keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Q, KeyCode.E));
     keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
 
   }
@@ -191,6 +203,10 @@ public class GameServer : MonoBehaviour
       }
     }
     foreach (var i in players)
+    {
+      i.EndGame();
+    }
+    foreach (var i in vjoysticks)
     {
       i.EndGame();
     }

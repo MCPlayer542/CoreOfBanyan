@@ -76,15 +76,13 @@ public class PlayerBehaviour : MonoBehaviour
         {
             s.BackHome(pid);
             s.UpdateMap();
-            opQueue.Clear();
         }
+        if (ManageGameManager.GetKeyDown(s.keySet[pid].Reinforce)) Reinforce();
+    }
+    public void TryMove(int dir)
+    {
 
-        if (ManageGameManager.GetKeyDown(s.keySet[pid].Reinforce))
-        {
-            Reinforce();
-            opQueue.Clear();
-        }
-        if (ManageGameManager.GetKey(s.keySet[pid].Left) && ManageGameManager.GetKey(s.keySet[pid].Up) && !s.OutOfScreen(curpos + NeighborPos.LUp))
+        /*if (ManageGameManager.GetKey(s.keySet[pid].Left) && ManageGameManager.GetKey(s.keySet[pid].Up) && !s.OutOfScreen(curpos + NeighborPos.LUp))
             opQueue.PushBack(NeighborPos.LUp);
         else if (ManageGameManager.GetKey(s.keySet[pid].Left) && ManageGameManager.GetKey(s.keySet[pid].Down) && !s.OutOfScreen(curpos + NeighborPos.LDown))
             opQueue.PushBack(NeighborPos.LDown);
@@ -96,20 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
             opQueue.PushBack(NeighborPos.Left);
         else if (ManageGameManager.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos + NeighborPos.Right))
             opQueue.PushBack(NeighborPos.Right);
-        /*
-        if(Input.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
-            opQueue.PushBack(NeighborPos.Left);
-        else if (Input.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos + NeighborPos.Right))
-            opQueue.PushBack(NeighborPos.Right);
-        else if (Input.GetKey(s.keySet[pid].LUp) && !s.OutOfScreen(curpos + NeighborPos.LUp))
-            opQueue.PushBack(NeighborPos.LUp);
-        else if (Input.GetKey(s.keySet[pid].RUp) && !s.OutOfScreen(curpos + NeighborPos.RUp))
-            opQueue.PushBack(NeighborPos.RUp);
-        else if (Input.GetKey(s.keySet[pid].LDown) && !s.OutOfScreen(curpos + NeighborPos.LDown))
-            opQueue.PushBack(NeighborPos.LDown);
-        else if (Input.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos + NeighborPos.RDown))
-            opQueue.PushBack(NeighborPos.RDown);
-        */
+        
 
         if (!Movable)
         {
@@ -117,9 +102,8 @@ public class PlayerBehaviour : MonoBehaviour
             return;
         }
         if (opQueue.Empty()) return;
-        Movable = false;
-
-        Vector2Int pre = curpos, cur = curpos + opQueue.PopFront();
+        Movable = false;*/
+        Vector2Int pre=curpos,cur=curpos+NeighborPos.Seek[dir];
         Vector3 p = s.LBmap[cur.x][cur.y].transform.position;
         p.z = -4;
         if (pre == cur)
