@@ -39,6 +39,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         if (s.GameOverFlag) return;
+
         if(Input.GetKeyDown(s.keySet[pid].Back)&&curpos!=s.PosToCell(s.bornPos[pid]))
         {
             s.LBmap[curpos.x][curpos.y].Captured(-1,s.LBmap[curpos.x][curpos.y].neighbor,1);
@@ -47,35 +48,31 @@ public class PlayerBehaviour : MonoBehaviour
         if (s.LBmap[curpos.x][curpos.y].owner == -1){
             s.BackHome(pid);
             s.UpdateMap();
-        }
-        Vector3 p = transform.position;
-        if(s.ControlType==0){
-            int tx = 0, ty = 0;
-            if (Input.GetKey(s.keySet[pid].Up)) ty++;
-            if (Input.GetKey(s.keySet[pid].Down)) ty--;
-            if (Input.GetKey(s.keySet[pid].Left)) tx--;
-            if (Input.GetKey(s.keySet[pid].Right)) tx++;
-            if (tx != 0 && ty != 0)
-            {
-                if (tx == 1 && ty == 1) p += speed * Time.smoothDeltaTime * DirVector.RUp;
-                if (tx == 1 && ty == -1) p += speed * Time.smoothDeltaTime * DirVector.RDown;
-                if (tx == -1 && ty == 1) p += speed * Time.smoothDeltaTime * DirVector.LUp;
-                if (tx == -1 && ty == -1) p += speed * Time.smoothDeltaTime * DirVector.LDown;
-            }
-            else
-            {
-                if (tx == 1) p += speed * Time.smoothDeltaTime * DirVector.Right;
-                if (tx == -1) p += speed * Time.smoothDeltaTime * DirVector.Left;
-                if (ty == 1) p += speed * Time.smoothDeltaTime * DirVector.Up;
-                if (ty == -1) p += speed * Time.smoothDeltaTime * DirVector.Down;
-            }
-        }
-        else{
-
+            ClearOpQueue();
         }
 
-        Vector2Int pre = s.PosToCell(transform.position), cur = s.PosToCell(p);
-        if (s.OutOfScreen(cur)) return;
+        if(Input.GetKeyDown(s.keySet[pid].Reinfo)) {
+            Reinforce();
+            opQueue.Clear();
+        }
+
+        if(Input.GetKeyDown(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
+            opQueue.PushBack(NeighborPos.Left);
+        if(Input.GetKeyDown(s.keySet[pid].Right) && !s.OutOfScreen(curpos+NeighborPos.Right))
+            opQueue.PushBack(NeighborPos.Right);
+        if(Input.GetKeyDown(s.keySet[pid].LUp) && !s.OutOfScreen(curpos+NeighborPos.LUp))
+            opQueue.PushBack(NeighborPos.LUp);
+        if(Input.GetKeyDown(s.keySet[pid].RUp) && !s.OutOfScreen(curpos+NeighborPos.RUp))
+            opQueue.PushBack(NeighborPos.RUp);
+        if(Input.GetKeyDown(s.keySet[pid].LDown) && !s.OutOfScreen(curpos+NeighborPos.LDown))
+            opQueue.PushBack(NeighborPos.LDown);
+        if(Input.GetKeyDown(s.keySet[pid].RDown) && !s.OutOfScreen(curpos+NeighborPos.RDown))
+            opQueue.PushBack(NeighborPos.RDown);
+        
+        if(!Movable) return;
+        Movable = false;
+
+        Vector2Int pre = curpos, cur = curpos+opQueue.PopFront();
         if (pre == cur)
         {
             transform.position = p;
