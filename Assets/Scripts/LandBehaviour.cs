@@ -17,7 +17,7 @@ public class NeighborPos{
 }
 public class LandBehaviour : MonoBehaviour
 {
-
+    public static GameServer s;
     public List<Color> colors;
     // Start is called before the first frame update
     public int owner;
@@ -36,9 +36,26 @@ public class LandBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
+    readonly float Constant1 = 1,Constant2 = 1;
     void Update()
     {
+        if(owner == -1) return;
+
+        if(nearRoot) hp += Constant1 * Time.smoothDeltaTime;
+        else hp -= Constant2 * Time.smoothDeltaTime;
+        if(mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
         
+        if(hp<0){
+            owner = -1;
+            hp = 3;
+            neighbor = 0;
+            var p = s.PosToCell(transform.position);
+            s.ChangeNeighborOfNeighbor(p.x,p.y,0);
+            nearPlayer = false;
+            nearRoot = false;
+            mPest = null;
+            mFruit = null;
+        }
     }
     public bool CanBeCapturedBy(float energy) {
         return energy >= hp;

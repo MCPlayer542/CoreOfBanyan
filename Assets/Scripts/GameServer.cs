@@ -22,6 +22,7 @@ public class GameServer : MonoBehaviour
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
   public void Awake() {
+    LandBehaviour.s = this;
     transform.position = new(n,0,-10);
     GetComponent<Camera>().orthographicSize = (n+1)*0.866025f;
     bornPos.Clear();
