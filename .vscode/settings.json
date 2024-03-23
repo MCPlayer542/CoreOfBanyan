@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CoreOfBanyan.sln"
+    "dotnet.defaultSolution": "New folder.sln"
 }

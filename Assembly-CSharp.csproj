@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\LandNumberBehaviour.cs" />
     <Compile Include="Assets\Scripts\FruitBehavior.cs" />
     <Compile Include="Assets\Scripts\PlayerBehaviour.cs" />
+    <Compile Include="Assets\Scripts\PlayerNumberBehavior.cs" />
     <Compile Include="Assets\Scripts\ManageGameManager.cs" />
   </ItemGroup>
   <ItemGroup>
