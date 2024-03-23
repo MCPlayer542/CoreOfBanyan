@@ -17,6 +17,7 @@ public class NeighborPos{
 }
 public class LandBehaviour : MonoBehaviour
 {
+    const float k3=0.5f;
     public static GameServer s;
     public List<Color> colors;
     // Start is called before the first frame update
@@ -40,6 +41,7 @@ public class LandBehaviour : MonoBehaviour
     void Update()
     {
         if(owner == -1)return;
+        if(nearRoot&&nearPlayer) s.players[owner].energy+=k3*Time.smoothDeltaTime;
         if(nearRoot) hp += Constant1 * Time.smoothDeltaTime;
         else hp -= Constant2 * Time.smoothDeltaTime;
         if(mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
@@ -75,6 +77,6 @@ public class LandBehaviour : MonoBehaviour
             }
         }
     }
-    public float GetFruitsEnergy(){return 10;}
+    public float GetFruitsEnergy(){return mFruit.GetComponent<FruitBehavior>().getEnergy();}
     public float GetPestsEnergy(){return 0;}
 }
