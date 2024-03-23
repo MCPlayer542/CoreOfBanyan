@@ -23,6 +23,8 @@ public class PlayerBehaviour : MonoBehaviour
         speed = 3.0f;
         energyGrowthSpeed = 5;
         curpos = s.PosToCell(s.bornPos[pid]);
+        s.LBmap[curpos.x][curpos.y].nearPlayer = true;
+        s.LBmap[curpos.x][curpos.y].nearRoot = true;
         LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
         energy = 114514; //big enough
         TryCapture(bornLand, bornLand, curpos, curpos, true);
@@ -174,6 +176,9 @@ public class PlayerBehaviour : MonoBehaviour
         energy -= curLand.hp;
         if (curLand.owner != -1 && clearPastEdge) s.ChangeNeighborOfNeighbor(cur.x, cur.y, tmp);
         curLand.owner = pid;
+        curLand.mPest = null;
+        curLand.mFruit = null;
+        curLand.hp = 0;
         curLand.ChangeImg();
         preLand.ChangeImg();
         return true;
