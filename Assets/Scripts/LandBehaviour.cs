@@ -30,13 +30,13 @@ public class LandBehaviour : MonoBehaviour
     void Awake()
     {
         owner = -1;
-        hp = 3;
+        hp = 1;
         colors = new(){Color.green, Color.red};
         neighbor = 0;
     }
 
     // Update is called once per frame
-    readonly float Constant1 = 1,Constant2 = 1;
+    readonly float Constant1 = 0.2f,Constant2 = 0.5f;
     void Update()
     {
         if(owner == -1) return;
@@ -47,7 +47,7 @@ public class LandBehaviour : MonoBehaviour
         
         if(hp<0){
             owner = -1;
-            hp = 3;
+            hp = 1;
             neighbor = 0;
             var p = s.PosToCell(transform.position);
             s.ChangeNeighborOfNeighbor(p.x,p.y,0);
