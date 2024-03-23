@@ -76,7 +76,7 @@ public class GameServer : MonoBehaviour
   void Update()
   {
     timeKeeper += Time.smoothDeltaTime;
-    if(timeKeeper >= 0.3f){
+    if(timeKeeper >= 0.5f){
       timeKeeper = 0;
       for(int i=0;i<PlayerNumber;++i)
         players[i].Movable = true;
@@ -169,8 +169,8 @@ public class GameServer : MonoBehaviour
     players[pid].transform.position = bornPos[pid];
   }
   void UpdateControlKeyCode(){
-    keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
-    keySet.Add(new(KeyCode.I, KeyCode.P, KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.Period, KeyCode.B, KeyCode.N));
+    keySet.Add(new(KeyCode.A, KeyCode.Q, KeyCode.S, KeyCode.W, KeyCode.D, KeyCode.E, KeyCode.LeftShift, KeyCode.LeftControl));
+    keySet.Add(new(KeyCode.J, KeyCode.U, KeyCode.K, KeyCode.I, KeyCode.L, KeyCode.O, KeyCode.B, KeyCode.N));
   }
 
   public void EndGame()
