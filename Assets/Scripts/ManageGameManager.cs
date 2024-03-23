@@ -73,12 +73,12 @@ public class ManageGameManager : MonoBehaviour
                 {
                     if (i - j <= GameServer.n && j - i <= GameServer.n)
                     {
-                        Debug.Log(s.LBmap[i][j]);
+                        //Debug.Log(s.LBmap[i][j]);
                         s.LBmap[i][j].hp = hps[i][j];
                     }
                 }
             }
-            for (int i = 0; i < GameServer.n; ++i)
+            for (int i = 0; i < s.PlayerNumber; ++i)
             {
                 s.players[i].energy = energys[i];
             }
