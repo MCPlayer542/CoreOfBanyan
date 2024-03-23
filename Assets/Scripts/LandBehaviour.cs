@@ -39,8 +39,7 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f,Constant2 = 0.5f;
     void Update()
     {
-        if(owner == -1) return;
-
+        if(owner == -1)return;
         if(nearRoot) hp += Constant1 * Time.smoothDeltaTime;
         else hp -= Constant2 * Time.smoothDeltaTime;
         if(mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
@@ -53,6 +52,8 @@ public class LandBehaviour : MonoBehaviour
             neighbor = 0;
             nearPlayer = false;
             nearRoot = false;
+            Destroy(mPest);
+            Destroy(mFruit);
             mPest = null;
             mFruit = null;
             ChangeImg();
