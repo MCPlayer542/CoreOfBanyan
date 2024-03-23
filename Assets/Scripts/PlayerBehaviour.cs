@@ -104,6 +104,11 @@ public class PlayerBehaviour : MonoBehaviour
         if (opQueue.Empty()) return;
         Movable = false;*/
         Vector2Int pre=curpos,cur=curpos+NeighborPos.Seek[dir];
+
+
+        if (s.OutOfScreen(cur)) return;
+
+        
         Vector3 p = s.LBmap[cur.x][cur.y].transform.position;
         p.z = -4;
         if (pre == cur)
