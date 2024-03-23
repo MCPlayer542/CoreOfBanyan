@@ -50,6 +50,7 @@ public class PestAndFruitProducer : MonoBehaviour
                     if(!spawn_disabled&&Random.Range(0f,1f)<FruitsProbability*Time.smoothDeltaTime){
                         var t = mGameServer.LBmap[i][j];
                         t.mFruit=Instantiate(Resources.Load("Fruit")as GameObject);
+                        t.mFruit.GetComponent<FruitBehavior>().owner=t;
                         var v=t.transform.localPosition;
                         v.z=-3;
                         v.y+=0.2f;
