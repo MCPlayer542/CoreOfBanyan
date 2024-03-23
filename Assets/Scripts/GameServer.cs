@@ -139,6 +139,17 @@ public class GameServer : MonoBehaviour
     players[pid].transform.position = bornPos[pid];
   }
   void Update(){
-    if(Input.GetKeyDown(KeyCode.Backslash))ControlType^=1;
+    if(Input.GetKeyDown(KeyCode.Backslash)){
+      ControlType^=1;
+      keySet.Clear();
+      if(ControlType==0){
+        keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
+        keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
+      }
+      else{
+        keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
+        keySet.Add(new(KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L, KeyCode.Comma, KeyCode.Period, KeyCode.P, KeyCode.Semicolon));
+      }
+    }
   }
 }
