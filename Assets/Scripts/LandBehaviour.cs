@@ -55,6 +55,7 @@ public class LandBehaviour : MonoBehaviour
             nearRoot = false;
             mPest = null;
             mFruit = null;
+            ChangeImg();
         }
     }
     public bool CanBeCapturedBy(float energy) {
