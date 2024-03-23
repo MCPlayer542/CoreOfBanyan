@@ -41,24 +41,29 @@ public class PlayerBehaviour : MonoBehaviour
         if (s.GameOverFlag) return;
         if (s.LBmap[curpos.x][curpos.y].owner == -1) s.BackHome(pid);
         Vector3 p = transform.position;
-        int tx = 0, ty = 0;
-        if (Input.GetKey(s.keySet[pid].Up)) ty++;
-        if (Input.GetKey(s.keySet[pid].Down)) ty--;
-        if (Input.GetKey(s.keySet[pid].Left)) tx--;
-        if (Input.GetKey(s.keySet[pid].Right)) tx++;
-        if (tx != 0 && ty != 0)
-        {
-            if (tx == 1 && ty == 1) p += speed * Time.smoothDeltaTime * DirVector.RUp;
-            if (tx == 1 && ty == -1) p += speed * Time.smoothDeltaTime * DirVector.RDown;
-            if (tx == -1 && ty == 1) p += speed * Time.smoothDeltaTime * DirVector.LUp;
-            if (tx == -1 && ty == -1) p += speed * Time.smoothDeltaTime * DirVector.LDown;
+        if(s.ControlType==0){
+            int tx = 0, ty = 0;
+            if (Input.GetKey(s.keySet[pid].Up)) ty++;
+            if (Input.GetKey(s.keySet[pid].Down)) ty--;
+            if (Input.GetKey(s.keySet[pid].Left)) tx--;
+            if (Input.GetKey(s.keySet[pid].Right)) tx++;
+            if (tx != 0 && ty != 0)
+            {
+                if (tx == 1 && ty == 1) p += speed * Time.smoothDeltaTime * DirVector.RUp;
+                if (tx == 1 && ty == -1) p += speed * Time.smoothDeltaTime * DirVector.RDown;
+                if (tx == -1 && ty == 1) p += speed * Time.smoothDeltaTime * DirVector.LUp;
+                if (tx == -1 && ty == -1) p += speed * Time.smoothDeltaTime * DirVector.LDown;
+            }
+            else
+            {
+                if (tx == 1) p += speed * Time.smoothDeltaTime * DirVector.Right;
+                if (tx == -1) p += speed * Time.smoothDeltaTime * DirVector.Left;
+                if (ty == 1) p += speed * Time.smoothDeltaTime * DirVector.Up;
+                if (ty == -1) p += speed * Time.smoothDeltaTime * DirVector.Down;
+            }
         }
-        else
-        {
-            if (tx == 1) p += speed * Time.smoothDeltaTime * DirVector.Right;
-            if (tx == -1) p += speed * Time.smoothDeltaTime * DirVector.Left;
-            if (ty == 1) p += speed * Time.smoothDeltaTime * DirVector.Up;
-            if (ty == -1) p += speed * Time.smoothDeltaTime * DirVector.Down;
+        else{
+
         }
 
         Vector2Int pre = s.PosToCell(transform.position), cur = s.PosToCell(p);
