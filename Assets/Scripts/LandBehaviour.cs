@@ -48,9 +48,9 @@ public class LandBehaviour : MonoBehaviour
         if(hp<=1){
             owner = -1;
             hp = 1;
-            neighbor = 0;
             var p = s.PosToCell(transform.position);
             s.ChangeNeighborOfNeighbor(p.x,p.y,neighbor);
+            neighbor = 0;
             nearPlayer = false;
             nearRoot = false;
             mPest = null;
@@ -68,8 +68,10 @@ public class LandBehaviour : MonoBehaviour
             SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
             if(((int)neighbor&(1<<i))==0)
                 s.color = Color.white;
-            else
-                s.color = colors[owner];
+            else {
+                if(owner == -1) s.color = Color.white;
+                else s.color = colors[owner];
+            }
         }
     }
     public float GetFruitsEnergy(){return 10;}

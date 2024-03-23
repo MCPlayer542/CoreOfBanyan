@@ -82,7 +82,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
-                if (!TryCapture(curLand, preLand, cur, pre, false)) return;
+                if (!TryConnect(curLand, preLand, cur, pre)) return;
             }
         }
         else
@@ -151,6 +151,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             return false;
         }
+        curLand.ChangeImg();
+        preLand.ChangeImg();
         return true;
     }
     bool IsNeighbor(LandBehaviour a, LandBehaviour b, Vector2Int pa, Vector2Int pb)
