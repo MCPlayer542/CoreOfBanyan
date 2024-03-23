@@ -47,7 +47,9 @@ public class PlayerBehaviour : MonoBehaviour
     public static GameServer s;
     private OPQ opQueue;
     Vector3 prev;
-    float last_move;
+    public float last_move;
+
+    public Neighbor anchoring = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,21 +64,21 @@ public class PlayerBehaviour : MonoBehaviour
         s.LBmap[curpos.x][curpos.y].nearPlayer = true;
         s.LBmap[curpos.x][curpos.y].nearRoot = true;
         energy = 3;
-        last_move=-s.game_pace;
+        last_move = -s.game_pace;
     }
     private const float S3_2 = 0.8660254f;
-    Vector3 Linear(Vector3 a,Vector3 b,float t)
+    Vector3 Linear(Vector3 a, Vector3 b, float t)
     {
-        return a+(b-a)*t;
+        return a + (b - a) * t;
     }
     // Update is called once per frame
     void Update()
     {
-        if(Time.time-last_move<=s.game_pace)
+        if (Time.time - last_move <= s.game_pace)
         {
-            Vector3 p=Linear(prev,s.LBmap[curpos.x][curpos.y].transform.position,(Time.time-last_move)/s.game_pace);
-            p.z=-4;
-            transform.position=p;
+            Vector3 p = Linear(prev, s.LBmap[curpos.x][curpos.y].transform.position, (Time.time - last_move) / s.game_pace);
+            p.z = -4;
+            transform.position = p;
         }
         if (s.GameOverFlag) return;
 
@@ -92,8 +94,9 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (ManageGameManager.GetKeyDown(s.keySet[pid].Reinforce)) Reinforce();
     }
-    public void TryMove(int dir)
+    public bool TryMove(int dir)
     {
+
 
         /*if (ManageGameManager.GetKey(s.keySet[pid].Left) && ManageGameManager.GetKey(s.keySet[pid].Up) && !s.OutOfScreen(curpos + NeighborPos.LUp))
             opQueue.PushBack(NeighborPos.LUp);
@@ -116,20 +119,22 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (opQueue.Empty()) return;
         Movable = false;*/
-        if(Time.time-last_move<=s.game_pace) return;
-
-        Vector2Int pre=curpos,cur=curpos+NeighborPos.Seek[dir];
 
 
-        if (s.OutOfScreen(cur)) return;
+        Vector2Int pre = curpos, cur = curpos + NeighborPos.Seek[dir];
 
-        
+        if (Time.time - last_move <= s.game_pace) return false;
+
+
+        if (s.OutOfScreen(cur)) return false;
+
+
         Vector3 p = s.LBmap[cur.x][cur.y].transform.position;
         p.z = -4;
         if (pre == cur)
         {
             transform.position = p;
-            return;
+            return false;
         }
         LandBehaviour preLand = s.map[pre.x][pre.y].GetComponent<LandBehaviour>();
         LandBehaviour curLand = s.map[cur.x][cur.y].GetComponent<LandBehaviour>();
@@ -138,24 +143,24 @@ public class PlayerBehaviour : MonoBehaviour
             if (curLand.nearPlayer)
             {
                 if (!IsNeighbor(curLand, preLand, cur, pre))
-                    return;
+                    return false;
             }
             else
             {
-                if (!TryConnect(curLand, preLand, cur, pre)) return;
+                if (!TryConnect(curLand, preLand, cur, pre)) return false;
             }
         }
         else
         {
-            if (!TryCapture(curLand, preLand, cur, pre)) return;
+            if (!TryCapture(curLand, preLand, cur, pre)) return false;
             Vector2Int p1 = new(0, 0), p2 = new(2 * GameServer.n, 2 * GameServer.n);
             if (cur == p1 || cur == p2) s.GameOverFlag = true;
         }
 
 
-        if (!Conflict(cur)) return;
-        last_move=Time.time;
-        prev=s.LBmap[pre.x][pre.y].transform.position;
+        if (!Conflict(cur)) return false;
+        last_move = Time.time;
+        prev = s.LBmap[pre.x][pre.y].transform.position;
         curpos = cur;
         s.UpdateMap();
 
@@ -171,6 +176,7 @@ public class PlayerBehaviour : MonoBehaviour
             energy -= s.LBmap[cur.x][cur.y].GetPestsEnergy();
             s.LBmap[cur.x][cur.y].mPest = null;
         }
+        return true;
     }
     bool TryConnect(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre)
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Neighbor
@@ -12,7 +13,8 @@ public enum Neighbor
     LUp = 4,
     RUp = 8,
     LDown = 16,
-    RDown = 32
+    RDown = 32,
+    None = 0
 };
 public class NeighborPos
 {
@@ -55,7 +57,10 @@ public class LandBehaviour : MonoBehaviour
             Captured(-1, neighbor, 1);
             neighbor = 0;
         }
+
+        Anchoring();
     }
+
     public void Captured(int new_owner, Neighbor new_neighbor, float new_hp)
     {
         var cur = s.PosToCell(transform.position);
@@ -88,10 +93,43 @@ public class LandBehaviour : MonoBehaviour
     public float GetFruitsEnergy() { return mFruit.GetComponent<FruitBehavior>().getEnergy(); }
     public float GetPestsEnergy() { return 0; }
 
+
+    Dictionary<Neighbor, int> dict = new() { { Neighbor.Left, 3 }, { Neighbor.Right, 0 }, { Neighbor.LUp, 4 }, { Neighbor.RUp, 5 }, { Neighbor.LDown, 2 }, { Neighbor.RDown, 1 } };
+
+
+    GameObject anchorObject = null;
+
+    void Anchoring()
+    {
+        var t = anchorObject;
+        anchorObject = null;
+        Destroy(t);
+        foreach (var i in s.players)
+        {
+            if (Time.time - i.last_move > s.game_pace && i.GetComponent<PlayerBehaviour>().curpos == s.PosToCell(transform.position))
+            {
+                var a = i.anchoring;
+                if (a == Neighbor.None) break;
+                var g = Instantiate(Resources.Load("Neighbor") as GameObject);
+                var p = transform.localPosition;
+                p.z = -4;
+                g.transform.localPosition = p;
+                g.transform.localScale = transform.localScale;
+                g.transform.Rotate(new Vector3(0, 0, -1) * dict[a] * 60);
+                anchorObject = g;
+                break;
+            }
+        }
+
+    }
     public void EndGame()
     {
         if (mFruit != null) Destroy(mFruit);
         if (mPest != null) Destroy(mPest);
         Destroy(transform.gameObject);
+        if (anchorObject != null)
+        {
+            Destroy(anchorObject);
+        }
     }
 }
