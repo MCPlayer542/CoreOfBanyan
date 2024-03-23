@@ -34,8 +34,8 @@ public class ManageGameManager : MonoBehaviour
         s = null;
     }
 
-    List<List<double>> hps;
-    List<double> energys;
+    List<List<double>> hps = null;
+    List<double> energys = null;
 
     public void PauseGame()
     {
@@ -65,19 +65,24 @@ public class ManageGameManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        for (int i = 0; i <= 2 * GameServer.n; ++i)
+        if (hps != null)
         {
-            for (int j = 0; j <= 2 * GameServer.n; ++j)
+            for (int i = 0; i <= 2 * GameServer.n; ++i)
             {
-                if (i - j <= GameServer.n && j - i <= GameServer.n)
+                for (int j = 0; j <= 2 * GameServer.n; ++j)
                 {
-                    s.LBmap[i][j].hp = hps[i][j];
+                    if (i - j <= GameServer.n && j - i <= GameServer.n)
+                    {
+                        Debug.Log(s.LBmap[i][j]);
+                        s.LBmap[i][j].hp = hps[i][j];
+                    }
                 }
             }
-        }
-        for (int i = 0; i < GameServer.n; ++i)
-        {
-            s.players[i].energy = energys[i];
+            for (int i = 0; i < GameServer.n; ++i)
+            {
+                s.players[i].energy = energys[i];
+            }
+            hps = null;
         }
         isPause = false;
     }

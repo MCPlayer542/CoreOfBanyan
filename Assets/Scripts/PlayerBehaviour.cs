@@ -67,7 +67,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (s.GameOverFlag) return;
 
-
         if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid]))
         {
             s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
@@ -85,19 +84,32 @@ public class PlayerBehaviour : MonoBehaviour
             Reinforce();
             opQueue.Clear();
         }
-
-        if (ManageGameManager.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos + NeighborPos.Left))
+        if (ManageGameManager.GetKey(s.keySet[pid].Left) && ManageGameManager.GetKey(s.keySet[pid].Up) && !s.OutOfScreen(curpos + NeighborPos.LUp))
+            opQueue.PushBack(NeighborPos.LUp);
+        else if (ManageGameManager.GetKey(s.keySet[pid].Left) && ManageGameManager.GetKey(s.keySet[pid].Down) && !s.OutOfScreen(curpos + NeighborPos.LDown))
+            opQueue.PushBack(NeighborPos.LDown);
+        else if (ManageGameManager.GetKey(s.keySet[pid].Right) && ManageGameManager.GetKey(s.keySet[pid].Up) && !s.OutOfScreen(curpos + NeighborPos.RUp))
+            opQueue.PushBack(NeighborPos.RUp);
+        else if (ManageGameManager.GetKey(s.keySet[pid].Right) && ManageGameManager.GetKey(s.keySet[pid].Down) && !s.OutOfScreen(curpos + NeighborPos.RDown))
+            opQueue.PushBack(NeighborPos.RDown);
+        else if (ManageGameManager.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos + NeighborPos.Left))
             opQueue.PushBack(NeighborPos.Left);
         else if (ManageGameManager.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos + NeighborPos.Right))
             opQueue.PushBack(NeighborPos.Right);
-        else if (ManageGameManager.GetKey(s.keySet[pid].LUp) && !s.OutOfScreen(curpos + NeighborPos.LUp))
+        /*
+        if(Input.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
+            opQueue.PushBack(NeighborPos.Left);
+        else if (Input.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos + NeighborPos.Right))
+            opQueue.PushBack(NeighborPos.Right);
+        else if (Input.GetKey(s.keySet[pid].LUp) && !s.OutOfScreen(curpos + NeighborPos.LUp))
             opQueue.PushBack(NeighborPos.LUp);
-        else if (ManageGameManager.GetKey(s.keySet[pid].RUp) && !s.OutOfScreen(curpos + NeighborPos.RUp))
+        else if (Input.GetKey(s.keySet[pid].RUp) && !s.OutOfScreen(curpos + NeighborPos.RUp))
             opQueue.PushBack(NeighborPos.RUp);
-        else if (ManageGameManager.GetKey(s.keySet[pid].LDown) && !s.OutOfScreen(curpos + NeighborPos.LDown))
+        else if (Input.GetKey(s.keySet[pid].LDown) && !s.OutOfScreen(curpos + NeighborPos.LDown))
             opQueue.PushBack(NeighborPos.LDown);
-        else if (ManageGameManager.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos + NeighborPos.RDown))
+        else if (Input.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos + NeighborPos.RDown))
             opQueue.PushBack(NeighborPos.RDown);
+        */
 
         if (!Movable)
         {
