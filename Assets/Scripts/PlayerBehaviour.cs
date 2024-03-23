@@ -77,7 +77,19 @@ public class PlayerBehaviour : MonoBehaviour
             Reinforce();
             opQueue.Clear();
         }
-
+        if(Input.GetKey(s.keySet[pid].Left)&&Input.GetKey(s.keySet[pid].Up)&&!s.OutOfScreen(curpos+NeighborPos.LUp))
+            opQueue.PushBack(NeighborPos.LUp);
+        else if(Input.GetKey(s.keySet[pid].Left)&&Input.GetKey(s.keySet[pid].Down)&&!s.OutOfScreen(curpos+NeighborPos.LDown))
+            opQueue.PushBack(NeighborPos.LDown);
+        else if(Input.GetKey(s.keySet[pid].Right)&&Input.GetKey(s.keySet[pid].Up)&&!s.OutOfScreen(curpos+NeighborPos.RUp))
+            opQueue.PushBack(NeighborPos.RUp);
+        else if(Input.GetKey(s.keySet[pid].Right)&&Input.GetKey(s.keySet[pid].Down)&&!s.OutOfScreen(curpos+NeighborPos.RDown))
+            opQueue.PushBack(NeighborPos.RDown);
+        else if(Input.GetKey(s.keySet[pid].Left)&&!s.OutOfScreen(curpos+NeighborPos.Left))
+            opQueue.PushBack(NeighborPos.Left);
+        else if(Input.GetKey(s.keySet[pid].Right)&&!s.OutOfScreen(curpos+NeighborPos.Right))
+            opQueue.PushBack(NeighborPos.Right);
+        /*
         if(Input.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
             opQueue.PushBack(NeighborPos.Left);
         else if(Input.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos+NeighborPos.Right))
@@ -90,6 +102,7 @@ public class PlayerBehaviour : MonoBehaviour
             opQueue.PushBack(NeighborPos.LDown);
         else if(Input.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos+NeighborPos.RDown))
             opQueue.PushBack(NeighborPos.RDown);
+        */
 
         if(!Movable) {
             opQueue.Clear();
