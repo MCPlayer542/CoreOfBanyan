@@ -24,7 +24,7 @@ public class PestAndFruitProducer : MonoBehaviour
         {
             for (int j = 0; j <= 2 * n; ++j)
             {
-                if (i - j <= 0 && j - i <= n)
+                if (i - j <= n && j - i <= n)
                 {
                     bool spawn_disabled = false;
                     spawn_disabled |= !mGameServer.LBmap[i][j].nearRoot;

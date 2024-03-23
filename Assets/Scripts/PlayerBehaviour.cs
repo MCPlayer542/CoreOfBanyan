@@ -7,16 +7,43 @@ using Unity.Collections;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+class OPQ{
+    private List<Vector2Int> data;
+    private int head,tail;
+    public void Clear(){
+        data.Clear();
+        head = 0;
+        tail = 0;
+    }
+    public void PushBack(Vector2Int x){
+        data.Add(x);
+        ++tail;
+    }
+    public Vector2Int PopFront(){
+        if(head==tail) return new(0,0);
+        return data[head++];
+    }
+    public bool Empty(){
+        return head==tail;
+    }
+    public OPQ(){
+        data = new();
+    }
+}
+
 public class PlayerBehaviour : MonoBehaviour
 {
+    public bool Movable;
     public int pid;
     public float speed;
     public float energy;
     public Vector2Int curpos;
     public static GameServer s;
+    private OPQ opQueue;
     // Start is called before the first frame update
     void Start()
     {
+        opQueue = new();
         transform.position = s.bornPos[pid];
         speed = 3.0f;
         curpos = s.PosToCell(s.bornPos[pid]);
@@ -29,11 +56,6 @@ public class PlayerBehaviour : MonoBehaviour
         energy = 3;
     }
     private const float S3_2 = 0.8660254f;
-    public class DirVector
-    {
-        static public Vector3 Left = new(-1f, 0f, 0f), Right = new(1f, 0f, 0f), Up = new(0f, 1f, 0f), Down = new(0f, -1f, 0f),
-        RUp = new(0.5f, S3_2, 0f), LDown = new(-0.5f, -S3_2, 0f), RDown = new(0.5f, -S3_2, 0f), LUp = new(-0.5f, S3_2, 0f);
-    }
     // Update is called once per frame
     void Update()
     {
@@ -48,31 +70,37 @@ public class PlayerBehaviour : MonoBehaviour
         {
             s.BackHome(pid);
             s.UpdateMap();
-            ClearOpQueue();
+            opQueue.Clear();
         }
 
-        if(Input.GetKeyDown(s.keySet[pid].Reinfo)) {
+        if(Input.GetKeyDown(s.keySet[pid].Reinforce)) {
             Reinforce();
             opQueue.Clear();
         }
 
-        if(Input.GetKeyDown(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
+        if(Input.GetKey(s.keySet[pid].Left) && !s.OutOfScreen(curpos+NeighborPos.Left))
             opQueue.PushBack(NeighborPos.Left);
-        if(Input.GetKeyDown(s.keySet[pid].Right) && !s.OutOfScreen(curpos+NeighborPos.Right))
+        else if(Input.GetKey(s.keySet[pid].Right) && !s.OutOfScreen(curpos+NeighborPos.Right))
             opQueue.PushBack(NeighborPos.Right);
-        if(Input.GetKeyDown(s.keySet[pid].LUp) && !s.OutOfScreen(curpos+NeighborPos.LUp))
+        else if(Input.GetKey(s.keySet[pid].LUp) && !s.OutOfScreen(curpos+NeighborPos.LUp))
             opQueue.PushBack(NeighborPos.LUp);
-        if(Input.GetKeyDown(s.keySet[pid].RUp) && !s.OutOfScreen(curpos+NeighborPos.RUp))
+        else if(Input.GetKey(s.keySet[pid].RUp) && !s.OutOfScreen(curpos+NeighborPos.RUp))
             opQueue.PushBack(NeighborPos.RUp);
-        if(Input.GetKeyDown(s.keySet[pid].LDown) && !s.OutOfScreen(curpos+NeighborPos.LDown))
+        else if(Input.GetKey(s.keySet[pid].LDown) && !s.OutOfScreen(curpos+NeighborPos.LDown))
             opQueue.PushBack(NeighborPos.LDown);
-        if(Input.GetKeyDown(s.keySet[pid].RDown) && !s.OutOfScreen(curpos+NeighborPos.RDown))
+        else if(Input.GetKey(s.keySet[pid].RDown) && !s.OutOfScreen(curpos+NeighborPos.RDown))
             opQueue.PushBack(NeighborPos.RDown);
-        
-        if(!Movable) return;
+
+        if(!Movable) {
+            opQueue.Clear();
+            return;
+        }
+        if(opQueue.Empty()) return;
         Movable = false;
 
         Vector2Int pre = curpos, cur = curpos+opQueue.PopFront();
+        Vector3 p = s.LBmap[cur.x][cur.y].transform.position;
+        p.z = -4;
         if (pre == cur)
         {
             transform.position = p;

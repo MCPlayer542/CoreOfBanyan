@@ -27,6 +27,7 @@ public class GameServer : MonoBehaviour
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
+  float timeKeeper;
   public void Awake()
   {
     LandBehaviour.s = this;
@@ -70,6 +71,16 @@ public class GameServer : MonoBehaviour
     }
 
     Camera.main.AddComponent<PestAndFruitProducer>();
+    timeKeeper = 0;
+  }
+  void Update()
+  {
+    timeKeeper += Time.smoothDeltaTime;
+    if(timeKeeper >= 0.3f){
+      timeKeeper = 0;
+      for(int i=0;i<PlayerNumber;++i)
+        players[i].Movable = true;
+    }
   }
   float CalcDis(Vector3 p, Vector2Int q)
   {
@@ -161,23 +172,8 @@ public class GameServer : MonoBehaviour
     players[pid].transform.position = bornPos[pid];
   }
   void UpdateControlKeyCode(){
-      keySet.Clear();
-      if(ControlType==0){
-        keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.Q,KeyCode.E));
-        keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow,KeyCode.Period,KeyCode.Slash));
-      }
-      else{
-        keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
-        keySet.Add(new(KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L, KeyCode.Comma, KeyCode.Period, KeyCode.P, KeyCode.Semicolon));
-      }
-  }
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.Backslash))
-    {
-      ControlType ^= 1;
-      UpdateControlKeyCode();
-    }
+    keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
+    keySet.Add(new(KeyCode.I, KeyCode.P, KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.Period, KeyCode.B, KeyCode.N));
   }
 
   public void EndGame()
