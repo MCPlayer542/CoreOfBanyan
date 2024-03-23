@@ -66,6 +66,7 @@ public class LandBehaviour : MonoBehaviour
         mFruit = null;
         hp = new_hp;
         ChangeImg();
+        s.UpdateMap();
     }
     public void ChangeImg()
     {
