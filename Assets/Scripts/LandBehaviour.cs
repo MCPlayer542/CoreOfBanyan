@@ -39,20 +39,21 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f,Constant2 = 0.5f;
     void Update()
     {
-        if(owner == -1) return;
-
+        if(owner == -1)return;
         if(nearRoot) hp += Constant1 * Time.smoothDeltaTime;
         else hp -= Constant2 * Time.smoothDeltaTime;
         if(mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
         
-        if(hp<0){
+        if(hp<=1){
             owner = -1;
             hp = 1;
-            neighbor = 0;
             var p = s.PosToCell(transform.position);
-            s.ChangeNeighborOfNeighbor(p.x,p.y,0);
+            s.ChangeNeighborOfNeighbor(p.x,p.y,neighbor);
+            neighbor = 0;
             nearPlayer = false;
             nearRoot = false;
+            Destroy(mPest);
+            Destroy(mFruit);
             mPest = null;
             mFruit = null;
             ChangeImg();
@@ -62,13 +63,16 @@ public class LandBehaviour : MonoBehaviour
         return energy >= hp;
     }
     public void ChangeImg() {
-        transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
+        if(owner==-1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
+        else transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
         for(int i=0;i<6;++i){
             SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
             if(((int)neighbor&(1<<i))==0)
                 s.color = Color.white;
-            else
-                s.color = colors[owner];
+            else {
+                if(owner == -1) s.color = Color.white;
+                else s.color = colors[owner];
+            }
         }
     }
     public float GetFruitsEnergy(){return 10;}

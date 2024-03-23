@@ -41,6 +41,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         if (s.GameOverFlag) return;
+        if (s.LBmap[curpos.x][curpos.y].owner == -1) s.BackHome(pid);
         energy += energyGrowthSpeed * Time.smoothDeltaTime;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
@@ -81,7 +82,7 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
-                if (!TryCapture(curLand, preLand, cur, pre, false)) return;
+                if (!TryConnect(curLand, preLand, cur, pre)) return;
             }
         }
         else
@@ -150,6 +151,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             return false;
         }
+        curLand.ChangeImg();
+        preLand.ChangeImg();
         return true;
     }
     bool IsNeighbor(LandBehaviour a, LandBehaviour b, Vector2Int pa, Vector2Int pb)
@@ -197,8 +200,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     energy -= s.players[i].energy;
                     s.players[i].energy = 0;
-                    s.players[i].transform.localPosition = s.bornPos[i];
-                    s.players[i].curpos = s.PosToCell(s.bornPos[i]);
+                    s.BackHome(i);
                 }
                 else
                 {
