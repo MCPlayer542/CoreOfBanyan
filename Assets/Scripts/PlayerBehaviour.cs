@@ -46,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Vector2Int curpos;
     public static GameServer s;
     private OPQ opQueue;
+    Vector3 prev;
     float last_move;
     // Start is called before the first frame update
     void Start()
@@ -64,9 +65,19 @@ public class PlayerBehaviour : MonoBehaviour
         last_move=-s.game_pace;
     }
     private const float S3_2 = 0.8660254f;
+    Vector3 Linear(Vector3 a,Vector3 b,float t)
+    {
+        return a+(b-a)*t;
+    }
     // Update is called once per frame
     void Update()
     {
+        if(Time.time-last_move<=s.game_pace)
+        {
+            Vector3 p=Linear(prev,s.LBmap[curpos.x][curpos.y].transform.position,(Time.time-last_move)/s.game_pace);
+            p.z=-4;
+            transform.position=p;
+        }
         if (s.GameOverFlag) return;
 
         if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid]))
@@ -106,7 +117,6 @@ public class PlayerBehaviour : MonoBehaviour
         if (opQueue.Empty()) return;
         Movable = false;*/
         if(Time.time-last_move<=s.game_pace) return;
-        last_move=Time.time;
 
         Vector2Int pre=curpos,cur=curpos+NeighborPos.Seek[dir];
 
@@ -144,7 +154,8 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         if (!Conflict(cur)) return;
-        transform.position = p;
+        last_move=Time.time;
+        prev=s.LBmap[pre.x][pre.y].transform.position;
         curpos = cur;
         s.UpdateMap();
 
