@@ -71,5 +71,5 @@ public class LandBehaviour : MonoBehaviour
         }
     }
     public float GetFruitsEnergy(){return 10;}
-    public float GetPestsEnergy(){return 10;}
+    public float GetPestsEnergy(){return 0;}
 }

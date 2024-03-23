@@ -30,6 +30,8 @@ public class PestAndFruitProducer : MonoBehaviour
                         Vector2Int p=new(i,j);
                         if(mGameServer.players[k].curpos==p)ContinueFlag=true;
                     }
+                    if(new Vector2Int(i,j) == mGameServer.PosToCell(mGameServer.bornPos[mGameServer.LBmap[i][j].owner]))
+                        continue;
                     if(ContinueFlag)continue;
                     if(Random.Range(0f,1f)<FruitsProbability*Time.smoothDeltaTime){
                         var t = mGameServer.LBmap[i][j];
