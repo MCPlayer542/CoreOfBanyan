@@ -15,6 +15,7 @@ public class LandNumberShower : MonoBehaviour
     {
         b = GetComponent<LandBehaviour>();
         t = transform.GetChild(7).GetChild(0).GetComponent<TMP_Text>();
+        t.rectTransform.sizeDelta = new(233, 0);
     }
 
     // Update is called once per frame
