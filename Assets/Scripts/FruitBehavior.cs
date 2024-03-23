@@ -33,4 +33,5 @@ public class FruitBehavior : MonoBehaviour
             renderer.color=v;
         }
     }
+    public float getEnergy(){return profit;}
 }

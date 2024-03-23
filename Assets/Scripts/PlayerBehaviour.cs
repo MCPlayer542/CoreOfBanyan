@@ -12,7 +12,6 @@ public class PlayerBehaviour : MonoBehaviour
     public int pid;
     public float speed;
     public float energy;
-    public float energyGrowthSpeed;
     public Vector2Int curpos;
     GameServer s;
     // Start is called before the first frame update
@@ -21,7 +20,6 @@ public class PlayerBehaviour : MonoBehaviour
         s = Camera.main.GetComponent<GameServer>();
         transform.position = s.bornPos[pid];
         speed = 3.0f;
-        energyGrowthSpeed = 5;
         curpos = s.PosToCell(s.bornPos[pid]);
         LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
         energy = 114514; //big enough
@@ -42,7 +40,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (s.GameOverFlag) return;
         if (s.LBmap[curpos.x][curpos.y].owner == -1) s.BackHome(pid);
-        energy += energyGrowthSpeed * Time.smoothDeltaTime;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
         if (Input.GetKey(s.keySet[pid].Up)) ty++;
