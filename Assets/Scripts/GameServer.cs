@@ -115,11 +115,8 @@ public class GameServer : MonoBehaviour
       {
         if (i - j <= n && j - i <= n)
         {
-          if (LBmap[i][j].owner != -1)
-          {
-            LBmap[i][j].nearPlayer = false;
-            LBmap[i][j].nearRoot = false;
-          }
+          LBmap[i][j].nearPlayer = false;
+          LBmap[i][j].nearRoot = false;
         }
       }
     }
