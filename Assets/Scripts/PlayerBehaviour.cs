@@ -39,7 +39,15 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         if (s.GameOverFlag) return;
-        if (s.LBmap[curpos.x][curpos.y].owner == -1) s.BackHome(pid);
+        if(Input.GetKeyDown(s.keySet[pid].Back)&&curpos!=s.PosToCell(s.bornPos[pid]))
+        {
+            s.LBmap[curpos.x][curpos.y].Captured(-1,s.LBmap[curpos.x][curpos.y].neighbor,1);
+            s.LBmap[curpos.x][curpos.y].neighbor=0;
+        }
+        if (s.LBmap[curpos.x][curpos.y].owner == -1){
+            s.BackHome(pid);
+            s.UpdateMap();
+        }
         Vector3 p = transform.position;
         if(s.ControlType==0){
             int tx = 0, ty = 0;

@@ -6,12 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MKeySetClass{
-  public KeyCode Up, Down, Left, Right,LUp,LDown,RUp,RDown,Back,Enforce;
-  public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right){
-    Up=up; Down=down; Left=left; Right=right;
+  public KeyCode Up, Down, Left, Right,LUp,LDown,RUp,RDown,Back,Reinforce;
+  public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right,KeyCode back){
+    Up=up; Down=down; Left=left; Right=right;Back=back;
   }
-  public MKeySetClass(KeyCode lup,KeyCode rup,KeyCode left,KeyCode right,KeyCode ldown,KeyCode rdown,KeyCode back,KeyCode enforce){
-    LUp=lup; RUp=rup; Left=left; Right=right; LDown=ldown; RDown=rdown; Back=back; Enforce=enforce;
+  public MKeySetClass(KeyCode lup,KeyCode rup,KeyCode left,KeyCode right,KeyCode ldown,KeyCode rdown,KeyCode back,KeyCode reinforce){
+    LUp=lup; RUp=rup; Left=left; Right=right; LDown=ldown; RDown=rdown; Back=back; Reinforce=reinforce;
   }
 }
 public class GameServer : MonoBehaviour
@@ -33,15 +33,8 @@ public class GameServer : MonoBehaviour
     bornPos.Add(new(0,0,-4));
     bornPos.Add(new(2*n,0,-4));
     keySet.Clear();
-    ControlType=0;///////////////////////////////////////////////////////////////////////////////////////
-    if(ControlType==0){
-      keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
-      keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
-    }
-    else{
-      keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
-      keySet.Add(new(KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L, KeyCode.Comma, KeyCode.Period, KeyCode.P, KeyCode.Semicolon));
-    }
+    ControlType=0;
+    UpdateControlKeyCode();
 
     map.Clear();
     for(int i=0;i<=2*n;++i) {
@@ -138,18 +131,21 @@ public class GameServer : MonoBehaviour
     players[pid].curpos = PosToCell(bornPos[pid]);
     players[pid].transform.position = bornPos[pid];
   }
-  void Update(){
-    if(Input.GetKeyDown(KeyCode.Backslash)){
-      ControlType^=1;
+  void UpdateControlKeyCode(){
       keySet.Clear();
       if(ControlType==0){
-        keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
-        keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
+        keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.E));
+        keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow,KeyCode.Period));
       }
       else{
         keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
         keySet.Add(new(KeyCode.I, KeyCode.O, KeyCode.K, KeyCode.L, KeyCode.Comma, KeyCode.Period, KeyCode.P, KeyCode.Semicolon));
       }
+  }
+  void Update(){
+    if(Input.GetKeyDown(KeyCode.Backslash)){
+      ControlType^=1;
+      UpdateControlKeyCode();
     }
   }
 }
