@@ -23,7 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
         curpos = s.PosToCell(s.bornPos[pid]);
         LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
         energy = 114514; //big enough
-        TryCapture(bornLand, bornLand, curpos, curpos, true);
+        TryCapture(bornLand, bornLand, curpos, curpos);
         s.LBmap[curpos.x][curpos.y].hp = 50;
         s.LBmap[curpos.x][curpos.y].nearPlayer = true;
         s.LBmap[curpos.x][curpos.y].nearRoot = true;
@@ -84,7 +84,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else
         {
-            if (!TryCapture(curLand, preLand, cur, pre, true)) return;
+            if (!TryCapture(curLand, preLand, cur, pre)) return;
             Vector2Int p1 = new(0, 0), p2 = new(2 * s.n, 2 * s.n);
             if (cur == p1 || cur == p2) s.GameOverFlag = true;
         }
@@ -162,27 +162,20 @@ public class PlayerBehaviour : MonoBehaviour
         if (pa + NeighborPos.RDown == pb && (a.neighbor & Neighbor.RDown) != 0) return true;
         return false;
     }
-    bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre, bool clearPastEdge)
+    bool TryCapture(LandBehaviour curLand, LandBehaviour preLand, Vector2Int cur, Vector2Int pre)
     {
         if (energy < curLand.hp) return false;
         if (curLand.owner != -1 && s.players[curLand.owner].curpos == cur && energy <= s.players[curLand.owner].energy + curLand.hp)
             return false;
         Neighbor tmp = curLand.neighbor;
-        if (clearPastEdge) curLand.neighbor = 0;
+        curLand.neighbor=0;
         if (!TryConnect(curLand, preLand, cur, pre))
         {
             curLand.neighbor = tmp;
             return false;
         }
         energy -= curLand.hp;
-        if (curLand.owner != -1 && clearPastEdge) s.ChangeNeighborOfNeighbor(cur.x, cur.y, tmp);
-        curLand.owner = pid;
-        Destroy(curLand.mPest);
-        Destroy(curLand.mFruit);
-        curLand.mPest = null;
-        curLand.mFruit = null;
-        curLand.hp = 5;
-        curLand.ChangeImg();
+        curLand.Captured(pid,tmp,5);
         preLand.ChangeImg();
         return true;
     }

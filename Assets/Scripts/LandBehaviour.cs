@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Security;
 using UnityEngine;
 
@@ -47,22 +48,20 @@ public class LandBehaviour : MonoBehaviour
         if(mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
         
         if(hp<=1){
-            owner = -1;
-            hp = 1;
-            var p = s.PosToCell(transform.position);
-            s.ChangeNeighborOfNeighbor(p.x,p.y,neighbor);
-            neighbor = 0;
-            nearPlayer = false;
-            nearRoot = false;
-            Destroy(mPest);
-            Destroy(mFruit);
-            mPest = null;
-            mFruit = null;
-            ChangeImg();
+            Captured(-1,neighbor,1);
+            neighbor=0;
         }
     }
-    public bool CanBeCapturedBy(float energy) {
-        return energy >= hp;
+    public void Captured(int new_owner,Neighbor new_neighbor, float new_hp) {
+        var cur = s.PosToCell(transform.position);
+        if (owner != -1) s.ChangeNeighborOfNeighbor(cur.x, cur.y, new_neighbor);
+        owner = new_owner;
+        Destroy(mPest);
+        Destroy(mFruit);
+        mPest = null;
+        mFruit = null;
+        hp = new_hp;
+        ChangeImg();
     }
     public void ChangeImg() {
         if(owner==-1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
