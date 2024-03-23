@@ -39,14 +39,15 @@ public class VJoystickBehavior : MonoBehaviour
         {
             p.x+=half*tx*speed*Time.smoothDeltaTime;
             p.y+=S3_2*ty*speed*Time.smoothDeltaTime;
+            transform.position=p;
         }
         else if(tx!=0||ty!=0)
         {
             p.x+=tx*speed*Time.smoothDeltaTime;
             p.y+=ty*speed*Time.smoothDeltaTime;
+            transform.position=p;
         }
         else Reset();
-        transform.position=p;
         MovementDetermination();
     }
     void Reset()
