@@ -33,12 +33,14 @@ public class GameServer : MonoBehaviour
   public List<PlayerBehaviour> players = new();
   public List<VJoystickBehavior> vjoysticks = new();
   float timeKeeper;
+  public float game_pace=1f/3f;
   public void Awake()
   {
     LandBehaviour.s = this;
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
     VJoystickBehavior.s = this;
+    FruitBehavior.life_time=50*game_pace;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
     bornPos.Clear();
@@ -90,14 +92,14 @@ public class GameServer : MonoBehaviour
   }
   void Update()
   {
-    timeKeeper += Time.smoothDeltaTime;
+    /*timeKeeper += Time.smoothDeltaTime;
 
     if (timeKeeper >= 0.5f)
     {
       timeKeeper = 0;
       for (int i = 0; i < PlayerNumber; ++i)
         players[i].Movable = true;
-    }
+    }*/
   }
   float CalcDis(Vector3 p, Vector2Int q)
   {

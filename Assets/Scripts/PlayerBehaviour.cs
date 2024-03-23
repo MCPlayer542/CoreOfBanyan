@@ -46,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Vector2Int curpos;
     public static GameServer s;
     private OPQ opQueue;
+    float last_move;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +61,7 @@ public class PlayerBehaviour : MonoBehaviour
         s.LBmap[curpos.x][curpos.y].nearPlayer = true;
         s.LBmap[curpos.x][curpos.y].nearRoot = true;
         energy = 3;
+        last_move=-s.game_pace;
     }
     private const float S3_2 = 0.8660254f;
     // Update is called once per frame
@@ -103,8 +105,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (opQueue.Empty()) return;
         Movable = false;*/
-        if(!Movable) return;
-        Movable = false;
+        if(Time.time-last_move<=s.game_pace) return;
+        last_move=Time.time;
 
         Vector2Int pre=curpos,cur=curpos+NeighborPos.Seek[dir];
 

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FruitBehavior : MonoBehaviour
 {
-    const float life_time = 15, blink_time = 12;
+    const float blink_duration = 3;
+    public static float life_time;
     public LandBehaviour owner;
     SpriteRenderer blink_renderer;
     float profit, spawn_time;
@@ -25,7 +26,7 @@ public class FruitBehavior : MonoBehaviour
             owner.mFruit = null;
             Destroy(gameObject);
         }
-        if (Time.time - spawn_time >= blink_time)
+        if (Time.time - spawn_time >= life_time-blink_duration)
         {
             Color v = blink_renderer.color;
             float dt = Time.time - spawn_time;
