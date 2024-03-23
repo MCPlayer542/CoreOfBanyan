@@ -24,6 +24,6 @@ public class LandNumberShower : MonoBehaviour
         if (ManageGameManager.isPause) return;
         transform.GetChild(7).GetChild(0).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
         t.text = string.Format("{0}", Math.Min((long)b.hp, 9999));
-        t.fontSize = sizeOfFont * (RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)).x - RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)).x);
+        t.fontSize = sizeOfFont * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
 }
