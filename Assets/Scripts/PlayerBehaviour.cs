@@ -13,11 +13,10 @@ public class PlayerBehaviour : MonoBehaviour
     public float speed;
     public float energy;
     public Vector2Int curpos;
-    GameServer s;
+    public static GameServer s;
     // Start is called before the first frame update
     void Start()
     {
-        s = Camera.main.GetComponent<GameServer>();
         transform.position = s.bornPos[pid];
         speed = 3.0f;
         curpos = s.PosToCell(s.bornPos[pid]);
@@ -39,17 +38,19 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         if (s.GameOverFlag) return;
-        if(Input.GetKeyDown(s.keySet[pid].Back)&&curpos!=s.PosToCell(s.bornPos[pid]))
+        if (Input.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid]))
         {
-            s.LBmap[curpos.x][curpos.y].Captured(-1,s.LBmap[curpos.x][curpos.y].neighbor,1);
-            s.LBmap[curpos.x][curpos.y].neighbor=0;
+            s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
+            s.LBmap[curpos.x][curpos.y].neighbor = 0;
         }
-        if (s.LBmap[curpos.x][curpos.y].owner == -1){
+        if (s.LBmap[curpos.x][curpos.y].owner == -1)
+        {
             s.BackHome(pid);
             s.UpdateMap();
         }
         Vector3 p = transform.position;
-        if(s.ControlType==0){
+        if (s.ControlType == 0)
+        {
             int tx = 0, ty = 0;
             if (Input.GetKey(s.keySet[pid].Up)) ty++;
             if (Input.GetKey(s.keySet[pid].Down)) ty--;
@@ -70,7 +71,8 @@ public class PlayerBehaviour : MonoBehaviour
                 if (ty == -1) p += speed * Time.smoothDeltaTime * DirVector.Down;
             }
         }
-        else{
+        else
+        {
 
         }
 
@@ -181,14 +183,14 @@ public class PlayerBehaviour : MonoBehaviour
         if (curLand.owner != -1 && s.players[curLand.owner].curpos == cur && energy <= s.players[curLand.owner].energy + curLand.hp)
             return false;
         Neighbor tmp = curLand.neighbor;
-        curLand.neighbor=0;
+        curLand.neighbor = 0;
         if (!TryConnect(curLand, preLand, cur, pre))
         {
             curLand.neighbor = tmp;
             return false;
         }
         energy -= curLand.hp;
-        curLand.Captured(pid,tmp,5);
+        curLand.Captured(pid, tmp, 5);
         preLand.ChangeImg();
         return true;
     }
@@ -212,5 +214,9 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         return true;
+    }
+    public void EndGame()
+    {
+        Destroy(transform.gameObject);
     }
 }
