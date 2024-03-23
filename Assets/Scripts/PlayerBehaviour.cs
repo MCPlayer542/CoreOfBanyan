@@ -23,12 +23,12 @@ public class PlayerBehaviour : MonoBehaviour
         speed = 3.0f;
         energyGrowthSpeed = 5;
         curpos = s.PosToCell(s.bornPos[pid]);
-        s.LBmap[curpos.x][curpos.y].nearPlayer = true;
-        s.LBmap[curpos.x][curpos.y].nearRoot = true;
-        s.LBmap[curpos.x][curpos.y].hp = 50;
         LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
         energy = 114514; //big enough
         TryCapture(bornLand, bornLand, curpos, curpos, true);
+        s.LBmap[curpos.x][curpos.y].hp = 50;
+        s.LBmap[curpos.x][curpos.y].nearPlayer = true;
+        s.LBmap[curpos.x][curpos.y].nearRoot = true;
         energy = 0;
     }
     private const float S3_2 = 0.8660254f;
