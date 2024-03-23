@@ -40,14 +40,14 @@ public class LandBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    readonly float Constant1 = 0.2f, Constant2 = 0.5f;
+    readonly float Constant1 = 0.2f, Constant2 = 0.5f,Constant3= 0.5f;
     void Update()
     {
         if (owner == -1) return;
         if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime;
         if (nearRoot) hp += Constant1 * Time.smoothDeltaTime;
         else hp -= Constant2 * Time.smoothDeltaTime;
-        if (mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
+        if (mPest != null) hp -= Constant3 * Time.smoothDeltaTime;
 
         if (hp <= 1)
         {
@@ -66,6 +66,7 @@ public class LandBehaviour : MonoBehaviour
         mFruit = null;
         hp = new_hp;
         ChangeImg();
+        s.UpdateMap();
     }
     public void ChangeImg()
     {

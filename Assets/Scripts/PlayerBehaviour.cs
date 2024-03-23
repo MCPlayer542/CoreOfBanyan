@@ -127,7 +127,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (cur == p1 || cur == p2) s.GameOverFlag = true;
         }
 
-        s.UpdateMap();
+        
         if (!Conflict(cur)) return;
         transform.position = p;
         curpos = cur;
@@ -186,6 +186,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             return false;
         }
+        s.UpdateMap();
         curLand.ChangeImg();
         preLand.ChangeImg();
         return true;
