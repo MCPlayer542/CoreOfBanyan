@@ -33,10 +33,10 @@ public class VJoystickBehavior : MonoBehaviour
         if (s.GameOverFlag) return;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
-        if (Input.GetKey(s.keySet[pid].Up)) ty++;
-        if (Input.GetKey(s.keySet[pid].Down)) ty--;
-        if (Input.GetKey(s.keySet[pid].Left)) tx--;
-        if (Input.GetKey(s.keySet[pid].Right)) tx++;
+        if (ManageGameManager.GetKey(s.keySet[pid].Up)) ty++;
+        if (ManageGameManager.GetKey(s.keySet[pid].Down)) ty--;
+        if (ManageGameManager.GetKey(s.keySet[pid].Left)) tx--;
+        if (ManageGameManager.GetKey(s.keySet[pid].Right)) tx++;
         if (tx != 0 && ty != 0)
         {
             p.x += (float)(half * tx * speed * Time.smoothDeltaTime);
