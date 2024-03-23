@@ -19,6 +19,7 @@ public class FruitBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ManageGameManager.isPause) spawn_time += Time.smoothDeltaTime;
         if (Time.time - spawn_time >= life_time)
         {
             owner.mFruit = null;
