@@ -15,6 +15,7 @@ public enum Neighbor{
 };
 public class NeighborPos{
     static public Vector2Int Left=new(-1,-1), Right=new(1,1), RUp=new(1,0), LDown=new(-1,0), RDown=new(0,1), LUp=new(0,-1);
+    static public List<Vector2Int> Seek=new (){new(-1,-1),new(1,1),new(0,-1),new(1,0),new(-1,0),new(0,1)};
 }
 public class LandBehaviour : MonoBehaviour
 {

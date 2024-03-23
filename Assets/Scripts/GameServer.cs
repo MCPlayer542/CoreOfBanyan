@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class MKeySetClass{
   public KeyCode Up, Down, Left, Right,LUp,LDown,RUp,RDown,Back,Reinforce;
-  public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right,KeyCode back){
-    Up=up; Down=down; Left=left; Right=right;Back=back;
+  public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right,KeyCode back,KeyCode reinforce){
+    Up=up; Down=down; Left=left; Right=right;Back=back;Reinforce=reinforce;
   }
   public MKeySetClass(KeyCode lup,KeyCode rup,KeyCode left,KeyCode right,KeyCode ldown,KeyCode rdown,KeyCode back,KeyCode reinforce){
     LUp=lup; RUp=rup; Left=left; Right=right; LDown=ldown; RDown=rdown; Back=back; Reinforce=reinforce;
@@ -134,8 +134,8 @@ public class GameServer : MonoBehaviour
   void UpdateControlKeyCode(){
       keySet.Clear();
       if(ControlType==0){
-        keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.E));
-        keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow,KeyCode.Period));
+        keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,KeyCode.Q,KeyCode.E));
+        keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow,KeyCode.Period,KeyCode.Slash));
       }
       else{
         keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));

@@ -27,7 +27,7 @@ public class PlayerBehaviour : MonoBehaviour
         s.LBmap[curpos.x][curpos.y].hp = 50;
         s.LBmap[curpos.x][curpos.y].nearPlayer = true;
         s.LBmap[curpos.x][curpos.y].nearRoot = true;
-        energy = 0;
+        energy = 3;
     }
     private const float S3_2 = 0.8660254f;
     public class DirVector
@@ -48,6 +48,7 @@ public class PlayerBehaviour : MonoBehaviour
             s.BackHome(pid);
             s.UpdateMap();
         }
+        if(Input.GetKeyDown(s.keySet[pid].Reinforce)) Reinforce();
         Vector3 p = transform.position;
         if(s.ControlType==0){
             int tx = 0, ty = 0;
@@ -212,5 +213,14 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         return true;
+    }
+    void Reinforce()
+    {
+        float amount=energy*0.025f;
+        energy*=0.9f;
+        s.LBmap[curpos.x][curpos.y].hp+=amount;
+        for(int i=0,n=(int)s.LBmap[curpos.x][curpos.y].neighbor;i<6;++i)
+            if((n>>i&1)==1)
+                s.LBmap[curpos.x+NeighborPos.Seek[i].x][curpos.y+NeighborPos.Seek[i].y].hp+=amount;
     }
 }
