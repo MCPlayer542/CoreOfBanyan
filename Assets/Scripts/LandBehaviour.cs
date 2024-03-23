@@ -14,9 +14,10 @@ public enum Neighbor
     LDown = 16,
     RDown = 32
 };
-public class NeighborPos{
-    static public Vector2Int Left=new(-1,-1), Right=new(1,1), RUp=new(1,0), LDown=new(-1,0), RDown=new(0,1), LUp=new(0,-1);
-    static public List<Vector2Int> Seek=new (){new(-1,-1),new(1,1),new(0,-1),new(1,0),new(-1,0),new(0,1)};
+public class NeighborPos
+{
+    static public Vector2Int Left = new(-1, -1), Right = new(1, 1), RUp = new(1, 0), LDown = new(-1, 0), RDown = new(0, 1), LUp = new(0, -1);
+    static public List<Vector2Int> Seek = new() { new(-1, -1), new(1, 1), new(0, -1), new(1, 0), new(-1, 0), new(0, 1) };
 }
 public class LandBehaviour : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class LandBehaviour : MonoBehaviour
     public List<Color> colors;
     // Start is called before the first frame update
     public int owner;
-    public float hp;
+    public double hp;
     public Neighbor neighbor;
     public bool nearPlayer, nearRoot;
     public GameObject mPest = null;
@@ -40,7 +41,7 @@ public class LandBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    readonly float Constant1 = 0.2f, Constant2 = 0.5f,Constant3= 0.5f;
+    readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
         if (owner == -1) return;
