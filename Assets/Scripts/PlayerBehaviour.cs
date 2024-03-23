@@ -103,6 +103,9 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (opQueue.Empty()) return;
         Movable = false;*/
+        if(!Movable) return;
+        Movable = false;
+
         Vector2Int pre=curpos,cur=curpos+NeighborPos.Seek[dir];
 
 
