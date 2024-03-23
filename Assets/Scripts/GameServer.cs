@@ -123,4 +123,8 @@ public class GameServer : MonoBehaviour
     if((tmp&Neighbor.RUp)!=0) dfsr(cur+NeighborPos.RUp);
     if((tmp&Neighbor.LDown)!=0) dfsr(cur+NeighborPos.LDown);
   }
+  public void BackHome(int pid){
+    players[pid].curpos = PosToCell(bornPos[pid]);
+    players[pid].transform.position = bornPos[pid];
+  }
 }

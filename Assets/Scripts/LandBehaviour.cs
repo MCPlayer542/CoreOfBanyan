@@ -45,12 +45,12 @@ public class LandBehaviour : MonoBehaviour
         else hp -= Constant2 * Time.smoothDeltaTime;
         if(mPest != null) hp -= Constant1 * Time.smoothDeltaTime;
         
-        if(hp<0){
+        if(hp<=1){
             owner = -1;
             hp = 1;
             neighbor = 0;
             var p = s.PosToCell(transform.position);
-            s.ChangeNeighborOfNeighbor(p.x,p.y,0);
+            s.ChangeNeighborOfNeighbor(p.x,p.y,neighbor);
             nearPlayer = false;
             nearRoot = false;
             mPest = null;
@@ -62,7 +62,8 @@ public class LandBehaviour : MonoBehaviour
         return energy >= hp;
     }
     public void ChangeImg() {
-        transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
+        if(owner==-1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
+        else transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
         for(int i=0;i<6;++i){
             SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
             if(((int)neighbor&(1<<i))==0)
