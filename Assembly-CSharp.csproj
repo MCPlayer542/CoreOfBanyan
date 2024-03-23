@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\PestAndFruitProducer.cs" />
     <Compile Include="Assets\Scripts\GameServer.cs" />
     <Compile Include="Assets\Scripts\LandNumberBehaviour.cs" />
+    <Compile Include="Assets\Scripts\FruitBehavior.cs" />
     <Compile Include="Assets\Scripts\PlayerBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
