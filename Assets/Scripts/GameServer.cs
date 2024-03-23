@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MKeySetClass{
-  public KeyCode Up, Down, Left, Right,LUp,LDown,RUp,RDown,Back,Reinforce;
-  public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right,KeyCode back,KeyCode reinforce){
-    Up=up; Down=down; Left=left; Right=right;Back=back;Reinforce=reinforce;
+public class MKeySetClass
+{
+  public KeyCode Up, Down, Left, Right, LUp, LDown, RUp, RDown, Back, Reinforce;
+  public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right, KeyCode back, KeyCode reinforce)
+  {
+    Up = up; Down = down; Left = left; Right = right; Back = back; Reinforce = reinforce;
   }
   public MKeySetClass(KeyCode lup, KeyCode rup, KeyCode left, KeyCode right, KeyCode ldown, KeyCode rdown, KeyCode back, KeyCode reinforce)
   {
@@ -22,7 +25,7 @@ public class GameServer : MonoBehaviour
   public bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
-  public int n = 5;
+  public static int n = 5;
   public int PlayerNumber = 2;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
@@ -76,9 +79,10 @@ public class GameServer : MonoBehaviour
   void Update()
   {
     timeKeeper += Time.smoothDeltaTime;
-    if(timeKeeper >= 0.3f){
+    if (timeKeeper >= 0.5f)
+    {
       timeKeeper = 0;
-      for(int i=0;i<PlayerNumber;++i)
+      for (int i = 0; i < PlayerNumber; ++i)
         players[i].Movable = true;
     }
   }
@@ -168,7 +172,8 @@ public class GameServer : MonoBehaviour
     players[pid].curpos = PosToCell(bornPos[pid]);
     players[pid].transform.position = bornPos[pid];
   }
-  void UpdateControlKeyCode(){
+  void UpdateControlKeyCode()
+  {
     keySet.Add(new(KeyCode.Q, KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.Z, KeyCode.X, KeyCode.E, KeyCode.D));
     keySet.Add(new(KeyCode.I, KeyCode.P, KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.Period, KeyCode.B, KeyCode.N));
   }

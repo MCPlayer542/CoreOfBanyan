@@ -19,7 +19,8 @@ public class PestAndFruitProducer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int n = mGameServer.n;
+        if (ManageGameManager.isPause) return;
+        int n = GameServer.n;
         for (int i = 0; i <= 2 * n; ++i)
         {
             for (int j = 0; j <= 2 * n; ++j)

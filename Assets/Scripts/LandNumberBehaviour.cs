@@ -21,8 +21,9 @@ public class LandNumberShower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ManageGameManager.isPause) return;
         transform.GetChild(7).GetChild(0).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
-        t.text = string.Format("{0}", (int)b.hp);
+        t.text = string.Format("{0}", Math.Min((long)b.hp, 9999));
         t.fontSize = sizeOfFont * (RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)).x - RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)).x);
     }
 }
