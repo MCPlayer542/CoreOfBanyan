@@ -33,6 +33,7 @@ public class LandBehaviour : MonoBehaviour
     public bool nearPlayer, nearRoot;
     public GameObject mPest = null;
     public GameObject mFruit = null;
+    public bool isRoot=false;
 
     void Awake()
     {
@@ -77,7 +78,14 @@ public class LandBehaviour : MonoBehaviour
     public void ChangeImg()
     {
         if (owner == -1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
-        else transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
+        else{
+            Color PointColor=colors[owner];
+            if(isRoot){
+                PointColor*=0.8f;
+                PointColor.a=1f;
+            }
+            transform.GetChild(6).GetComponent<SpriteRenderer>().color = PointColor;
+        }
         for (int i = 0; i < 6; ++i)
         {
             SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
@@ -112,7 +120,7 @@ public class LandBehaviour : MonoBehaviour
                 if (a == Neighbor.None) break;
                 var g = Instantiate(Resources.Load("Neighbor") as GameObject);
                 Color arrowColor=colors[i.pid];
-                arrowColor*=0.6f;
+                arrowColor*=0.4f;
                 arrowColor.a=1f;
                 g.GetComponent<SpriteRenderer>().color = arrowColor;
                 var p = transform.localPosition;

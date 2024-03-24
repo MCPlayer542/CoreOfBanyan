@@ -90,7 +90,8 @@ public class GameServer : MonoBehaviour
       vjoysticks[i].player = players[i];
       vjoysticks[i].transform.position = map[n][n].transform.position;
     }
-
+    LBmap[0][0].isRoot=true;
+    LBmap[2*n][2*n].isRoot=true;
     Camera.main.AddComponent<PestAndFruitProducer>();
     timeKeeper = 0;
   }
