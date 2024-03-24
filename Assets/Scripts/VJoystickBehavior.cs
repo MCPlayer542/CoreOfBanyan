@@ -30,7 +30,7 @@ public class VJoystickBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (s.GameOverFlag) return;
+        if (GameServer.GameOverFlag) return;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
         if (ManageGameManager.GetKey(s.keySet[pid].Up)) ty++;

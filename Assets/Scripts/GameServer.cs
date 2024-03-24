@@ -27,7 +27,7 @@ public class MKeySetClass
 public class GameServer : MonoBehaviour
 {
   public int ControlType;
-  public bool GameOverFlag = false;
+  public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
   public static int n = 5;
@@ -203,6 +203,7 @@ public class GameServer : MonoBehaviour
 
   public void EndGame()
   {
+    GameOverFlag = true;
     foreach (var i in LBmap)
     {
       foreach (var j in i)
