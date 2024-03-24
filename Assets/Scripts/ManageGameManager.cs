@@ -39,10 +39,10 @@ public class ManageGameManager : MonoBehaviour
 
     public void NewGame()
     {
-        GameServer.GameOverFlag = false;
         EndGame();
         isPause = false;
         s = Camera.main.AddComponent<GameServer>();
+        GameServer.GameOverFlag = false;
     }
 
     public void EndGame()

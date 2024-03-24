@@ -33,7 +33,7 @@ public class LandBehaviour : MonoBehaviour
     public bool nearPlayer, nearRoot;
     public GameObject mPest = null;
     public GameObject mFruit = null;
-    public bool isRoot=false;
+    public bool isRoot = false;
 
     void Awake()
     {
@@ -47,6 +47,9 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
+        Anchoring();
+
+
         if (owner == -1) return;
         if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime;
         if (nearRoot) hp += Constant1 * Time.smoothDeltaTime;
@@ -58,8 +61,6 @@ public class LandBehaviour : MonoBehaviour
             Captured(-1, neighbor, 1);
             neighbor = 0;
         }
-
-        Anchoring();
     }
 
     public void Captured(int new_owner, Neighbor new_neighbor, float new_hp)
@@ -78,11 +79,13 @@ public class LandBehaviour : MonoBehaviour
     public void ChangeImg()
     {
         if (owner == -1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
-        else{
-            Color PointColor=colors[owner];
-            if(isRoot){
-                PointColor*=0.8f;
-                PointColor.a=1f;
+        else
+        {
+            Color PointColor = colors[owner];
+            if (isRoot)
+            {
+                PointColor *= 0.8f;
+                PointColor.a = 1f;
             }
             transform.GetChild(6).GetComponent<SpriteRenderer>().color = PointColor;
         }
@@ -105,7 +108,7 @@ public class LandBehaviour : MonoBehaviour
     Dictionary<Neighbor, int> dict = new() { { Neighbor.Left, 3 }, { Neighbor.Right, 0 }, { Neighbor.LUp, 4 }, { Neighbor.RUp, 5 }, { Neighbor.LDown, 2 }, { Neighbor.RDown, 1 } };
 
 
-    GameObject anchorObject = null;
+    public GameObject anchorObject = null;
 
     void Anchoring()
     {
@@ -114,14 +117,14 @@ public class LandBehaviour : MonoBehaviour
         Destroy(t);
         foreach (var i in s.players)
         {
-            if (Time.time - i.last_move > s.game_pace * 0.7 && i.GetComponent<PlayerBehaviour>().curpos == s.PosToCell(transform.position) && s.keySet[i.pid].isKeyDown())
+            if (owner == i.pid && Time.time - i.last_move > s.game_pace * 0.7 && s.PosToCell(i.GetComponent<PlayerBehaviour>().transform.position) == s.PosToCell(transform.position) && s.keySet[i.pid].isKeyDown())
             {
                 var a = i.anchoring;
                 if (a == Neighbor.None) break;
                 var g = Instantiate(Resources.Load("Neighbor") as GameObject);
-                Color arrowColor=colors[i.pid];
-                arrowColor*=0.4f;
-                arrowColor.a=1f;
+                Color arrowColor = colors[i.pid];
+                arrowColor *= 0.4f;
+                arrowColor.a = 1f;
                 g.GetComponent<SpriteRenderer>().color = arrowColor;
                 var p = transform.localPosition;
                 p.z = -4;
