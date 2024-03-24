@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEditor;
-using UnityEditor.Tilemaps;
+//using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Timeline;
 
@@ -30,7 +30,7 @@ public class VJoystickBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (s.GameOverFlag) return;
+        if (GameServer.GameOverFlag) return;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
         if (ManageGameManager.GetKey(s.keySet[pid].Up)) ty++;
@@ -65,11 +65,11 @@ public class VJoystickBehavior : MonoBehaviour
 
     Neighbor GetPotentialMovementDeter()
     {
-        Tuple<float, int> dir = new(Vector2.Distance(anchor.curpos[6], transform.position) * 1000, 6);
+        Tuple<float, int> dir = new(Vector2.Distance(anchor.curpos[6], transform.position) * 100, 6);
         for (int i = 0; i < 6; ++i)
         {
             var t = Vector2.Distance(anchor.curpos[i], transform.position);
-            if (t <= dir.Item1) dir = new(t, i);
+            if (t < dir.Item1) dir = new(t, i);
         }
         if (dir.Item2 < 6) return (Neighbor)(1 << dir.Item2);
         return Neighbor.None;

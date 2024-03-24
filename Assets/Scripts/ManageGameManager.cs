@@ -18,20 +18,39 @@ public class ManageGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (GameServer.GameOverFlag)
+        {
+            isPause = true;
+        }
+        if (isPause && s != null)
+        {
+            for (int i = 0; i <= 2 * GameServer.n; ++i)
+            {
+                for (int j = 0; j <= 2 * GameServer.n; ++j)
+                {
+                    if (i - j <= GameServer.n && j - i <= GameServer.n)
+                    {
+                        s.LBmap[i][j].hp = 114514;
+                    }
+                }
+            }
+        }
     }
 
     public void NewGame()
     {
-        if (s != null) s.EndGame();
+        GameServer.GameOverFlag = false;
+        EndGame();
         isPause = false;
         s = Camera.main.AddComponent<GameServer>();
     }
 
     public void EndGame()
     {
-        s.EndGame();
+        isPause = false;
+        if (s != null) s.EndGame();
         s = null;
+        isPause = true;
     }
 
     List<List<double>> hps = null;

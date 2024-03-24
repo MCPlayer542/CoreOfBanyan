@@ -106,7 +106,7 @@ public class LandBehaviour : MonoBehaviour
         Destroy(t);
         foreach (var i in s.players)
         {
-            if (Time.time - i.last_move > s.game_pace && i.GetComponent<PlayerBehaviour>().curpos == s.PosToCell(transform.position))
+            if (Time.time - i.last_move > s.game_pace * 0.7 && i.GetComponent<PlayerBehaviour>().curpos == s.PosToCell(transform.position) && s.keySet[i.pid].isKeyDown())
             {
                 var a = i.anchoring;
                 if (a == Neighbor.None) break;

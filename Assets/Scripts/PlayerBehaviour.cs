@@ -80,7 +80,7 @@ public class PlayerBehaviour : MonoBehaviour
             p.z = -4;
             transform.position = p;
         }
-        if (s.GameOverFlag) return;
+        if (GameServer.GameOverFlag) return;
 
         if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid]))
         {
@@ -154,7 +154,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (!TryCapture(curLand, preLand, cur, pre)) return false;
             Vector2Int p1 = new(0, 0), p2 = new(2 * GameServer.n, 2 * GameServer.n);
-            if (cur == p1 || cur == p2) s.GameOverFlag = true;
+            if (cur == p1 || cur == p2) GameServer.GameOverFlag = true;
         }
 
 
