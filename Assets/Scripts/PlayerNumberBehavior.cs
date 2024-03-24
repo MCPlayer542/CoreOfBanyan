@@ -22,6 +22,8 @@ public class PlayerNumberBehavior : MonoBehaviour
         if (p != null)
         {
             var t = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+            t.fontSize = sizeOfFont * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
+            t.text = "E" + (p.pid + 1) + ": " + (long)p.energy;
             if (p.pid == 0)
             {
                 t.rectTransform.localPosition = new Vector2(-Screen.width / 2 + t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
@@ -30,8 +32,6 @@ public class PlayerNumberBehavior : MonoBehaviour
             {
                 t.rectTransform.localPosition = new Vector2(Screen.width / 2 - t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
             }
-            t.fontSize = sizeOfFont * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
-            t.text = "E" + (p.pid + 1) + ": " + (long)p.energy;
         }
     }
 }
