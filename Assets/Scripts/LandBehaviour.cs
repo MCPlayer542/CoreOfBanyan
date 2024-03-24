@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Neighbor
@@ -12,7 +13,8 @@ public enum Neighbor
     LUp = 4,
     RUp = 8,
     LDown = 16,
-    RDown = 32
+    RDown = 32,
+    None = 0
 };
 public class NeighborPos
 {
@@ -31,6 +33,7 @@ public class LandBehaviour : MonoBehaviour
     public bool nearPlayer, nearRoot;
     public GameObject mPest = null;
     public GameObject mFruit = null;
+    public bool isRoot = false;
 
     void Awake()
     {
@@ -44,6 +47,9 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
+        Anchoring();
+
+
         if (owner == -1) return;
         if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime;
         if (nearRoot) hp += Constant1 * Time.smoothDeltaTime;
@@ -56,6 +62,7 @@ public class LandBehaviour : MonoBehaviour
             neighbor = 0;
         }
     }
+
     public void Captured(int new_owner, Neighbor new_neighbor, float new_hp)
     {
         var cur = s.PosToCell(transform.position);
@@ -72,7 +79,16 @@ public class LandBehaviour : MonoBehaviour
     public void ChangeImg()
     {
         if (owner == -1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
-        else transform.GetChild(6).GetComponent<SpriteRenderer>().color = colors[owner];
+        else
+        {
+            Color PointColor = colors[owner];
+            if (isRoot)
+            {
+                PointColor *= 0.8f;
+                PointColor.a = 1f;
+            }
+            transform.GetChild(6).GetComponent<SpriteRenderer>().color = PointColor;
+        }
         for (int i = 0; i < 6; ++i)
         {
             SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
@@ -88,10 +104,47 @@ public class LandBehaviour : MonoBehaviour
     public float GetFruitsEnergy() { return mFruit.GetComponent<FruitBehavior>().getEnergy(); }
     public float GetPestsEnergy() { return 0; }
 
+
+    Dictionary<Neighbor, int> dict = new() { { Neighbor.Left, 3 }, { Neighbor.Right, 0 }, { Neighbor.LUp, 4 }, { Neighbor.RUp, 5 }, { Neighbor.LDown, 2 }, { Neighbor.RDown, 1 } };
+
+
+    public GameObject anchorObject = null;
+
+    void Anchoring()
+    {
+        var t = anchorObject;
+        anchorObject = null;
+        Destroy(t);
+        foreach (var i in s.players)
+        {
+            if (owner == i.pid && Time.time - i.last_move > s.game_pace * 0.7 && s.PosToCell(i.GetComponent<PlayerBehaviour>().transform.position) == s.PosToCell(transform.position) && s.keySet[i.pid].isKeyDown())
+            {
+                var a = i.anchoring;
+                if (a == Neighbor.None) break;
+                var g = Instantiate(Resources.Load("Neighbor") as GameObject);
+                Color arrowColor = colors[i.pid];
+                arrowColor *= 0.4f;
+                arrowColor.a = 1f;
+                g.GetComponent<SpriteRenderer>().color = arrowColor;
+                var p = transform.localPosition;
+                p.z = -4;
+                g.transform.localPosition = p;
+                g.transform.localScale = transform.localScale;
+                g.transform.Rotate(new Vector3(0, 0, -1) * dict[a] * 60);
+                anchorObject = g;
+                break;
+            }
+        }
+
+    }
     public void EndGame()
     {
         if (mFruit != null) Destroy(mFruit);
         if (mPest != null) Destroy(mPest);
         Destroy(transform.gameObject);
+        if (anchorObject != null)
+        {
+            Destroy(anchorObject);
+        }
     }
 }

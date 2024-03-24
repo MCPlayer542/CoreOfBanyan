@@ -18,12 +18,16 @@ public class MKeySetClass
   {
     LUp = lup; RUp = rup; Left = left; Right = right; LDown = ldown; RDown = rdown; Back = back; Reinforce = reinforce;
   }
+  public bool isKeyDown()
+  {
+    return ManageGameManager.GetKey(Up) || ManageGameManager.GetKey(Down) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
+  }
 }
 
 public class GameServer : MonoBehaviour
 {
   public int ControlType;
-  public bool GameOverFlag = false;
+  public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
   public static int n = 5;
@@ -33,14 +37,14 @@ public class GameServer : MonoBehaviour
   public List<PlayerBehaviour> players = new();
   public List<VJoystickBehavior> vjoysticks = new();
   float timeKeeper;
-  public float game_pace=1f/3f;
+  public float game_pace = 1f / 3f;
   public void Awake()
   {
     LandBehaviour.s = this;
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
     VJoystickBehavior.s = this;
-    FruitBehavior.life_time=50*game_pace;
+    FruitBehavior.life_time = 50 * game_pace;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
     bornPos.Clear();
@@ -71,22 +75,23 @@ public class GameServer : MonoBehaviour
         }
       }
     }
-    VJoystickAnchor anchor=new();
-    anchor.prepos=map[n][n].transform.position;
-    for(int i=0;i<6;++i) anchor.curpos.Add(map[n+NeighborPos.Seek[i].x][n+NeighborPos.Seek[i].y].transform.position);
+    VJoystickAnchor anchor = new();
+    anchor.prepos = map[n][n].transform.position;
+    for (int i = 0; i < 6; ++i) anchor.curpos.Add(map[n + NeighborPos.Seek[i].x][n + NeighborPos.Seek[i].y].transform.position);
     anchor.curpos.Add(map[n][n].transform.position);
-    VJoystickBehavior.anchor=anchor;
+    VJoystickBehavior.anchor = anchor;
     players.Clear();
     for (int i = 0; i < PlayerNumber; ++i)
     {
       players.Add(Instantiate(Resources.Load("Player") as GameObject).GetComponent<PlayerBehaviour>());
       vjoysticks.Add(Instantiate(Resources.Load("VJoystick") as GameObject).GetComponent<VJoystickBehavior>());
       players[i].pid = i;
-      vjoysticks[i].pid=i;
-      vjoysticks[i].player=players[i];
-      vjoysticks[i].transform.position=map[n][n].transform.position;
+      vjoysticks[i].pid = i;
+      vjoysticks[i].player = players[i];
+      vjoysticks[i].transform.position = map[n][n].transform.position;
     }
-
+    LBmap[0][0].isRoot=true;
+    LBmap[2*n][2*n].isRoot=true;
     Camera.main.AddComponent<PestAndFruitProducer>();
     timeKeeper = 0;
   }
@@ -100,6 +105,8 @@ public class GameServer : MonoBehaviour
       for (int i = 0; i < PlayerNumber; ++i)
         players[i].Movable = true;
     }*/
+
+    UpdateMap();
   }
   float CalcDis(Vector3 p, Vector2Int q)
   {
@@ -197,6 +204,7 @@ public class GameServer : MonoBehaviour
 
   public void EndGame()
   {
+    GameOverFlag = true;
     foreach (var i in LBmap)
     {
       foreach (var j in i)
