@@ -18,7 +18,19 @@ public class ManageGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isPause && s != null)
+        {
+            for (int i = 0; i <= 2 * GameServer.n; ++i)
+            {
+                for (int j = 0; j <= 2 * GameServer.n; ++j)
+                {
+                    if (i - j <= GameServer.n && j - i <= GameServer.n)
+                    {
+                        s.LBmap[i][j].hp = 114514;
+                    }
+                }
+            }
+        }
     }
 
     public void NewGame()
@@ -30,6 +42,7 @@ public class ManageGameManager : MonoBehaviour
 
     public void EndGame()
     {
+        isPause = false;
         s.EndGame();
         s = null;
     }
