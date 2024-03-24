@@ -111,6 +111,10 @@ public class LandBehaviour : MonoBehaviour
                 var a = i.anchoring;
                 if (a == Neighbor.None) break;
                 var g = Instantiate(Resources.Load("Neighbor") as GameObject);
+                Color arrowColor=colors[i.pid];
+                arrowColor*=0.6f;
+                arrowColor.a=1f;
+                g.GetComponent<SpriteRenderer>().color = arrowColor;
                 var p = transform.localPosition;
                 p.z = -4;
                 g.transform.localPosition = p;

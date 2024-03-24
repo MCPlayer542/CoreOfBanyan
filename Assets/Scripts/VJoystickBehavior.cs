@@ -16,7 +16,7 @@ public class VJoystickAnchor
 
 public class VJoystickBehavior : MonoBehaviour
 {
-    static double speed = 3, half = 0.5, S3_2 = Math.Sqrt(3);
+    static double speed = 5, half = 0.5, S3_2 = Math.Sqrt(3);
     public static GameServer s;
     public static VJoystickAnchor anchor = null;
     public PlayerBehaviour player = null;
