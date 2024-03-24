@@ -90,8 +90,13 @@ public class GameServer : MonoBehaviour
       vjoysticks[i].player = players[i];
       vjoysticks[i].transform.position = map[n][n].transform.position;
     }
-    LBmap[0][0].isRoot=true;
-    LBmap[2*n][2*n].isRoot=true;
+    for(int i=0;i<PlayerNumber;++i){
+      var p = PosToCell(bornPos[i]);
+      LBmap[p.x][p.y].isRoot = true;
+      var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
+      var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
+      sr.sprite = sqrt;
+    }
     Camera.main.AddComponent<PestAndFruitProducer>();
     timeKeeper = 0;
   }
