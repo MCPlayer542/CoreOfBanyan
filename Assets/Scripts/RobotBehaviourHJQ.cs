@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -8,15 +9,21 @@ using UnityEditorInternal;
 using UnityEngine;
 
 public class NodeInformation{
+    public Vector2Int cur;
     public Vector2Int pre;
     public int Dist;
     public double Energy;
     public bool vis;
     public void Init(){
+        cur=new();
         pre=new();
         Dist=0;
         Energy=1e6;
         vis=false;
+    }
+    public int CompareTo(NodeInformation other){
+        if (other == null) return 1;
+        return Energy.CompareTo(other.Energy);
     }
 };
 public class RobotBehaviourHJQ : MonoBehaviour
@@ -50,17 +57,18 @@ public class RobotBehaviourHJQ : MonoBehaviour
             }
         }
     }
-    void InitBFS(){
+    void InitNodeMap(){
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
                     NodeMap[i][j].Init();
+                    NodeMap[i][j].cur=new(i,j);
                 }
             }
         }
     }
     void BFS(Vector2Int St,int pid){
-        InitBFS();
+        InitNodeMap();
         Queue<Vector2Int> q = new();
         q.Enqueue(St);
         NodeMap[St.x][St.y].vis=true;
@@ -84,6 +92,39 @@ public class RobotBehaviourHJQ : MonoBehaviour
                         NodeMap[y.x][y.y].Energy=val;
                         NodeMap[y.x][y.y].pre=x;
                     }
+                }
+            }
+        }
+    }
+    void Dijkstra(Vector2Int St,int pid){
+        InitNodeMap();
+        SortedSet<NodeInformation> q = new();
+        NodeMap[St.x][St.y].Energy=0;
+        q.Add(NodeMap[St.x][St.y]);
+        while(q.Count!=0){
+            Vector2Int x=q.Min.cur;
+            q.Remove(q.Min);
+            if(NodeMap[x.x][x.y].vis)continue;
+            Debug.Log("Dijkstra: "+pid+" "+x.x+" "+x.y);
+            NodeMap[x.x][x.y].vis=true;
+            foreach(var dlt in NeighborPos.Seek){
+                Vector2Int y=x+dlt;
+                if(s.OutOfScreen(y))continue;
+                if(s.LBmap[y.x][y.y].nearPlayer&&s.LBmap[y.x][y.y].owner==pid&&!mPlayer.IsNeighbor(s.LBmap[x.x][x.y],s.LBmap[y.x][y.y],x,y))continue;
+                Debug.Log("!1 Dijkstra: "+pid+" "+y.x+" "+y.y);
+                double val=NodeMap[x.x][x.y].Energy+Math.Max(s.LBmap[y.x][y.y].hp,1.0f)*(s.LBmap[y.x][y.y].owner!=pid?1:0);
+                Debug.Log("!2 Dijkstra: "+pid+" "+y.x+" "+y.y);
+                if(s.LBmap[y.x][y.y].owner!=-1&&s.players[s.LBmap[y.x][y.y].owner].curpos==y)val+=s.players[s.LBmap[y.x][y.y].owner].energy;
+                Debug.Log("!3 Dijkstra: "+pid+" "+y.x+" "+y.y);
+                if(NodeMap[y.x][y.y].Energy>val){
+                    Debug.Log("!4 Dijkstra: "+pid+" "+y.x+" "+y.y);
+                    NodeMap[y.x][y.y].Energy=val;
+                    Debug.Log("!5 Dijkstra: "+pid+" "+y.x+" "+y.y);
+                    NodeMap[y.x][y.y].pre=x;
+                    NodeInformation tmp=NodeMap[y.x][y.y];
+                    Debug.Log("!6 Dijkstra: "+pid+" "+y.x+" "+y.y);
+                    q.Add(tmp);
+                    Debug.Log("!7 Dijkstra: "+pid+" "+y.x+" "+y.y);
                 }
             }
         }
@@ -123,6 +164,16 @@ public class RobotBehaviourHJQ : MonoBehaviour
     Vector2Int GetTarget(){
         Vector2Int pos=new(114514,114514);
         int num=0;
+        for(int i=0;i<=2*n;++i){
+            for(int j=0;j<=2*n;++j){
+                if(i-j<=n&&j-i<=n){
+                    if(s.LBmap[i][j].owner==mPlayer.pid&&!s.LBmap[i][j].nearPlayer&&NodeMap[i][j].Dist<=5&&mPlayer.energy>NodeMap[i][j].Energy){
+                        pos=new(i,j);
+                    }                    
+                }
+            }
+        }
+        if(pos.x!=114514)return pos;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
@@ -190,8 +241,11 @@ public class RobotBehaviourHJQ : MonoBehaviour
             if(E>NodeMap[p.x][p.y].Energy*1.2f)return GetDirection(p);
         }
         if(!s.LBmap[x][y].nearRoot){
+            Dijkstra(mPlayer.curpos,mPlayer.pid);
             Vector2Int p1=GetConnect(E);
             Vector2Int p2=GetCapture(E);
+            if(p1.x!=114514)Debug.Log(mPlayer.pid+" p1 ::: "+"("+p1.x+","+p1.y+") :: "+NodeMap[p1.x][p1.y].Energy);
+            if(p2.x!=114514)Debug.Log(mPlayer.pid+" p2 ::: "+"("+p2.x+","+p2.y+") :: "+NodeMap[p2.x][p2.y].Energy);
             if(p1.x==114514&&p2.x==114514)return -1;
             if(p2.x==114514||NodeMap[p1.x][p1.y].Dist<NodeMap[p2.x][p2.y].Dist)return GetDirection(p1);
             return GetDirection(p2);
