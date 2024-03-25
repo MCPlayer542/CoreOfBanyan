@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Threading;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class PestAndFruitProducer : MonoBehaviour
                     bool spawn_disabled = false;
                     spawn_disabled |= !mGameServer.LBmap[i][j].nearRoot;
                     spawn_disabled |= mGameServer.LBmap[i][j].mPest != null;
+                    spawn_disabled |= mGameServer.LBmap[i][j].isWall;
                     for (int k = 0; k < mGameServer.PlayerNumber; k++)
                     {
                         Vector2Int p = new(i, j);

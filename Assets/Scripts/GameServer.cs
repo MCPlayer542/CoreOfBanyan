@@ -36,6 +36,7 @@ public class GameServer : MonoBehaviour
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
   public List<VJoystickBehavior> vjoysticks = new();
+  public List<Vector2Int> wallList = new();
   public float game_pace = 1f / 3f;
   public void Awake()
   {
@@ -97,6 +98,12 @@ public class GameServer : MonoBehaviour
       sr.sprite = sqrt;
     }
     Camera.main.AddComponent<PestAndFruitProducer>();
+
+    wallList = new(){new(1,1),new(4,5),new(1,4),new(9,9),new(7,2),new(4,4),new(3,5)};
+    foreach(var p in wallList){
+      LBmap[p.x][p.y].isWall = true;
+      map[p.x][p.y].SetActive(false);
+    }
   }
   void Update()
   {
