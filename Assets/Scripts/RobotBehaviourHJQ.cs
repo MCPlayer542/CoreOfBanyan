@@ -34,7 +34,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     public List<List<NodeInformation>> NodeMap=new();
     float lastUpdate;
     float reinforceProbability=0.1f;
-    float cutProbability=0.5f;
+    float cutProbability=0.4f;
     int CountSetBits(int n){
         int count = 0;
         while (n > 0){
@@ -100,12 +100,12 @@ public class RobotBehaviourHJQ : MonoBehaviour
     }
     Vector2Int GetConnect(double E){
         Vector2Int pos=new(114514,114514);
-        int dis=114514;
+        int dis=E<5?1:4;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
                     if(!s.LBmap[i][j].nearRoot||s.LBmap[i][j].owner!=mPlayer.pid)continue;
-                    if(NodeMap[i][j].Dist<dis&&NodeMap[i][j].Energy<E){
+                    if(NodeMap[i][j].Dist<dis&&NodeMap[i][j].Energy*1.2<E){
                         dis=NodeMap[i][j].Dist;
                         pos.x=i;pos.y=j;
                     }
@@ -116,12 +116,12 @@ public class RobotBehaviourHJQ : MonoBehaviour
     }
     Vector2Int GetCapture(double E){
         Vector2Int pos=new(114514,114514);
-        int dis=3;
+        int dis=E<5?1:2;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
                     if(!s.LBmap[i][j].nearRoot||s.LBmap[i][j].owner==mPlayer.pid)continue;
-                    if(NodeMap[i][j].Dist<dis&&NodeMap[i][j].Energy<E){
+                    if(NodeMap[i][j].Dist<=dis&&NodeMap[i][j].Energy*2f<E){
                         dis=NodeMap[i][j].Dist;
                         pos.x=i;pos.y=j;
                     }
@@ -136,7 +136,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
-                    if(s.LBmap[i][j].owner==mPlayer.pid&&!s.LBmap[i][j].nearPlayer&&NodeMap[i][j].Dist<=5&&mPlayer.energy>NodeMap[i][j].Energy){
+                    if(s.LBmap[i][j].owner==mPlayer.pid&&!s.LBmap[i][j].nearPlayer&&NodeMap[i][j].Dist<=4&&mPlayer.energy>NodeMap[i][j].Energy){
                         pos.x=i;pos.y=j;
                     }                    
                 }
@@ -208,16 +208,34 @@ public class RobotBehaviourHJQ : MonoBehaviour
         }
         return p;
     }
+    int TryCut2(){
+        Vector2Int p=new(114514,114514);
+        int num=3;
+        foreach(var dlt in NeighborPos.Seek){
+            Vector2Int t=mPlayer.curpos+dlt;
+            if(s.OutOfScreen(t))continue;
+            int deg=CountSetBits((int)s.LBmap[t.x][t.y].neighbor);
+            if(s.LBmap[t.x][t.y].owner!=-1&&s.LBmap[t.x][t.y].owner!=mPlayer.pid&&s.LBmap[t.x][t.y].nearRoot&&deg>=num&&mPlayer.energy>s.LBmap[t.x][t.y].hp){
+                num=deg;
+                p=t;
+            }
+        }
+        if(p.x==114514)return -1;
+        return GetDirection(p);
+    }
     int GetDir(){
+
         Vector2Int bp=s.PosToCell(s.bornPos[mPlayer.pid]);
         BFS(mPlayer.curpos,mPlayer.pid);
         if(mPlayer.energy>10&&NodeMap[bp.x][bp.y].Dist<=1)mPlayer.Reinforce();
+        int res=TryCut2();
+        if(res!=-1)return res;
 
         for(int i=0;i<s.PlayerNumber;i++){
             if(i==mPlayer.pid)continue;
             BFS(s.players[i].curpos,i);
             if(s.players[i].energy>NodeMap[bp.x][bp.y].Energy*2f)return -1;
-            if(NodeMap[bp.x][bp.y].Dist<=3&&s.players[i].energy>NodeMap[bp.x][bp.y].Energy)return -1;
+            if(NodeMap[bp.x][bp.y].Dist<=3&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy)return -1;
         }
         BFS(mPlayer.curpos,mPlayer.pid);
         double E=mPlayer.energy;
