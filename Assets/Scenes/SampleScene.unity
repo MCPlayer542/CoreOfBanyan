@@ -494,6 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayObjects:
   - {fileID: 603593975}
+  - {fileID: 603593975}
 --- !u!1 &603593975
 GameObject:
   m_ObjectHideFlags: 0
