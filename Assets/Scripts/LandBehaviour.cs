@@ -16,6 +16,7 @@ public enum Neighbor
     RDown = 32,
     None = 0
 };
+public enum DirID{LeftID,RightID,RUpID,LDownID,RDownID,LUpID};
 public class NeighborPos
 {
     static public Vector2Int Left = new(-1, -1), Right = new(1, 1), RUp = new(1, 0), LDown = new(-1, 0), RDown = new(0, 1), LUp = new(0, -1);
