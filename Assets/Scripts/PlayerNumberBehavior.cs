@@ -26,23 +26,25 @@ public class PlayerNumberBehavior : MonoBehaviour
     public void EatFruitNotice(float E){
         var t = mEatFruitUI;
         eatTime=Time.time;
-        t.text="+ "+(int)E;
+        t.text="+"+(int)E;
         Vector3 p=mPlayerBehaviour.transform.position;
         p.y+=0.3f;
-        mEatFruitUI.color=new(69,255,63,1);
-        mEatFruitUI.transform.position=p;
-        t.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
+        Color c=mEatFruitUI.color;
+        c.a=1;
+        mEatFruitUI.color=c;
+        transform.GetChild(0).GetChild(1).GetComponent<Transform>().position= RectTransformUtility.WorldToScreenPoint(Camera.main, p);
         t.fontSize = sizeOfFontEatFruitNotice * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
     void UpdateEatNoticeUI(){
-        if(Time.time-eatTime>mGameServer.game_pace*2){
+        if(Time.time-eatTime>mGameServer.game_pace*1.5f){
             Color c=mEatFruitUI.color;
             c.a=0;
             mEatFruitUI.color=c;
             return;
         }
-        //Time.time-eatTime<=mGameServer.game_pace
-        //
+        Vector3 p=mPlayerBehaviour.transform.position;
+        p.y+=0.3f;
+        transform.GetChild(0).GetChild(1).GetComponent<Transform>().position= RectTransformUtility.WorldToScreenPoint(Camera.main,p);
     }
     void UpdateEnergyUI(){
         var p = mPlayerBehaviour;

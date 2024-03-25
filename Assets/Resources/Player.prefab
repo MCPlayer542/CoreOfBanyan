@@ -208,6 +208,7 @@ MonoBehaviour:
   energy: 0
   curpos: {x: 0, y: 0}
   last_move: 0
+  mNumberBehavior: {fileID: 0}
   anchoring: 0
 --- !u!114 &8445131304685689185
 MonoBehaviour:
@@ -221,6 +222,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8f4cd0f2b491e41a36e051c6054d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mPlayerBehaviour: {fileID: 0}
+  mGameServer: {fileID: 0}
+  mEnergyUI: {fileID: 0}
+  mEatFruitUI: {fileID: 0}
 --- !u!1 &7484856986082039845
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +261,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4114551334941581781
 CanvasRenderer:
@@ -319,9 +324,9 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

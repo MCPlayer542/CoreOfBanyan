@@ -169,7 +169,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (s.LBmap[cur.x][cur.y].mFruit != null)
         {
             float fruitEnergy=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
-            // mNumberBehavior.EatFruitNotice(fruitEnergy);
+            mNumberBehavior.EatFruitNotice(fruitEnergy);
             energy += fruitEnergy;
             Destroy(s.LBmap[cur.x][cur.y].mFruit);
             s.LBmap[cur.x][cur.y].mFruit = null;
