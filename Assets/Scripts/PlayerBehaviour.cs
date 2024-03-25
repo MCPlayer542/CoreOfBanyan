@@ -124,7 +124,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (opQueue.Empty()) return;
         Movable = false;*/
 
-        Debug.Log(pid+" TryMode: "+dir);
+        // Debug.Log(pid+" TryMode: "+dir);
         Vector2Int pre = curpos, cur = curpos + NeighborPos.Seek[dir];
 
         if (Time.time - last_move <= s.game_pace) return false;
