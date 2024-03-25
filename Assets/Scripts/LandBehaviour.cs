@@ -48,6 +48,7 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
+        if(ManageGameManager.isPause) return;
         if(isWall) return;
         Anchoring();
         if (owner == -1) return;

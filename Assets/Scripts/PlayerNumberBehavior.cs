@@ -18,7 +18,7 @@ public class PlayerNumberBehavior : MonoBehaviour
         mOldEnergyUI=transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         mEnergyUI=transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
         mGameServer=Camera.main.GetComponent<GameServer>();
-        mEnergyUI.color=Color.black;
+        mEnergyUI.color=Color.blue;
     }
     public void EatFruitNotice(float E){
         return;
@@ -66,10 +66,10 @@ public class PlayerNumberBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateEnergyUI();
         if (ManageGameManager.isPause) return;
         if (mPlayerBehaviour != null)
         {
-            UpdateEnergyUI();
             UpdateEatNoticeUI();
         }
     }

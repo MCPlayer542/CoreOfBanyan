@@ -31,7 +31,7 @@ public class FruitBehavior : MonoBehaviour
             Color v = blink_renderer.color;
             float dt = Time.time - spawn_time;
             if (dt - Mathf.Floor(dt) < 0.5) v.a = 0;
-            else v.a = 255;
+            else v.a = 1;
             blink_renderer.color = v;
         }
     }
