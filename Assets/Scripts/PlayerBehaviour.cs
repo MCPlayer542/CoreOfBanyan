@@ -48,6 +48,7 @@ public class PlayerBehaviour : MonoBehaviour
     private OPQ opQueue;
     Vector3 prev;
     public float last_move;
+    public PlayerNumberBehavior mNumberBehavior;
 
     public Neighbor anchoring = 0;
     // Start is called before the first frame update
@@ -65,6 +66,7 @@ public class PlayerBehaviour : MonoBehaviour
         s.LBmap[curpos.x][curpos.y].nearRoot = true;
         energy = 3;
         last_move = -s.game_pace;
+        mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
     }
     private const float S3_2 = 0.8660254f;
     Vector3 Linear(Vector3 a, Vector3 b, float t)
@@ -166,14 +168,16 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (s.LBmap[cur.x][cur.y].mFruit != null)
         {
+            float fruitEnergy=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
+            // mNumberBehavior.EatFruitNotice(fruitEnergy);
+            energy += fruitEnergy;
             Destroy(s.LBmap[cur.x][cur.y].mFruit);
-            energy += s.LBmap[cur.x][cur.y].GetFruitsEnergy();
             s.LBmap[cur.x][cur.y].mFruit = null;
         }
         if (s.LBmap[cur.x][cur.y].mPest != null)
         {
-            Destroy(s.LBmap[cur.x][cur.y].mPest);
             energy -= s.LBmap[cur.x][cur.y].GetPestsEnergy();
+            Destroy(s.LBmap[cur.x][cur.y].mPest);
             s.LBmap[cur.x][cur.y].mPest = null;
         }
         return true;

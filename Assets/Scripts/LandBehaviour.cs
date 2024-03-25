@@ -48,8 +48,6 @@ public class LandBehaviour : MonoBehaviour
     void Update()
     {
         Anchoring();
-
-
         if (owner == -1) return;
         if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime;
         if (nearRoot) hp += Constant1 * Time.smoothDeltaTime;

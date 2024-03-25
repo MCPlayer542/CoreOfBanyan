@@ -36,7 +36,6 @@ public class GameServer : MonoBehaviour
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
   public List<VJoystickBehavior> vjoysticks = new();
-  float timeKeeper;
   public float game_pace = 1f / 3f;
   public void Awake()
   {
@@ -98,7 +97,6 @@ public class GameServer : MonoBehaviour
       sr.sprite = sqrt;
     }
     Camera.main.AddComponent<PestAndFruitProducer>();
-    timeKeeper = 0;
   }
   void Update()
   {
