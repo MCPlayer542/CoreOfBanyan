@@ -8,22 +8,20 @@ public class PlayerNumberBehavior : MonoBehaviour
     // Start is called before the first frame update
     public PlayerBehaviour mPlayerBehaviour;
     public GameServer mGameServer;
-    public TMP_Text mEnergyUI;
-    public TMP_Text mEatFruitUI;
+    public TMP_Text mOldEnergyUI,mEnergyUI,mEatFruitUI;
     float eatTime;
-    float sizeOfFontEnergyUI = 0.5f;
+    float sizeOfFontOldEnergyUI = 0.5f,sizeOfFontEnergyUI=0.3f;
     float sizeOfFontEatFruitNotice = 0.3f;
     void Start()
     {
         mPlayerBehaviour=gameObject.GetComponent<PlayerBehaviour>();
-        mEnergyUI=transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        mEatFruitUI=transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
+        mOldEnergyUI=transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        mEnergyUI=transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
         mGameServer=Camera.main.GetComponent<GameServer>();
-        Color c=mEatFruitUI.color;
-        c.a=0;
-        mEatFruitUI.color=c;
+        mEnergyUI.color=Color.black;
     }
     public void EatFruitNotice(float E){
+        return;
         var t = mEatFruitUI;
         eatTime=Time.time;
         t.text="+"+(int)E;
@@ -36,6 +34,7 @@ public class PlayerNumberBehavior : MonoBehaviour
         t.fontSize = sizeOfFontEatFruitNotice * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
     void UpdateEatNoticeUI(){
+        return;
         if(Time.time-eatTime>mGameServer.game_pace*1.5f){
             Color c=mEatFruitUI.color;
             c.a=0;
@@ -49,16 +48,20 @@ public class PlayerNumberBehavior : MonoBehaviour
     void UpdateEnergyUI(){
         var p = mPlayerBehaviour;
         var t = mEnergyUI;
+        //t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
+        t.text = ""+(long)p.energy;
+        Vector3 v=mPlayerBehaviour.transform.position;
+        v.y+=0.3f;
+        t.transform.position= RectTransformUtility.WorldToScreenPoint(Camera.main,v);
         t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
-        t.text = "E" + (p.pid + 1) + ": " + (long)p.energy;
-        if (p.pid == 0)
+        /*if (p.pid == 0)
         {
             t.rectTransform.localPosition = new Vector2(-Screen.width / 2 + t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
         }
         else
         {
             t.rectTransform.localPosition = new Vector2(Screen.width / 2 - t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
-        }
+        }*/
     }
     // Update is called once per frame
     void Update()
