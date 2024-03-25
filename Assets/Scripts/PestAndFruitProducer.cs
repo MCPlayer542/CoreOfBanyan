@@ -59,7 +59,7 @@ public class PestAndFruitProducer : MonoBehaviour
                         t.mFruit.GetComponent<FruitBehavior>().owner = t;
                         var v = t.transform.localPosition;
                         v.z = -3;
-                        v.y += 0.2f;
+                        v.y += 0.3f;
                         t.mFruit.transform.localPosition = v;
                     }
                 }
