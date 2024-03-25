@@ -99,7 +99,7 @@ public class GameServer : MonoBehaviour
     }
     Camera.main.AddComponent<PestAndFruitProducer>();
 
-    wallList = new(){new(1,1),new(4,5),new(1,4),new(9,9),new(7,2),new(4,4),new(3,5)};
+    wallList = new(){};
     foreach(var p in wallList){
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
@@ -207,7 +207,7 @@ public class GameServer : MonoBehaviour
 
   void UpdateControlKeyCode()
   {
-    keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Q, KeyCode.E));
+    keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
     keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
 
   }

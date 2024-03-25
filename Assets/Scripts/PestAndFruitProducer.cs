@@ -38,8 +38,9 @@ public class PestAndFruitProducer : MonoBehaviour
                         spawn_disabled |= mGameServer.players[k].curpos == p;
                     }
                     if (mGameServer.LBmap[i][j].owner != -1) spawn_disabled |= new Vector2Int(i, j) == mGameServer.PosToCell(mGameServer.bornPos[mGameServer.LBmap[i][j].owner]);
-                    if (!spawn_disabled && Random.Range(0f, 1f) < PestsProbability * Time.smoothDeltaTime)
+                    if (!spawn_disabled && Random.Range(0f, 1f) < PestsProbability * Time.smoothDeltaTime&&mGameServer.players[mGameServer.LBmap[i][j].owner].PestNumber<n)
                     {
+                        mGameServer.players[mGameServer.LBmap[i][j].owner].PestNumber++;
                         var t = mGameServer.LBmap[i][j];
                         t.mPest = Instantiate(Resources.Load("Pest") as GameObject);
                         var v = t.transform.localPosition;

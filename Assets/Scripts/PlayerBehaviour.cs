@@ -39,6 +39,7 @@ class OPQ
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public int PestNumber;
     public bool Movable;
     public int pid;
     public float speed;
@@ -67,6 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
         energy = 3;
         last_move = -s.game_pace;
         mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
+        PestNumber=0;
     }
     private const float S3_2 = 0.8660254f;
     Vector3 Linear(Vector3 a, Vector3 b, float t)
@@ -178,6 +180,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (s.LBmap[cur.x][cur.y].mPest != null)
         {
             energy -= s.LBmap[cur.x][cur.y].GetPestsEnergy();
+            PestNumber--;
             Destroy(s.LBmap[cur.x][cur.y].mPest);
             s.LBmap[cur.x][cur.y].mPest = null;
         }
