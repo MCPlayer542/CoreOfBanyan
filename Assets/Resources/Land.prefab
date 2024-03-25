@@ -301,6 +301,7 @@ MonoBehaviour:
   mPest: {fileID: 0}
   mFruit: {fileID: 0}
   isRoot: 0
+  isWall: 0
   anchorObject: {fileID: 0}
 --- !u!114 &2503207497854067933
 MonoBehaviour:
@@ -549,8 +550,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 3
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b438d7008c09f9f4499c430af6905aa6, type: 2}
-  m_sharedMaterial: {fileID: 3451045709443019363, guid: b438d7008c09f9f4499c430af6905aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d1df4fb68a4ef3847a09ee85f8c708ad, type: 2}
+  m_sharedMaterial: {fileID: 857228816178602159, guid: d1df4fb68a4ef3847a09ee85f8c708ad, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

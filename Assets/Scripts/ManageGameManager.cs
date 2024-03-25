@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,6 +12,7 @@ public class ManageGameManager : MonoBehaviour
 
     GameServer s = null;
     public static bool isPause = true;
+    public List<GameObject> displayObjects = new();
     void Start()
     {
 
@@ -129,5 +132,31 @@ public class ManageGameManager : MonoBehaviour
         if (isPause) return false;
         return Input.GetKeyDown(k);
     }
+
+    public void ChangeDisplayStatus(int sid)
+    {
+        foreach (var d in displayObjects)
+        {
+            var r = d.transform;
+            for (int i = 0; i < r.childCount; ++i)
+            {
+                r.GetChild(i).GetChild(0).GetComponent<Canvas>().enabled = false;
+            }
+        }
+        if (sid == -1)
+        {
+            NewGame();
+        }
+        if (sid < 0)
+        {
+            return;
+        }
+        var R = displayObjects[sid].transform;
+        for (int i = 0; i < R.childCount; ++i)
+        {
+            R.GetChild(sid).GetChild(0).GetComponent<Canvas>().enabled = true;
+        }
+    }
+
 
 }
