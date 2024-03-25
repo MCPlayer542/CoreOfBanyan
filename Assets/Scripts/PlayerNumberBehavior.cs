@@ -8,51 +8,55 @@ public class PlayerNumberBehavior : MonoBehaviour
     // Start is called before the first frame update
     public PlayerBehaviour mPlayerBehaviour;
     public GameServer mGameServer;
-    public TMP_Text mOldEnergyUI,mEnergyUI,mEatFruitUI;
+    public TMP_Text mOldEnergyUI, mEnergyUI, mEatFruitUI;
     float eatTime;
-    float sizeOfFontOldEnergyUI = 0.5f,sizeOfFontEnergyUI=0.3f;
+    float sizeOfFontOldEnergyUI = 0.5f, sizeOfFontEnergyUI = 0.3f;
     float sizeOfFontEatFruitNotice = 0.3f;
     void Start()
     {
-        mPlayerBehaviour=gameObject.GetComponent<PlayerBehaviour>();
-        mOldEnergyUI=transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        mEnergyUI=transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
-        mGameServer=Camera.main.GetComponent<GameServer>();
-        mEnergyUI.color=Color.black;
+        mPlayerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
+        mOldEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        mEnergyUI = transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
+        mGameServer = Camera.main.GetComponent<GameServer>();
+        mEnergyUI.color = Color.black;
     }
-    public void EatFruitNotice(float E){
+    public void EatFruitNotice(float E)
+    {
         return;
         var t = mEatFruitUI;
-        eatTime=Time.time;
-        t.text="+"+(int)E;
-        Vector3 p=mPlayerBehaviour.transform.position;
-        p.y+=0.3f;
-        Color c=mEatFruitUI.color;
-        c.a=1;
-        mEatFruitUI.color=c;
-        transform.GetChild(0).GetChild(1).GetComponent<Transform>().position= RectTransformUtility.WorldToScreenPoint(Camera.main, p);
+        eatTime = Time.time;
+        t.text = "+" + (int)E;
+        Vector3 p = mPlayerBehaviour.transform.position;
+        p.y += 0.3f;
+        Color c = mEatFruitUI.color;
+        c.a = 1;
+        mEatFruitUI.color = c;
+        transform.GetChild(0).GetChild(1).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
         t.fontSize = sizeOfFontEatFruitNotice * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
-    void UpdateEatNoticeUI(){
+    void UpdateEatNoticeUI()
+    {
         return;
-        if(Time.time-eatTime>mGameServer.game_pace*1.5f){
-            Color c=mEatFruitUI.color;
-            c.a=0;
-            mEatFruitUI.color=c;
+        if (Time.time - eatTime > mGameServer.game_pace * 1.5f)
+        {
+            Color c = mEatFruitUI.color;
+            c.a = 0;
+            mEatFruitUI.color = c;
             return;
         }
-        Vector3 p=mPlayerBehaviour.transform.position;
-        p.y+=0.3f;
-        transform.GetChild(0).GetChild(1).GetComponent<Transform>().position= RectTransformUtility.WorldToScreenPoint(Camera.main,p);
+        Vector3 p = mPlayerBehaviour.transform.position;
+        p.y += 0.3f;
+        transform.GetChild(0).GetChild(1).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
     }
-    void UpdateEnergyUI(){
+    void UpdateEnergyUI()
+    {
         var p = mPlayerBehaviour;
         var t = mEnergyUI;
         //t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
-        t.text = ""+(long)p.energy;
-        Vector3 v=mPlayerBehaviour.transform.position;
-        v.y+=0.3f;
-        t.transform.position= RectTransformUtility.WorldToScreenPoint(Camera.main,v);
+        t.text = "" + (long)p.energy;
+        Vector3 v = mPlayerBehaviour.transform.position;
+        v.y += 0.3f;
+        t.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, v);
         t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
         /*if (p.pid == 0)
         {
