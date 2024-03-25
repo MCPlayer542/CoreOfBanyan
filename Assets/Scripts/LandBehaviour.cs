@@ -69,7 +69,8 @@ public class LandBehaviour : MonoBehaviour
     {
         var cur = s.PosToCell(transform.position);
         if (owner != -1) s.ChangeNeighborOfNeighbor(cur.x, cur.y, new_neighbor);
-        s.players[owner].PestNumber--;
+        if(mPest!=null)
+            s.players[owner].PestNumber--;
         Destroy(mPest);
         Destroy(mFruit);
         mPest = null;

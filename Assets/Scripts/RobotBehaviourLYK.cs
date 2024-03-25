@@ -25,7 +25,7 @@ public class RobotBehaviourLYK : MonoBehaviour
             return;
         }
         int dir = Left;
-        find_near_min_dir();
+        // find_near_min_dir();
         if(self.TryMove(dir))
             last_move = Time.time;
     }
