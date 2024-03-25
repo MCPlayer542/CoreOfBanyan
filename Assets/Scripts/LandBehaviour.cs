@@ -34,6 +34,7 @@ public class LandBehaviour : MonoBehaviour
     public GameObject mPest = null;
     public GameObject mFruit = null;
     public bool isRoot = false;
+    public bool isWall = false;
 
     void Awake()
     {
@@ -47,6 +48,7 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
+        if(isWall) return;
         Anchoring();
         if (owner == -1) return;
         if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime;

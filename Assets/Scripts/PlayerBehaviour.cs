@@ -129,6 +129,7 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         if (s.OutOfScreen(cur)) return false;
+        if (s.LBmap[cur.x][cur.y].isWall) return false;
 
 
         Vector3 p = s.LBmap[cur.x][cur.y].transform.position;
