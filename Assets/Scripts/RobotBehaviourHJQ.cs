@@ -15,8 +15,8 @@ public class NodeInformation : IComparable<NodeInformation>{
     public double Energy;
     public bool vis;
     public void Init(){
-        cur=new();
-        pre=new();
+        cur.x=0;cur.y=0;
+        pre.x=0;pre.y=0;
         Dist=0;
         Energy=1e6;
         vis=false;
@@ -63,14 +63,16 @@ public class RobotBehaviourHJQ : MonoBehaviour
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
                     NodeMap[i][j].Init();
-                    NodeMap[i][j].cur=new(i,j);
+                    NodeMap[i][j].cur.x=i;
+                    NodeMap[i][j].cur.y=j;
                 }
             }
         }
     }
+    public Queue<Vector2Int> q=new();
     void BFS(Vector2Int St,int pid){
         InitNodeMap();
-        Queue<Vector2Int> q = new();
+        q.Clear();
         q.Enqueue(St);
         NodeMap[St.x][St.y].vis=true;
         NodeMap[St.x][St.y].Energy=0;
@@ -100,7 +102,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     }
     Vector2Int GetConnect(double E){
         Vector2Int pos=new(114514,114514);
-        int dis=E<5?1:4;
+        int dis=E<5?1:n/3*2;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
@@ -116,7 +118,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     }
     Vector2Int GetCapture(double E){
         Vector2Int pos=new(114514,114514);
-        int dis=E<5?1:2;
+        int dis=E<5?1:n/2;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
@@ -182,9 +184,6 @@ public class RobotBehaviourHJQ : MonoBehaviour
     }
     int GetDirection(Vector2Int p){
         Vector2Int pnow=mPlayer.curpos;
-        int x=pnow.x,y=pnow.y;
-        LandBehaviour a=s.LBmap[x][y];
-        List<Vector2> b=new();
         while(NodeMap[p.x][p.y].pre!=pnow)p=NodeMap[p.x][p.y].pre;
         if (pnow + NeighborPos.Left == p) return (int)DirID.LeftID;
         if (pnow + NeighborPos.Right == p) return (int)DirID.RightID;
@@ -234,7 +233,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         for(int i=0;i<s.PlayerNumber;i++){
             if(i==mPlayer.pid)continue;
             BFS(s.players[i].curpos,i);
-            if(s.players[i].energy>NodeMap[bp.x][bp.y].Energy*2f)return -1;
+            // if(s.players[i].energy>NodeMap[bp.x][bp.y].Energy*2f)return -1;
             if(NodeMap[bp.x][bp.y].Dist<=3&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy)return -1;
         }
         BFS(mPlayer.curpos,mPlayer.pid);
@@ -282,7 +281,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     void Update()
     {
         if(ManageGameManager.isPause)return;
-        if(Time.time-lastUpdate<s.game_pace*0.5f)return;
+        if(Time.time-lastUpdate<s.game_pace*1.1f)return;
         lastUpdate=Time.time;
         int Status=GetDir();
         if(Status==-1)ReturnRoot(mPlayer.pid);
