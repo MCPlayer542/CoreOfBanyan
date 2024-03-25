@@ -131,7 +131,7 @@ Transform:
   m_GameObject: {fileID: 6827371779498110885}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 397.77484, y: -107.20268, z: 0}
+  m_LocalPosition: {x: 472.68433, y: 29.396957, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73341516015e7f24cb2ed831a32fb4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PestNumber: 0
   Movable: 0
   pid: 0
   speed: 0
@@ -224,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mPlayerBehaviour: {fileID: 0}
   mGameServer: {fileID: 0}
+  mOldEnergyUI: {fileID: 0}
   mEnergyUI: {fileID: 0}
   mEatFruitUI: {fileID: 0}
 --- !u!1 &7484856986082039845
@@ -260,7 +262,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -114514, y: -114514}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4114551334941581781
