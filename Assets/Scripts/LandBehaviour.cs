@@ -35,6 +35,7 @@ public class LandBehaviour : MonoBehaviour
     public GameObject mFruit = null;
     public bool isRoot = false;
     public bool isWall = false;
+    public AudioSource capture_root,pest_death,fruit_gain;
 
     void Awake()
     {
@@ -65,10 +66,15 @@ public class LandBehaviour : MonoBehaviour
 
     public void Captured(int new_owner, Neighbor new_neighbor, float new_hp)
     {
+        if(isRoot) capture_root.Play();
         var cur = s.PosToCell(transform.position);
         if (owner != -1) s.ChangeNeighborOfNeighbor(cur.x, cur.y, new_neighbor);
         if(mPest!=null)
+        {
+            pest_death.Play();
             s.players[owner].PestNumber--;
+        }
+        if(mFruit!=null) fruit_gain.Play();
         Destroy(mPest);
         Destroy(mFruit);
         mPest = null;

@@ -322,6 +322,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         for (int i = 0; i < s.PlayerNumber; i++)
         {
             if (i == pid) continue;
+            if(!s.players[i].alive)continue;
             Vector2Int p = s.PosToCell(s.bornPos[i]);
             bool NearRoot = s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot;
             if ((!NearRoot && E > NodeMap[p.x][p.y].Energy * 1.5f) || (NearRoot && E > NodeMap[p.x][p.y].Energy))
