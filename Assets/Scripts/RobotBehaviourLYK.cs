@@ -86,10 +86,8 @@ public class RobotBehaviourLYK : MonoBehaviour
                 if(dis.ContainsKey(nxt)) continue;
                 if(s.OutOfScreen(nxt)) continue;
                 var nxtb = s.LBmap[nxt.x][nxt.y];
-                if(nxtb.owner != self.pid){
-                    if(nxt==b) return dis[cur]+1;
-                }
-                else{
+                if(nxt==b) return dis[cur]+1;
+                if(nxtb.owner==self.pid){
                     if(((int)s.LBmap[cur.x][cur.y].neighbor&(1<<i))==0)  continue;
                     dis[nxt]=dis[cur]+1;
                     q.Enqueue(nxt);
