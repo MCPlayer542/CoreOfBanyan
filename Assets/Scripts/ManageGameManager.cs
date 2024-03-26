@@ -130,6 +130,7 @@ public class ManageGameManager : MonoBehaviour
     public static bool GetKeyDown(KeyCode k)
     {
         if (isPause) return false;
+        if (k==0) return false;
         return Input.GetKeyDown(k);
     }
 

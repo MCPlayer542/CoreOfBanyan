@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,14 +31,18 @@ public class GameServer : MonoBehaviour
   public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
-  public static int n = 5;
-  public int PlayerNumber = 2;
+  public static int n = 10;
+  public int PlayerNumber = 6;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
   public List<VJoystickBehavior> vjoysticks = new();
   public List<Vector2Int> wallList = new();
+  public List<Color> colors = new();
   public float game_pace = 1f / 3f;
+  Vector3 CellToPos(int x,int y){ //res.z=-4 for player
+    return new(0.5f*(x+y),0.866025f*(x-y),-4);
+  }
   public void Awake()
   {
     LandBehaviour.s = this;
@@ -50,9 +55,15 @@ public class GameServer : MonoBehaviour
     bornPos.Clear();
     bornPos.Add(new(0, 0, -4));
     bornPos.Add(new(2 * n, 0, -4));
+    bornPos.Add(CellToPos(n, 0));
+    bornPos.Add(CellToPos(0, n));
+    bornPos.Add(CellToPos(2 * n, n));
+    bornPos.Add(CellToPos(n, 2 * n));
     keySet.Clear();
     ControlType = 0;
     UpdateControlKeyCode();
+    for(int i=0;i<PlayerNumber;++i)
+      colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
 
     map.Clear();
     LBmap.Clear();
@@ -104,8 +115,12 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    // players[0].AddComponent<RobotBehaviourHJQ>();
+    players[0].AddComponent<RobotBehaviourLYK>();
     players[1].AddComponent<RobotBehaviourLYK>();
+    players[2].AddComponent<RobotBehaviourLYK>();
+    players[3].AddComponent<RobotBehaviourLYK>();
+    players[4].AddComponent<RobotBehaviourLYK>();
+    players[5].AddComponent<RobotBehaviourLYK>();
   }
   void Update()
   {
@@ -211,7 +226,10 @@ public class GameServer : MonoBehaviour
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
     keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
-
+    keySet.Add(new(0,0,0,0,0,0));
+    keySet.Add(new(0,0,0,0,0,0));
+    keySet.Add(new(0,0,0,0,0,0));
+    keySet.Add(new(0,0,0,0,0,0));
   }
 
   public void EndGame()

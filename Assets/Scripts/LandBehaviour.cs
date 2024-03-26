@@ -26,7 +26,6 @@ public class LandBehaviour : MonoBehaviour
 {
     const float k3 = 0.5f;
     public static GameServer s;
-    public List<Color> colors;
     // Start is called before the first frame update
     public int owner;
     public double hp;
@@ -41,7 +40,6 @@ public class LandBehaviour : MonoBehaviour
     {
         owner = -1;
         hp = 1;
-        colors = new() { Color.green, Color.red };
         neighbor = 0;
     }
 
@@ -85,7 +83,7 @@ public class LandBehaviour : MonoBehaviour
         if (owner == -1) transform.GetChild(6).GetComponent<SpriteRenderer>().color = Color.white;
         else
         {
-            Color PointColor = colors[owner];
+            Color PointColor = s.colors[owner];
             if (isRoot)
             {
                 PointColor *= 0.8f;
@@ -95,13 +93,13 @@ public class LandBehaviour : MonoBehaviour
         }
         for (int i = 0; i < 6; ++i)
         {
-            SpriteRenderer s = transform.GetChild(i).GetComponent<SpriteRenderer>();
+            SpriteRenderer SR = transform.GetChild(i).GetComponent<SpriteRenderer>();
             if (((int)neighbor & (1 << i)) == 0)
-                s.color = Color.white;
+                SR.color = Color.white;
             else
             {
-                if (owner == -1) s.color = Color.white;
-                else s.color = colors[owner];
+                if (owner == -1) SR.color = Color.white;
+                else SR.color = s.colors[owner];
             }
         }
     }
@@ -126,7 +124,7 @@ public class LandBehaviour : MonoBehaviour
                 var a = i.anchoring;
                 if (a == Neighbor.None) break;
                 var g = Instantiate(Resources.Load("Neighbor") as GameObject);
-                Color arrowColor = colors[i.pid];
+                Color arrowColor = s.colors[i.pid];
                 arrowColor *= 0.4f;
                 arrowColor.a = 1f;
                 g.GetComponent<SpriteRenderer>().color = arrowColor;
