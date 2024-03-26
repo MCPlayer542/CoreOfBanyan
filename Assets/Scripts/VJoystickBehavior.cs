@@ -31,6 +31,7 @@ public class VJoystickBehavior : MonoBehaviour
     void Update()
     {
         if (GameServer.GameOverFlag) return;
+        if (!s.players[pid].alive) return;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
         if (ManageGameManager.GetKey(s.keySet[pid].Up)) ty++;
