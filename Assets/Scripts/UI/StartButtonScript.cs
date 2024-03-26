@@ -15,6 +15,7 @@ public class StartButtonScript : MonoBehaviour
     {
         if (transform.gameObject.GetComponent<ClickScript>().isCollision() && Input.GetMouseButtonDown(0))
         {
+            Camera.main.GetComponent<ManageGameManager>().EndGame();
             Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { });
             Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(null);
         }
