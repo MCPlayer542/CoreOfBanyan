@@ -55,17 +55,17 @@ public class RobotBehaviourLYK : MonoBehaviour
         for(int i=0;i<6;++i){
             var taim = self.curpos+NeighborPos.Seek[i];
             if(s.OutOfScreen(taim)) continue;
-            if(s.LBmap[taim.x][taim.y].owner == self.pid)
+            if(s.LBmap[taim.x][taim.y].owner == self.pid && s.LBmap[taim.x][taim.y].nearPlayer)
                 if(((int)s.LBmap[self.curpos.x][self.curpos.y].neighbor&(1<<i))==0)
                     continue;
             if(Calc_dis(self.curpos,p)==Calc_dis(taim,p)+1){
                 dir = i;
             }
         }
-        // Debug.Log(p);
-        // Debug.Log(self.curpos);
+        Debug.Log(p);
+        Debug.Log(self.curpos);
         // Debug.Log(s.LBmap[self.curpos.x][self.curpos.y].owner);
-        // Debug.Log(Calc_dis(self.curpos,p));
+        Debug.Log(Calc_dis(self.curpos,p));
         // Debug.Log(Calc_dis(p,self.curpos+NeighborPos.Seek[dir]));
         if(self.TryMove(dir))
             last_move = Time.time;
