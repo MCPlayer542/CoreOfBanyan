@@ -2,26 +2,26 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-public class TutorialServer:GameServer
+public class TutorialServer : GameServer
 {
-    ManageGameManager gm=null;
+    ManageGameManager gm = null;
 
-    int level,stage;
-    TutorialTextBehavior text=null;
+    int level, stage;
+    TutorialTextBehavior text = null;
     new public void Awake()
     {
-        gm=GetComponent<ManageGameManager>();
-        level=gm.tutorial_level;
+        gm = GetComponent<ManageGameManager>();
+        level = gm.tutorial_level;
 
-        n=3;
-        PlayerNumber=level==4?1:2;
+        n = 3;
+        PlayerNumber = level == 4 ? 1 : 2;
 
         LandBehaviour.s = this;
         PlayerBehaviour.s = this;
         PestAndFruitProducer.mGameServer = this;
         VJoystickBehavior.s = this;
-        RobotBehaviourHJQ.s=this;
-        RobotBehaviourLYK.s=this;
+        RobotBehaviourHJQ.s = this;
+        RobotBehaviourLYK.s = this;
 
         FruitBehavior.life_time = 50 * game_pace;
         transform.position = new(n, 0, -10);
@@ -34,7 +34,7 @@ public class TutorialServer:GameServer
         keySet.Clear();
         ControlType = 0;
         UpdateControlKeyCode();
-        
+
         colors.Add(Color.green);
         colors.Add(Color.red);
         //for(int i=0;i<PlayerNumber;++i)
@@ -77,7 +77,8 @@ public class TutorialServer:GameServer
             vjoysticks[i].player = players[i];
             vjoysticks[i].transform.position = map[n][n].transform.position;
         }
-        for(int i=0;i<PlayerNumber;++i){
+        for (int i = 0; i < PlayerNumber; ++i)
+        {
             var p = PosToCell(bornPos[i]);
             var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
             var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
@@ -85,68 +86,69 @@ public class TutorialServer:GameServer
         }
         Camera.main.AddComponent<PestAndFruitProducer>();
 
-        wallList = new(){};
-        foreach(var p in wallList){
+        wallList = new() { };
+        foreach (var p in wallList)
+        {
             LBmap[p.x][p.y].isWall = true;
             map[p.x][p.y].SetActive(false);
         }
-        text=gameObject.AddComponent<TutorialTextBehavior>();
+        text = Instantiate(Resources.Load("UI/TutorialTextElement") as GameObject).GetComponent<TutorialTextBehavior>();
         TutorialInit();
     }
     void Update()
     {
-        if(TutorialFinished()) TutorialStart();
+        if (TutorialFinished()) TutorialStart();
     }
     void TutorialInit()
     {
-        switch(level)
+        switch (level)
         {
             case 1:
-            break;
+                break;
             case 2:
-            break;
+                break;
             case 3:
-            break;
+                break;
             case 4:
-            break;
+                break;
         }
-        stage=0;
+        stage = 0;
         TutorialStart();
     }
     void TutorialStart()
     {
         ++stage;
-        switch(level*10+stage)
+        switch (level * 10 + stage)
         {
             case 11:
                 text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果");
-            break;
+                break;
             case 12:
                 text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加");
-            break;
+                break;
             case 13:
                 text.SetText("现在同时按住D和W，进行斜向移动，吃掉场地角落的苹果；你也可以用WASD的其他组合来进行类似的斜向移动");
-            break;
+                break;
             case 14:
                 text.SetText("苹果在生成后一段时间会闪烁，不及时吃掉的话会消失");
-            break;
+                break;
             case 15:
                 gm.NewTutorial();
-            break;
+                break;
             case 25:
                 gm.NewTutorial();
-            break;
+                break;
             case 36:
                 gm.NewTutorial();
-            break;
+                break;
             case 44:
                 gm.NewTutorial();
-            break;
+                break;
         }
     }
     bool TutorialFinished()
     {
-        switch(level*10+stage)
+        switch (level * 10 + stage)
         {
             default:
                 return Input.GetKeyDown(KeyCode.Space);
@@ -155,10 +157,10 @@ public class TutorialServer:GameServer
     void UpdateControlKeyCode()
     {
         keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
-        keySet.Add(new(0,0,0,0,0,0));
-        keySet.Add(new(0,0,0,0,0,0));
-        keySet.Add(new(0,0,0,0,0,0));
-        keySet.Add(new(0,0,0,0,0,0));
-        keySet.Add(new(0,0,0,0,0,0));
+        keySet.Add(new(0, 0, 0, 0, 0, 0));
+        keySet.Add(new(0, 0, 0, 0, 0, 0));
+        keySet.Add(new(0, 0, 0, 0, 0, 0));
+        keySet.Add(new(0, 0, 0, 0, 0, 0));
+        keySet.Add(new(0, 0, 0, 0, 0, 0));
     }
 }

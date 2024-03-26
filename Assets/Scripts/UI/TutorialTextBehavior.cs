@@ -30,7 +30,7 @@ public class TutorialTextBehavior : MonoBehaviour
         return transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text;
     }
 
-    void End()
+    public void End()
     {
         Destroy(transform.gameObject);
     }
