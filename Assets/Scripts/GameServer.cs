@@ -40,6 +40,7 @@ public class GameServer : MonoBehaviour
   public List<Vector2Int> wallList = new();
   public List<Color> colors = new();
   public float game_pace = 1f / 3f;
+  public AudioSource end_game=null;
   Vector3 CellToPos(int x,int y){ //res.z=-4 for player
     return new(0.5f*(x+y),0.866025f*(x-y),-4);
   }
