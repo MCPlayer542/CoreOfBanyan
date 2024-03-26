@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 public class TutorialServer : GameServer
 {
-    new public static bool GameOverFlag = false;
     ManageGameManager gm = null;
 
     int level, stage;
@@ -15,7 +14,7 @@ public class TutorialServer : GameServer
         level = gm.tutorial_level;
 
         n = 3;
-        PlayerNumber = level == 4 ? 1 : 2;
+        PlayerNumber = level == 4 ? 2 : 1;
 
         LandBehaviour.s = this;
         PlayerBehaviour.s = this;
@@ -199,13 +198,13 @@ public class TutorialServer : GameServer
         keySet.Add(new(0, 0, 0, 0, 0, 0));
         keySet.Add(new(0, 0, 0, 0, 0, 0));
     }
-    new public void GameOver()
+    public override void GameOver()
     {
-        if (level == 4) GameOverFlag = true;
+        if (level == 4) base.GameOver();
     }
-    new public void EndGame()
+    public override void EndGame()
     {
-        Destroy(text);
+        Destroy(text.gameObject);
         base.EndGame();
     }
 }

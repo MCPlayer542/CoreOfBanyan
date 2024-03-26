@@ -18,7 +18,7 @@ public class TutorialButtonBehavior : MonoBehaviour
         {
             var t = Camera.main.GetComponent<ManageGameManager>();
             t.ChangeDisplayStatus(new() { });
-            t.tutorial_level = 1;
+            t.tutorial_level = 0;
             t.NewTutorial();
         }
     }
