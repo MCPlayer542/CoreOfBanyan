@@ -24,7 +24,7 @@ public class TutorialServer : GameServer
         RobotBehaviourLYK.s = this;
 
         FruitBehavior.life_time = 50 * game_pace;
-        if(level!=4) FruitBehavior.life_time=1000000;
+        if (level != 4) FruitBehavior.life_time = 1000000;
 
         transform.position = new(n, 0, -10);
         GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
@@ -86,7 +86,7 @@ public class TutorialServer : GameServer
             var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
             sr.sprite = sqrt;
         }
-        if(level==4) Camera.main.AddComponent<PestAndFruitProducer>();
+        if (level == 4) Camera.main.AddComponent<PestAndFruitProducer>();
 
         wallList = new() { };
         foreach (var p in wallList)
@@ -123,8 +123,8 @@ public class TutorialServer : GameServer
         switch (level * 10 + stage)
         {
             case 11:
-                LBmap[n][n].hp=100;
-                LBmap[n][n].owner=0;
+                LBmap[n][n].hp = 100;
+                LBmap[n][n].owner = 0;
                 LandBehaviour t = LBmap[n][n];
                 t.mFruit = Instantiate(Resources.Load("Fruit") as GameObject);
                 t.mFruit.GetComponent<FruitBehavior>().owner = t;
@@ -140,14 +140,14 @@ public class TutorialServer : GameServer
                 text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
                 break;
             case 13:
-                players[0].curpos=new Vector2Int(n,n);
-                players[0].transform.position=CellToPos(n,n);
-                LBmap[n][n].hp=100;
-                LBmap[n][n].owner=0;
+                players[0].curpos = new Vector2Int(n, n);
+                players[0].transform.position = CellToPos(n, n);
+                LBmap[n][n].hp = 100;
+                LBmap[n][n].owner = 0;
                 LBmap[n][n].ChangeImg();
-                LBmap[2*n][n].hp=100;
-                LBmap[2*n][n].owner=0;
-                t = LBmap[2*n][n];
+                LBmap[2 * n][n].hp = 100;
+                LBmap[2 * n][n].owner = 0;
+                t = LBmap[2 * n][n];
                 t.mFruit = Instantiate(Resources.Load("Fruit") as GameObject);
                 t.mFruit.GetComponent<FruitBehavior>().owner = t;
                 v = t.transform.localPosition;
@@ -213,13 +213,13 @@ public class TutorialServer : GameServer
         switch (level * 10 + stage)
         {
             case 11:
-                return LBmap[n][n].mFruit==null;
+                return LBmap[n][n].mFruit == null;
             case 13:
-                return LBmap[2*n][n].mFruit==null;
+                return LBmap[2 * n][n].mFruit == null;
             case 44:
                 return false;
             default:
-                return Input.GetKeyDown(KeyCode.Space);
+                return text.isPressed();
         }
     }
     void UpdateControlKeyCode()

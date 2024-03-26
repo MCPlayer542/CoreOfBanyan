@@ -13,8 +13,8 @@ public class ManageGameManager : MonoBehaviour
     GameServer s = null;
     public static bool isPause = true;
     public List<GameObject> displayObjects = new();
-    public AudioSource maintheme = null, ingame = null,end_game=null;
-    public int tutorial_level=0;
+    public AudioSource maintheme = null, ingame = null, end_game = null;
+    public int tutorial_level = 0;
     void Start()
     {
 
@@ -59,25 +59,25 @@ public class ManageGameManager : MonoBehaviour
 
     public void NewGame()
     {
-        tutorial_level=0;
+        tutorial_level = 0;
         EndGame();
         maintheme.Stop();
         ingame.Play();
         isPause = false;
         GameServer.GameOverFlag = false;
         s = Camera.main.AddComponent<GameServer>();
-        s.end_game=end_game;
+        s.end_game = end_game;
     }
     public void NewTutorial()
     {
         ++tutorial_level;
         EndGameButMusic();
         maintheme.Stop();
-        ingame.Play();
-        isPause=false;
-        GameServer.GameOverFlag=false;
-        s=Camera.main.AddComponent<TutorialServer>();
-        s.end_game=end_game;
+        if (!ingame.isPlaying) ingame.Play();
+        isPause = false;
+        GameServer.GameOverFlag = false;
+        s = Camera.main.AddComponent<TutorialServer>();
+        s.end_game = end_game;
     }
 
     public void EndGame()

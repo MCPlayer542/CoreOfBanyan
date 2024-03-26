@@ -1698,8 +1698,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 114514, y: 114514}
-  m_SizeDelta: {x: 1280, y: 709}
+  m_AnchoredPosition: {x: 265.6, y: -162.9}
+  m_SizeDelta: {x: 20, y: 13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5906498085259973928
 CanvasRenderer:
@@ -1729,7 +1729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: ddb1c9e9b7956a54e9a03c07afa99349, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -5577,8 +5577,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4340326a788d58c4c84020c41822231a, type: 2}
-  m_sharedMaterial: {fileID: -5169598222779117291, guid: 4340326a788d58c4c84020c41822231a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 93631816518b78544af4a41b77257506, type: 2}
+  m_sharedMaterial: {fileID: -9122421385254553386, guid: 93631816518b78544af4a41b77257506, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5836,7 +5836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 279.3, y: -162.3}
+  m_AnchoredPosition: {x: 307.6, y: -162.3}
   m_SizeDelta: {x: 300000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3830844170590290107
@@ -5867,7 +5867,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press enter to continue
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d1df4fb68a4ef3847a09ee85f8c708ad, type: 2}
   m_sharedMaterial: {fileID: 857228816178602159, guid: d1df4fb68a4ef3847a09ee85f8c708ad, type: 2}
@@ -6552,7 +6552,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1010
+  m_SortingOrder: 1003
   m_TargetDisplay: 0
 --- !u!114 &6488733962906114213
 MonoBehaviour:
@@ -6567,7 +6567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 6000
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
