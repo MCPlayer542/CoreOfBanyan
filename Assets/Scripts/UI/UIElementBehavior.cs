@@ -15,7 +15,7 @@ public class UIElementBehavior : MonoBehaviour
 
     }
 
-    static float Width = 600, Height = 400;
+    public static float Width = 600, Height = 400;
 
     static float cursorFloat = 30;
 
