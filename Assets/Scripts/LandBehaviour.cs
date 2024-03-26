@@ -52,8 +52,8 @@ public class LandBehaviour : MonoBehaviour
         if(isWall) return;
         Anchoring();
         if (owner == -1) return;
-        if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime;
-        if (nearRoot) hp += Constant1 * Time.smoothDeltaTime;
+        if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime * s.players[owner].KillCount;
+        if (nearRoot) hp += Constant1 * Time.smoothDeltaTime * s.players[owner].KillCount;
         else hp -= Constant2 * Time.smoothDeltaTime;
         if (mPest != null) hp -= Constant3 * Time.smoothDeltaTime;
 

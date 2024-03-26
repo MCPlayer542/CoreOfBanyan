@@ -56,6 +56,7 @@ public class PlayerBehaviour : MonoBehaviour
     public AudioSource fast_return;
     public bool alive = true;
     public Neighbor anchoring = 0;
+    public int KillCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -165,6 +166,7 @@ public class PlayerBehaviour : MonoBehaviour
                     s.LBmap[cur.x][cur.y].isRoot=false;
                     s.UpdateMap();
                     s.players[i].gameObject.SetActive(false);
+                    KillCount++;
                 }
             }
             int alivePlayerNumber=0;
