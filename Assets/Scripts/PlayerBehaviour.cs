@@ -167,6 +167,10 @@ public class PlayerBehaviour : MonoBehaviour
                 if(cur==s.PosToCell(s.bornPos[i])){
                     s.players[i].alive =false;
                     s.LBmap[cur.x][cur.y].isRoot=false;
+                    var sr = s.map[cur.x][cur.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
+                    var round = Resources.Load<Sprite>("Textures/node");
+                    sr.sprite = round;
+                    s.LBmap[cur.x][cur.y].ChangeImg();
                     s.UpdateMap();
                     s.players[i].gameObject.SetActive(false);
                     KillCount++;
