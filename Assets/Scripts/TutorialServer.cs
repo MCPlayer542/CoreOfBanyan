@@ -121,7 +121,7 @@ public class TutorialServer : GameServer
         switch (level * 10 + stage)
         {
             case 11:
-                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果！");
+                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！");
             break;
             case 12:
                 text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
@@ -204,7 +204,8 @@ public class TutorialServer : GameServer
     }
     public override void EndGame()
     {
-        Destroy(text.gameObject);
         base.EndGame();
+        Destroy(text.gameObject);
+        Destroy(Camera.main.GetComponent<TutorialServer>());
     }
 }
