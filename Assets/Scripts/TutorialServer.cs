@@ -122,23 +122,23 @@ public class TutorialServer : GameServer
         switch (level * 10 + stage)
         {
             case 11:
-                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果");
-                break;
+                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果！");
+            break;
             case 12:
-                text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加");
-                break;
+                text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
+            break;
             case 13:
-                text.SetText("现在同时按住D和W，进行斜向移动，吃掉场地角落的苹果；你也可以用WASD的其他组合来进行类似的斜向移动");
-                break;
+                text.SetText("现在同时按住D和W，进行斜向移动，吃掉场地角落的苹果；你也可以用WASD的其他组合来进行类似的斜向移动！");
+            break;
             case 14:
-                text.SetText("苹果在生成后一段时间会闪烁，不及时吃掉的话会消失");
-                break;
+                text.SetText("苹果在生成后一段时间会闪烁，不及时吃掉的话会消失！");
+            break;
             case 15:
                 gm.NewTutorial();
                 break;
             case 21:
-                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的");
-                break;
+                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的！");
+            break;
             case 22:
                 text.SetText("你有没有注意到被害虫侵袭的树枝上的数字减少了？树枝上的黑色数字代表坚固性，害虫会啃食你的枝干，减少到1后会断开，注意及时清理！");
                 break;
@@ -155,29 +155,29 @@ public class TutorialServer : GameServer
                 text.SetText("噢不！你现在和根断开了！你头上的创造力会变成红色，并不再自动增加，脚下树枝的坚固值也在逐渐流失！");
                 break;
             case 32:
-                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长");
-                break;
+                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长！");
+            break;
             case 33:
                 text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！");
                 break;
             case 34:
-                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝");
-                break;
+                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝！");
+            break;
             case 35:
-                text.SetText("根非常重要，它是你的一切能量来源。和树根连通的树枝越多，你的创造力增长就越快，同时只有与根连通的地方才会结果或生虫");
-                break;
+                text.SetText("根非常重要，它是你的一切能量来源。和树根连通的树枝越多，你的创造力增长就越快，同时只有与根连通的地方才会结果或生虫！");
+            break;
             case 36:
                 gm.NewTutorial();
                 break;
             case 41:
-                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上将它的树枝占领");
-                break;
+                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上来占领它！");
+            break;
             case 42:
-                text.SetText("它被我们打回根了!现在我们去占领它的根，消灭它吧");
-                break;
+                text.SetText("它被我们打回根了！现在我们去占领它的根，消灭它吧！");
+            break;
             case 43:
-                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了");
-                break;
+                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了！");
+            break;
         }
     }
     bool TutorialFinished()
