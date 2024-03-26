@@ -62,8 +62,8 @@ public class ManageGameManager : MonoBehaviour
         maintheme.Stop();
         ingame.Play();
         isPause = false;
-        s = Camera.main.AddComponent<GameServer>();
         GameServer.GameOverFlag = false;
+        s = Camera.main.AddComponent<GameServer>();
     }
 
     public void EndGame()
@@ -167,7 +167,6 @@ public class ManageGameManager : MonoBehaviour
         }
         if (lsid == null)
         {
-            EndGame();
             NewGame();
             maintheme.Stop();
             return;

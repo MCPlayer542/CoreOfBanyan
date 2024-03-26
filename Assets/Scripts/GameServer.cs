@@ -40,8 +40,9 @@ public class GameServer : MonoBehaviour
   public List<Vector2Int> wallList = new();
   public List<Color> colors = new();
   public float game_pace = 1f / 3f;
-  Vector3 CellToPos(int x,int y){ //res.z=-4 for player
-    return new(0.5f*(x+y),0.866025f*(x-y),-4);
+  Vector3 CellToPos(int x, int y)
+  { //res.z=-4 for player
+    return new(0.5f * (x + y), 0.866025f * (x - y), -4);
   }
   public void Awake()
   {
@@ -49,6 +50,7 @@ public class GameServer : MonoBehaviour
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
     VJoystickBehavior.s = this;
+    RobotBehaviourHJQ.s = this;
     FruitBehavior.life_time = 50 * game_pace;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
@@ -62,8 +64,8 @@ public class GameServer : MonoBehaviour
     keySet.Clear();
     ControlType = 0;
     UpdateControlKeyCode();
-    for(int i=0;i<PlayerNumber;++i)
-      colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
+    for (int i = 0; i < PlayerNumber; ++i)
+      colors.Add(new(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
 
     map.Clear();
     LBmap.Clear();
@@ -101,7 +103,8 @@ public class GameServer : MonoBehaviour
       vjoysticks[i].player = players[i];
       vjoysticks[i].transform.position = map[n][n].transform.position;
     }
-    for(int i=0;i<PlayerNumber;++i){
+    for (int i = 0; i < PlayerNumber; ++i)
+    {
       var p = PosToCell(bornPos[i]);
       LBmap[p.x][p.y].isRoot = true;
       var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
@@ -110,8 +113,9 @@ public class GameServer : MonoBehaviour
     }
     Camera.main.AddComponent<PestAndFruitProducer>();
 
-    wallList = new(){};
-    foreach(var p in wallList){
+    wallList = new() { };
+    foreach (var p in wallList)
+    {
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
@@ -225,11 +229,11 @@ public class GameServer : MonoBehaviour
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
     //keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
   }
 
   public void EndGame()
