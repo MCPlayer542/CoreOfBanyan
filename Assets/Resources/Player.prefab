@@ -218,6 +218,7 @@ MonoBehaviour:
   alive: 1
   anchoring: 0
   isRobot: 0
+  KillCount: 0
 --- !u!114 &8445131304685689185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +343,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2a15b54d8e66ef94f85c04eef398a5d3, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -438,7 +439,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5842d580dcdd647458aa5fab73083f0e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -69,6 +69,7 @@ public class PlayerBehaviour : MonoBehaviour
         energy = 114514; //big enough
         TryCapture(bornLand, bornLand, curpos, curpos);
         s.LBmap[curpos.x][curpos.y].hp = 50;
+        s.LBmap[curpos.x][curpos.y].isRoot = true;
         s.LBmap[curpos.x][curpos.y].nearPlayer = true;
         s.LBmap[curpos.x][curpos.y].nearRoot = true;
         energy = 3;

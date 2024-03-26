@@ -103,7 +103,6 @@ public class GameServer : MonoBehaviour
     }
     for(int i=0;i<PlayerNumber;++i){
       var p = PosToCell(bornPos[i]);
-      LBmap[p.x][p.y].isRoot = true;
       var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
       var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
       sr.sprite = sqrt;
