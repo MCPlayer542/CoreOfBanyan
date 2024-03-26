@@ -26,7 +26,6 @@ public class PlayerNumberBehavior : MonoBehaviour
         //Debug.Log("test");
         Vector3 random_bias = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
         Vector3 v = mPlayerBehaviour.transform.position;
-        v.y += 0.3f;
         FruitTextBehavior fruit_text = Instantiate(Resources.Load("FruitText") as GameObject).transform.GetChild(0).GetChild(0).GetComponent<FruitTextBehavior>();
         fruit_text.init(v + random_bias, E);
         // var t = mEatFruitUI;
