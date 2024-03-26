@@ -69,15 +69,16 @@ public class RobotBehaviourHJQ : MonoBehaviour
             }
         }
     }
-    public Queue<Vector2Int> q=new();
+    public OPQ q=new();
     void BFS(Vector2Int St,int pid){
         InitNodeMap();
         q.Clear();
-        q.Enqueue(St);
+        q.PushBack(St);
         NodeMap[St.x][St.y].vis=true;
         NodeMap[St.x][St.y].Energy=0;
-        while(q.Count!=0){
-            Vector2Int x=q.Dequeue();
+        NodeMap[St.x][St.y].Dist=0;
+        while(q.Size()!=0){
+            Vector2Int x=q.PopFront();
             foreach(var dlt in NeighborPos.Seek){
                 Vector2Int y=x+dlt;
                 if(s.OutOfScreen(y))continue;
@@ -86,7 +87,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
                     NodeMap[y.x][y.y].vis=true;
                     NodeMap[y.x][y.y].Dist=NodeMap[x.x][x.y].Dist+1;
                     NodeMap[y.x][y.y].pre=x;
-                    q.Enqueue(y);
+                    q.PushBack(y);
                 }
                 if(NodeMap[y.x][y.y].Dist==NodeMap[x.x][x.y].Dist+1){
                     double val=NodeMap[x.x][x.y].Energy+Math.Max(s.LBmap[y.x][y.y].hp,1.0f)*(s.LBmap[y.x][y.y].owner!=pid?1:0);
@@ -230,7 +231,15 @@ public class RobotBehaviourHJQ : MonoBehaviour
             if(i==mPlayer.pid)continue;
             BFS(s.players[i].curpos,i);
             // if(s.players[i].energy>NodeMap[bp.x][bp.y].Energy*2f)return -1;
-            if(NodeMap[bp.x][bp.y].Dist<=2&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy)return -1;
+            if(NodeMap[bp.x][bp.y].Dist<=2&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy){
+                Vector2Int p=mPlayer.curpos;
+                if(mPlayer.curpos==bp)return -1;
+                if(NodeMap[p.x][p.y].Dist<=3){
+                    BFS(mPlayer.curpos,mPlayer.pid);
+                    return GetDirection(s.players[i].curpos);
+                }
+                return -1;
+            }
         }
         BFS(mPlayer.curpos,mPlayer.pid);
         if(mPlayer.energy>10&&NodeMap[bp.x][bp.y].Dist<=1)mPlayer.Reinforce();

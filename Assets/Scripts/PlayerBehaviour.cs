@@ -31,6 +31,9 @@ public class OPQ
     {
         return head == tail;
     }
+    public int Size(){
+        return tail-head;
+    }
     public OPQ()
     {
         data = new();
