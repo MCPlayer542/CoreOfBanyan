@@ -115,12 +115,12 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    players[0].AddComponent<RobotBehaviourLYK>();
-    players[1].AddComponent<RobotBehaviourLYK>();
-    players[2].AddComponent<RobotBehaviourLYK>();
-    players[3].AddComponent<RobotBehaviourLYK>();
-    players[4].AddComponent<RobotBehaviourLYK>();
-    players[5].AddComponent<RobotBehaviourLYK>();
+    players[0].AddComponent<RobotBehaviourHJQ>();
+    players[1].AddComponent<RobotBehaviourHJQ>();
+    players[2].AddComponent<RobotBehaviourHJQ>();
+    players[3].AddComponent<RobotBehaviourHJQ>();
+    players[4].AddComponent<RobotBehaviourHJQ>();
+    players[5].AddComponent<RobotBehaviourHJQ>();
   }
   void Update()
   {
