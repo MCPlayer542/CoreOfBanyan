@@ -23,8 +23,9 @@ public class TutorialServer : GameServer
         RobotBehaviourHJQ.s = this;
         RobotBehaviourLYK.s = this;
 
-        FruitBehavior.life_time = 300000 * game_pace;
-        
+        FruitBehavior.life_time = 50 * game_pace;
+        if(level!=4) FruitBehavior.life_time=1000000;
+
         transform.position = new(n, 0, -10);
         GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
 
@@ -85,7 +86,7 @@ public class TutorialServer : GameServer
             var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
             sr.sprite = sqrt;
         }
-        Camera.main.AddComponent<PestAndFruitProducer>();
+        if(level==4) Camera.main.AddComponent<PestAndFruitProducer>();
 
         wallList = new() { };
         foreach (var p in wallList)
@@ -122,12 +123,39 @@ public class TutorialServer : GameServer
         switch (level * 10 + stage)
         {
             case 11:
+                LBmap[n][n].hp=100;
+                LBmap[n][n].owner=0;
+                LandBehaviour t = LBmap[n][n];
+                t.mFruit = Instantiate(Resources.Load("Fruit") as GameObject);
+                t.mFruit.GetComponent<FruitBehavior>().owner = t;
+                Vector3 v = t.transform.localPosition;
+                v.z = -3;
+                v.y += 0.3f;
+                t.mFruit.transform.localPosition = v;
+                t.ChangeImg();
+                UpdateMap();
                 text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！");
                 break;
             case 12:
                 text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
                 break;
             case 13:
+                players[0].curpos=new Vector2Int(n,n);
+                players[0].transform.position=CellToPos(n,n);
+                LBmap[n][n].hp=100;
+                LBmap[n][n].owner=0;
+                LBmap[n][n].ChangeImg();
+                LBmap[2*n][n].hp=100;
+                LBmap[2*n][n].owner=0;
+                t = LBmap[2*n][n];
+                t.mFruit = Instantiate(Resources.Load("Fruit") as GameObject);
+                t.mFruit.GetComponent<FruitBehavior>().owner = t;
+                v = t.transform.localPosition;
+                v.z = -3;
+                v.y += 0.3f;
+                t.mFruit.transform.localPosition = v;
+                t.ChangeImg();
+                UpdateMap();
                 text.SetText("现在同时按住 D 和 W，进行斜向移动，吃掉场地角落的苹果；你也可以用 WASD 的其他组合来进行类似的斜向移动！");
                 break;
             case 14:
@@ -152,7 +180,7 @@ public class TutorialServer : GameServer
                 gm.NewTutorial();
                 break;
             case 31:
-                text.SetText("噢不！你现在和根断开了！你头上的创造力会变成红色，并不再自动增加，脚下树枝的坚固值也在逐渐流失！");
+                text.SetText("噢不！你现在和根断开了！你头上的创造力会变成红色并不再自动增加，脚下树枝的坚固值也变为红色并在逐渐流失！");
                 break;
             case 32:
                 text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长！");
@@ -184,6 +212,10 @@ public class TutorialServer : GameServer
     {
         switch (level * 10 + stage)
         {
+            case 11:
+                return LBmap[n][n].mFruit==null;
+            case 13:
+                return LBmap[2*n][n].mFruit==null;
             case 44:
                 return false;
             default:

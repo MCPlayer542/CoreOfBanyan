@@ -71,7 +71,7 @@ public class ManageGameManager : MonoBehaviour
     public void NewTutorial()
     {
         ++tutorial_level;
-        EndGame();
+        EndGameButMusic();
         maintheme.Stop();
         ingame.Play();
         isPause=false;
@@ -83,6 +83,10 @@ public class ManageGameManager : MonoBehaviour
     public void EndGame()
     {
         ingame.Stop();
+        EndGameButMusic();
+    }
+    void EndGameButMusic()
+    {
         isPause = false;
         if (s != null) s.EndGame();
         s = null;
