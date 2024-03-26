@@ -32,6 +32,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     int pid;
     GameServer s;
     PlayerBehaviour mPlayer;
+    public List<Vector2Int> targetList=new();
     public List<List<NodeInformation>> NodeMap=new();
     public List<Vector2Int> mSeek = new() { new(1, 1), new(1, 0), new(0, 1), new(-1, -1), new(0, -1), new(-1, 0) };
     float lastUpdate;
@@ -107,7 +108,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     }
     Vector2Int GetConnect(double E){
         Vector2Int pos=new(114514,114514);
-        int dis=E<5?1:n/3*2;
+        int dis=E<5?1:n/2;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
@@ -137,19 +138,42 @@ public class RobotBehaviourHJQ : MonoBehaviour
         }
         return pos;
     }
+    Vector2Int GetNearestBlank(int num){
+        Vector2Int pos=new(114514,114514);
+        for(int i=0;i<=2*n;++i){
+            for(int j=0;j<=2*n;++j){
+                if(i-j<=n&&j-i<=n){
+                    if(s.LBmap[i][j].owner==-1){
+                        if(num>NodeMap[i][j].Dist){
+                            pos.x=i;pos.y=j;
+                            num=NodeMap[i][j].Dist;
+                        }
+                        else if(num==NodeMap[i][j].Dist&&(pos.x==114514||UnityEngine.Random.Range(0f,1f)<0.33f)){//Magic Number
+                            pos.x=i;pos.y=j;
+                        }
+                    }
+                }
+            }
+        }
+        return pos;
+    }
     Vector2Int GetTarget(){
         Vector2Int pos=new(114514,114514);
         int num=0;
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
-                    if(s.LBmap[i][j].owner==pid&&!s.LBmap[i][j].nearPlayer&&NodeMap[i][j].Dist<=4&&mPlayer.energy>NodeMap[i][j].Energy){
+                    if(s.LBmap[i][j].owner==pid&&!s.LBmap[i][j].nearPlayer&&NodeMap[i][j].Dist<=4&&mPlayer.energy>NodeMap[i][j].Energy*1.2f){
                         pos.x=i;pos.y=j;
                     }                    
                 }
             }
         }
         if(pos.x!=114514)return pos;
+
+        pos=GetNearestBlank(2);
+        if(pos.x!=114514)return pos;
+
         for(int i=0;i<=2*n;++i){
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
@@ -168,23 +192,8 @@ public class RobotBehaviourHJQ : MonoBehaviour
             }
         }
         if(num>=3)return pos;
-        num=114514;
-        for(int i=0;i<=2*n;++i){
-            for(int j=0;j<=2*n;++j){
-                if(i-j<=n&&j-i<=n){
-                    if(s.LBmap[i][j].owner==pid)continue;
-                    if(s.LBmap[i][j].owner==-1&&NodeMap[i][j].Dist<=n){
-                        if(num>NodeMap[i][j].Dist){
-                            pos.x=i;pos.y=j;
-                            num=NodeMap[i][j].Dist;
-                        }
-                        else if(num==NodeMap[i][j].Dist&&UnityEngine.Random.Range(0f,1f)<0.35f){//Magic Number
-                            pos.x=i;pos.y=j;
-                        }
-                    }
-                }
-            }
-        }
+
+        pos=GetNearestBlank(114514);
         return pos;
     }
     int GetDirection(Vector2Int p){
@@ -204,7 +213,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
                     if(s.LBmap[i][j].owner==pid)continue;
-                    if(s.LBmap[i][j].owner!=-1&&s.LBmap[i][j].nearRoot&&NodeMap[i][j].Dist<=2&&NodeMap[i][j].Energy*1.5f<=mPlayer.energy){
+                    if(s.LBmap[i][j].owner!=-1&&s.LBmap[i][j].nearRoot&&NodeMap[i][j].Dist<=2&&NodeMap[i][j].Energy*2f<=mPlayer.energy){
                         p.x=i;p.y=j;
                     }
                 }
@@ -227,37 +236,44 @@ public class RobotBehaviourHJQ : MonoBehaviour
         if(p.x==114514)return -1;
         return GetDirection(p);
     }
-    int GetDir(){
-
+    
+    int IfFaceDanger(){
         Vector2Int bp=s.PosToCell(s.bornPos[pid]);
-
-        for(int i=0;i<s.PlayerNumber;i++){
+        if(mPlayer.energy>10&&NodeMap[bp.x][bp.y].Dist<=1)mPlayer.Reinforce();
+        for(int i=0;i<s.PlayerNumber;++i){
             if(i==pid)continue;
-            BFS(s.players[i].curpos,i);
-            // if(s.players[i].energy>NodeMap[bp.x][bp.y].Energy*2f)return -1;
-            if(NodeMap[bp.x][bp.y].Dist<=2&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy){
-                Vector2Int p=mPlayer.curpos;
-                if(mPlayer.curpos==bp)return -1;
-                if(NodeMap[p.x][p.y].Dist<=3){
-                    BFS(mPlayer.curpos,pid);
-                    return GetDirection(s.players[i].curpos);
-                }
+            Vector2Int p=s.players[i].curpos;
+            if(NodeMap[p.x][p.y].Dist<=2&&s.players[i].energy>NodeMap[bp.x][bp.y].Energy*0.8f){
                 return -1;
             }
         }
+        return 114514;
+    }
+
+    int GetDir(){
         BFS(mPlayer.curpos,pid);
-        if(mPlayer.energy>10&&NodeMap[bp.x][bp.y].Dist<=1)mPlayer.Reinforce();
-        int res=TryCut2();
+        int res=IfFaceDanger();
+        if(res!=114514)return res;
+
+        res=TryCut2();
         if(res!=-1)return res;
+
+        double easyTargetEnergy=1e6;
         double E=mPlayer.energy;
-        int x=mPlayer.curpos.x,y=mPlayer.curpos.y;
+        int x=mPlayer.curpos.x,y=mPlayer.curpos.y,targetID=-1;
         for(int i=0;i<s.PlayerNumber;i++){
             if(i==pid)continue;
             Vector2Int p=s.PosToCell(s.bornPos[i]);
             bool NearRoot=s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot;
-            if(!NearRoot&&E>NodeMap[p.x][p.y].Energy*1.2f)return GetDirection(p);
-            if(NearRoot&&E>NodeMap[p.x][p.y].Energy*0.8f)return GetDirection(p);
+            if((!NearRoot&&E>NodeMap[p.x][p.y].Energy*1.5f)||(NearRoot&&E>NodeMap[p.x][p.y].Energy)){
+                if(easyTargetEnergy>=NodeMap[p.x][p.y].Energy){
+                    easyTargetEnergy=NodeMap[p.x][p.y].Energy;
+                    targetID=i;
+                }
+            }
         }
+        if(targetID!=-1)return GetDirection(s.PosToCell(s.bornPos[targetID]));
+
         if(!s.LBmap[x][y].nearRoot){
             Vector2Int p1=GetConnect(E);
             Vector2Int p2=GetCapture(E);
