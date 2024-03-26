@@ -282,6 +282,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void FastReturn()
     {
         if(GameServer.GameOverFlag) return;
+        if(curpos == s.PosToCell(s.bornPos[pid]))return;
         fast_return.Play();
         s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
         s.LBmap[curpos.x][curpos.y].neighbor = 0;

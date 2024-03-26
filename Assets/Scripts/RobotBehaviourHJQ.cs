@@ -37,7 +37,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     public List<Vector2Int> mSeek = new() { new(1, 1), new(1, 0), new(0, 1), new(-1, -1), new(0, -1), new(-1, 0) };
     float lastUpdate;
     float reinforceProbability=0.1f;
-    float cutProbability=0.4f;
+    float cutProbability=0.5f;
     int CountSetBits(int n){
         int count = 0;
         while (n > 0){
@@ -213,7 +213,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             for(int j=0;j<=2*n;++j){
                 if(i-j<=n&&j-i<=n){
                     if(s.LBmap[i][j].owner==pid)continue;
-                    if(s.LBmap[i][j].owner!=-1&&s.LBmap[i][j].nearRoot&&NodeMap[i][j].Dist<=2&&NodeMap[i][j].Energy*2f<=mPlayer.energy){
+                    if(s.LBmap[i][j].owner!=-1&&s.LBmap[i][j].nearRoot&&NodeMap[i][j].Dist<=2&&NodeMap[i][j].Energy*1.2f<=mPlayer.energy){
                         p.x=i;p.y=j;
                     }
                 }
@@ -243,7 +243,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         for(int i=0;i<s.PlayerNumber;++i){
             if(i==pid)continue;
             Vector2Int p=s.players[i].curpos;
-            if(NodeMap[p.x][p.y].Dist<=2&&s.players[i].energy>NodeMap[bp.x][bp.y].Energy*0.8f){
+            if(NodeMap[p.x][p.y].Dist<=1&&s.players[i].energy>NodeMap[bp.x][bp.y].Energy){
                 return -1;
             }
         }
