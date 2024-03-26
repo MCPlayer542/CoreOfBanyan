@@ -51,6 +51,7 @@ public class GameServer : MonoBehaviour
     PestAndFruitProducer.mGameServer = this;
     VJoystickBehavior.s = this;
     RobotBehaviourHJQ.s = this;
+    RobotBehaviourLYK.s = this;
     FruitBehavior.life_time = 50 * game_pace;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
