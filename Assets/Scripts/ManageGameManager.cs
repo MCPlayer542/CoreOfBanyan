@@ -13,7 +13,7 @@ public class ManageGameManager : MonoBehaviour
     GameServer s = null;
     public static bool isPause = true;
     public List<GameObject> displayObjects = new();
-    public AudioSource maintheme=null,ingame=null;
+    public AudioSource maintheme = null, ingame = null;
     void Start()
     {
     }
@@ -145,7 +145,6 @@ public class ManageGameManager : MonoBehaviour
             var r = d.transform;
             for (int i = 0; i < r.childCount; ++i)
             {
-                ClickScript.isVisible = false;
                 r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
         }
@@ -161,7 +160,6 @@ public class ManageGameManager : MonoBehaviour
         for (int i = 0; i < R.childCount; ++i)
         {
             R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
-            ClickScript.isVisible = true;
         }
     }
 
