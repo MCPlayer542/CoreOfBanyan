@@ -7,7 +7,7 @@ using Unity.Collections;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-class OPQ
+public class OPQ
 {
     private List<Vector2Int> data;
     private int head, tail;

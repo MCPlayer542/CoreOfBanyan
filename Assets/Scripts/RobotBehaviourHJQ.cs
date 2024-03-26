@@ -17,7 +17,7 @@ public class NodeInformation : IComparable<NodeInformation>{
     public void Init(){
         cur.x=0;cur.y=0;
         pre.x=0;pre.y=0;
-        Dist=0;
+        Dist=114514;
         Energy=1e6;
         vis=false;
     }
@@ -225,18 +225,17 @@ public class RobotBehaviourHJQ : MonoBehaviour
     int GetDir(){
 
         Vector2Int bp=s.PosToCell(s.bornPos[mPlayer.pid]);
-        BFS(mPlayer.curpos,mPlayer.pid);
-        if(mPlayer.energy>10&&NodeMap[bp.x][bp.y].Dist<=1)mPlayer.Reinforce();
-        int res=TryCut2();
-        if(res!=-1)return res;
 
         for(int i=0;i<s.PlayerNumber;i++){
             if(i==mPlayer.pid)continue;
             BFS(s.players[i].curpos,i);
             // if(s.players[i].energy>NodeMap[bp.x][bp.y].Energy*2f)return -1;
-            if(NodeMap[bp.x][bp.y].Dist<=3&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy)return -1;
+            if(NodeMap[bp.x][bp.y].Dist<=2&&s.players[i].energy*0.8f>NodeMap[bp.x][bp.y].Energy)return -1;
         }
         BFS(mPlayer.curpos,mPlayer.pid);
+        if(mPlayer.energy>10&&NodeMap[bp.x][bp.y].Dist<=1)mPlayer.Reinforce();
+        int res=TryCut2();
+        if(res!=-1)return res;
         double E=mPlayer.energy;
         int x=mPlayer.curpos.x,y=mPlayer.curpos.y;
         for(int i=0;i<s.PlayerNumber;i++){
