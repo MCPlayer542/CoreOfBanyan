@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.U2D.Aseprite;
+//using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +32,7 @@ public class GameServer : MonoBehaviour
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
   public static int n = 5;
-  public int PlayerNumber = 6;
+  public int PlayerNumber = 2;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
@@ -120,11 +120,6 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    players[1].AddComponent<RobotBehaviourHJQ>();
-    players[2].AddComponent<RobotBehaviourHJQ>();
-    players[3].AddComponent<RobotBehaviourHJQ>();
-    players[4].AddComponent<RobotBehaviourHJQ>();
-    players[5].AddComponent<RobotBehaviourHJQ>();
   }
   void Update()
   {
@@ -229,7 +224,7 @@ public class GameServer : MonoBehaviour
   void UpdateControlKeyCode()
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
-    //keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
+    keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
     keySet.Add(new(0, 0, 0, 0, 0, 0));
     keySet.Add(new(0, 0, 0, 0, 0, 0));
     keySet.Add(new(0, 0, 0, 0, 0, 0));
