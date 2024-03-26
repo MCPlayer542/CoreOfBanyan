@@ -299,7 +299,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         {
             if (i == pid) continue;
             Vector2Int p = s.players[i].curpos;
-            if (NodeMap[p.x][p.y].Dist <= 1 && s.players[i].energy > NodeMap[bp.x][bp.y].Energy)
+            if (Math.Abs(bp.x-p.x)+Math.Abs(bp.y-p.y)<= 2 && s.players[i].energy > NodeMap[bp.x][bp.y].Energy)
             {
                 return -1;
             }
