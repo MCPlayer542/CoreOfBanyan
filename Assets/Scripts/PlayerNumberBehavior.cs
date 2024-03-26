@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerNumberBehavior : MonoBehaviour
@@ -20,9 +21,11 @@ public class PlayerNumberBehavior : MonoBehaviour
         mGameServer=Camera.main.GetComponent<GameServer>();
         mEnergyUI.color=Color.blue;
     }
-    public void EatFruitNotice(float E)
+    public void EatFruitNotice(Vector3 pos,float E)
     {
-        return;
+        Vector3 random_bias=new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f),0);
+        FruitTextBehavior fruit_text=Instantiate(Resources.Load("FruitText") as GameObject).GetComponent<FruitTextBehavior>();
+        fruit_text.init(pos+random_bias,E);
         // var t = mEatFruitUI;
         // eatTime = Time.time;
         // t.text = "+" + (int)E;
@@ -34,9 +37,8 @@ public class PlayerNumberBehavior : MonoBehaviour
         // transform.GetChild(0).GetChild(1).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
         // t.fontSize = sizeOfFontEatFruitNotice * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
-    void UpdateEatNoticeUI()
+    /*void UpdateEatNoticeUI()
     {
-        return;
         // if (Time.time - eatTime > mGameServer.game_pace * 1.5f)
         // {
         //     Color c = mEatFruitUI.color;
@@ -47,12 +49,11 @@ public class PlayerNumberBehavior : MonoBehaviour
         // Vector3 p = mPlayerBehaviour.transform.position;
         // p.y += 0.3f;
         // transform.GetChild(0).GetChild(1).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
-    }
+    }*/
     void UpdateEnergyUI()
     {
         var p = mPlayerBehaviour;
         var t = mEnergyUI;
-        //t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
         t.text = "" + (long)p.energy;
         Vector3 v = mPlayerBehaviour.transform.position;
         v.y += 0.3f;
@@ -72,9 +73,5 @@ public class PlayerNumberBehavior : MonoBehaviour
     {
         UpdateEnergyUI();
         if (ManageGameManager.isPause) return;
-        if (mPlayerBehaviour != null)
-        {
-            UpdateEatNoticeUI();
-        }
     }
 }
