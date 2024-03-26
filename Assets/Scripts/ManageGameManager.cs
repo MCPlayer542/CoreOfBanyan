@@ -16,6 +16,7 @@ public class ManageGameManager : MonoBehaviour
     public AudioSource maintheme = null, ingame = null;
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -39,10 +40,14 @@ public class ManageGameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseGame();
-            ChangeDisplayStatus(new() { 1 });
+            ChangePauseStatus();
+            var R = displayObjects[1].transform;
+            for (int i = 0; i < R.childCount; ++i)
+            {
+                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = !R.GetChild(i).GetComponent<UIElementBehavior>().isVisible;
+            }
         }
     }
 
@@ -158,6 +163,7 @@ public class ManageGameManager : MonoBehaviour
         {
             EndGame();
             NewGame();
+            maintheme.Stop();
             return;
         }
         foreach (var sid in lsid)
@@ -165,6 +171,10 @@ public class ManageGameManager : MonoBehaviour
             if (sid < 0)
             {
                 return;
+            }
+            if (sid == 0)
+            {
+                maintheme.Play();
             }
             var R = displayObjects[sid].transform;
             for (int i = 0; i < R.childCount; ++i)
