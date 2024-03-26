@@ -178,7 +178,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
                             pos.x=i;pos.y=j;
                             num=NodeMap[i][j].Dist;
                         }
-                        else if(num==NodeMap[i][j].Dist&&UnityEngine.Random.Range(0f,1f)<1/3f){
+                        else if(num==NodeMap[i][j].Dist&&UnityEngine.Random.Range(0f,1f)<0.35f){//Magic Number
                             pos.x=i;pos.y=j;
                         }
                     }
