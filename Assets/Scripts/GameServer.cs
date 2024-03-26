@@ -233,7 +233,7 @@ public class GameServer : MonoBehaviour
     keySet.Add(new(0,0,0,0,0,0));
   }
 
-  public void EndGame()
+  public virtual void EndGame()
   {
     GameOverFlag = true;
     foreach (var i in LBmap)
@@ -254,8 +254,9 @@ public class GameServer : MonoBehaviour
     Destroy(Camera.main.GetComponent<PestAndFruitProducer>());
     Destroy(Camera.main.GetComponent<GameServer>());
   }
-  public void GameOver()
+  public virtual void GameOver()
   {
+    end_game.Play();
     GameOverFlag=true;
   }
 }
