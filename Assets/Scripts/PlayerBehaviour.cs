@@ -183,7 +183,7 @@ public class PlayerBehaviour : MonoBehaviour
             if(alivePlayerNumber<=1)
             {
                 s.end_game.Play();
-                GameServer.GameOverFlag=true;
+                s.GameOver();
             }
         }
 

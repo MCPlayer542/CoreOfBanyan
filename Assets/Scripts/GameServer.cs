@@ -254,4 +254,8 @@ public class GameServer : MonoBehaviour
     Destroy(Camera.main.GetComponent<PestAndFruitProducer>());
     Destroy(Camera.main.GetComponent<GameServer>());
   }
+  public void GameOver()
+  {
+    GameOverFlag=true;
+  }
 }

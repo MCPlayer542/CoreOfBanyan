@@ -77,6 +77,7 @@ public class ManageGameManager : MonoBehaviour
         isPause=false;
         GameServer.GameOverFlag=false;
         s=Camera.main.AddComponent<TutorialServer>();
+        s.end_game=end_game;
     }
 
     public void EndGame()
