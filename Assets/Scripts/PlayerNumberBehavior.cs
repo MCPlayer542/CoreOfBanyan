@@ -18,7 +18,7 @@ public class PlayerNumberBehavior : MonoBehaviour
         mPlayerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
         mOldEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         mEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        mGameServer = Camera.main.GetComponent<GameServer>();
+        mGameServer = PlayerBehaviour.s;
         mEnergyUI.color = Color.blue;
     }
     public void EatFruitNotice(Vector3 pos, float E)
@@ -55,6 +55,8 @@ public class PlayerNumberBehavior : MonoBehaviour
     {
         var p = mPlayerBehaviour;
         var t = mEnergyUI;
+        Debug.Log("("+p.curpos.x+","+p.curpos.y+")["+mGameServer.LBmap[p.curpos.x][p.curpos.y].nearRoot+"]");
+        t.color=mGameServer.LBmap[p.curpos.x][p.curpos.y].nearRoot?Color.blue:Color.red;
         t.text = "" + (long)p.energy;
         Vector3 v = mPlayerBehaviour.transform.position;
         v.y += 0.3f;

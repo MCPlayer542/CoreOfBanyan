@@ -42,7 +42,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     public List<Vector2Int> mSeek = new() { new(1, 1), new(1, 0), new(0, 1), new(-1, -1), new(0, -1), new(-1, 0) };
     float lastUpdate;
     float reinforceProbability = 0.1f;
-    float cutProbability = 0.5f;
+    float cutProbability = 0.4f;
     int CountSetBits(int n)
     {
         int count = 0;
@@ -350,9 +350,9 @@ public class RobotBehaviourHJQ : MonoBehaviour
             Vector2Int p = s.PosToCell(s.bornPos[i]);
             bool NearRoot = s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot;
             double eNeed=s.players[i].energy+NodeMap[p.x][p.y].Energy;
+            if(Math.Max(x-p.x,y-p.y)<=n/2&&E > eNeed)return GetDirection(s.PosToCell(s.bornPos[i]));
             if ((!NearRoot && E > eNeed * 1.5f) || (NearRoot && E > eNeed))
             {
-                if(Math.Max(x-p.x,y-p.y)<=n/2)return GetDirection(s.PosToCell(s.bornPos[i]));
                 if (easyTargetEnergy >= NodeMap[p.x][p.y].Energy)
                 {
                     easyTargetEnergy = NodeMap[p.x][p.y].Energy;
@@ -402,7 +402,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     void Update()
     {
         if (ManageGameManager.isPause) return;
-        if (Time.time - lastUpdate < s.game_pace * 1.1f) return;
+        if (Time.time - lastUpdate < s.game_pace * 1.05f) return;
         lastUpdate = Time.time;
         int Status = GetDir();
         if (Status == -1) mPlayer.FastReturn();
