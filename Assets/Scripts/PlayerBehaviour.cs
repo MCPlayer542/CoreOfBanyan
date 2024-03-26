@@ -124,7 +124,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (opQueue.Empty()) return;
         Movable = false;*/
 
-
+        // Debug.Log(pid+" TryMode: "+dir);
         Vector2Int pre = curpos, cur = curpos + NeighborPos.Seek[dir];
 
         if (Time.time - last_move <= s.game_pace) return false;
@@ -231,7 +231,7 @@ public class PlayerBehaviour : MonoBehaviour
         preLand.ChangeImg();
         return true;
     }
-    bool IsNeighbor(LandBehaviour a, LandBehaviour b, Vector2Int pa, Vector2Int pb)
+    public bool IsNeighbor(LandBehaviour a, LandBehaviour b, Vector2Int pa, Vector2Int pb)
     {
         if (pa + NeighborPos.Left == pb && (a.neighbor & Neighbor.Left) != 0) return true;
         if (pa + NeighborPos.Right == pb && (a.neighbor & Neighbor.Right) != 0) return true;
@@ -279,7 +279,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         return true;
     }
-    void Reinforce()
+    public void Reinforce()
     {
         float amount = (float)energy * 0.025f;
         energy *= 0.9f;
