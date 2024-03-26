@@ -74,6 +74,7 @@ public class PlayerBehaviour : MonoBehaviour
         last_move = -s.game_pace;
         mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
         PestNumber=0;
+        KillCount=1;
     }
     private const float S3_2 = 0.8660254f;
     Vector3 Linear(Vector3 a, Vector3 b, float t)
