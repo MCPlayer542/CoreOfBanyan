@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 public class TutorialServer : GameServer
 {
+    new public static bool GameOverFlag = false;
     ManageGameManager gm = null;
 
     int level, stage;
@@ -135,14 +136,47 @@ public class TutorialServer : GameServer
             case 15:
                 gm.NewTutorial();
                 break;
+            case 21:
+                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的");
+                break;
+            case 22:
+                text.SetText("你有没有注意到被害虫侵袭的树枝上的数字减少了？树枝上的黑色数字代表坚固性，害虫会啃食你的枝干，减少到1后会断开，注意及时清理！");
+                break;
+            case 23:
+                text.SetText("现在按下数字键1，使用“落叶归根”快速回到你的树根(方形结点)！");
+                break;
+            case 24:
+                text.SetText("注意这并不是没有代价的，你失去了刚刚所在的树枝！");
+                break;
             case 25:
                 gm.NewTutorial();
+                break;
+            case 31:
+                text.SetText("噢不！你现在和根断开了！你头上的创造力会变成红色，并不再自动增加，脚下树枝的坚固值也在逐渐流失！");
+                break;
+            case 32:
+                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长");
+                break;
+            case 33:
+                text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！");
+                break;
+            case 34:
+                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝");
+                break;
+            case 35:
+                text.SetText("根非常重要，它是你的一切能量来源。和树根连通的树枝越多，你的创造力增长就越快，同时只有与根连通的地方才会结果或生虫");
                 break;
             case 36:
                 gm.NewTutorial();
                 break;
-            case 44:
-                gm.NewTutorial();
+            case 41:
+                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上将它的树枝占领");
+                break;
+            case 42:
+                text.SetText("它被我们打回根了!现在我们去占领它的根，消灭它吧");
+                break;
+            case 43:
+                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了");
                 break;
         }
     }
@@ -150,6 +184,8 @@ public class TutorialServer : GameServer
     {
         switch (level * 10 + stage)
         {
+            case 44:
+                return false;
             default:
                 return Input.GetKeyDown(KeyCode.Space);
         }
@@ -162,5 +198,14 @@ public class TutorialServer : GameServer
         keySet.Add(new(0, 0, 0, 0, 0, 0));
         keySet.Add(new(0, 0, 0, 0, 0, 0));
         keySet.Add(new(0, 0, 0, 0, 0, 0));
+    }
+    new public void GameOver()
+    {
+        if (level == 4) GameOverFlag = true;
+    }
+    new public void EndGame()
+    {
+        Destroy(text);
+        base.EndGame();
     }
 }
