@@ -17,9 +17,13 @@ public class TutorialTextBehavior : MonoBehaviour
 
     }
 
-    public void SetText(string s)
+    public void SetText(string s, bool isEnterButton = false)
     {
         transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = s;
+        if (isEnterButton)
+        {
+
+        }
     }
     public string GetText()
     {
