@@ -225,7 +225,8 @@ public class GameServer : MonoBehaviour
   void UpdateControlKeyCode()
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
-    keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
+    //keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
+    keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
