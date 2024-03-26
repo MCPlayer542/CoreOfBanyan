@@ -53,9 +53,10 @@ public class PlayerBehaviour : MonoBehaviour
     Vector3 prev;
     public float last_move;
     public PlayerNumberBehavior mNumberBehavior;
-    public AudioSource fast_return;
+    public AudioSource fast_return,pest_death,fruit_gain;
     public bool alive = true;
     public Neighbor anchoring = 0;
+    public bool isRobot=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -183,6 +184,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (s.LBmap[cur.x][cur.y].mFruit != null)
         {
+            if(!isRobot) fruit_gain.Play();
             float fruitEnergy=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
             mNumberBehavior.EatFruitNotice(s.LBmap[cur.x][cur.y].transform.position,fruitEnergy);
             energy += fruitEnergy;
@@ -191,6 +193,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (s.LBmap[cur.x][cur.y].mPest != null)
         {
+            if(!isRobot) pest_death.Play();
             energy -= s.LBmap[cur.x][cur.y].GetPestsEnergy();
             PestNumber--;
             Destroy(s.LBmap[cur.x][cur.y].mPest);
@@ -297,7 +300,7 @@ public class PlayerBehaviour : MonoBehaviour
         if(GameServer.GameOverFlag) return;
         if(!alive) return;
         if(curpos == s.PosToCell(s.bornPos[pid]))return;
-        fast_return.Play();
+        if(!isRobot) fast_return.Play();
         s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
         s.LBmap[curpos.x][curpos.y].neighbor = 0;
     }

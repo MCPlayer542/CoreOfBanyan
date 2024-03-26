@@ -18,6 +18,7 @@ public class RobotBehaviourLYK : MonoBehaviour
     {
         //s = Camera.main.GetComponent<GameServer>();
         self = GetComponent<PlayerBehaviour>();
+        self.isRobot=true;
         n = GameServer.n;
     }
 

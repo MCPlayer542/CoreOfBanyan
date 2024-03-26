@@ -56,6 +56,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         n = GameServer.n;
         //s=Camera.main.GetComponent<GameServer>();
         mPlayer = gameObject.GetComponent<PlayerBehaviour>();
+        mPlayer.isRobot=true;
         for (int i = 0; i <= 2 * n; ++i)
         {
             NodeMap.Add(new List<NodeInformation>());
