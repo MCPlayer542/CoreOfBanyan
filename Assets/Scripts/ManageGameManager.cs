@@ -49,6 +49,11 @@ public class ManageGameManager : MonoBehaviour
                 R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = !R.GetChild(i).GetComponent<UIElementBehavior>().isVisible;
             }
         }
+
+        if (GameServer.GameOverFlag && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
+        {
+            ChangeDisplayStatus(new() { 2 });
+        }
     }
 
     public void NewGame()
@@ -63,6 +68,7 @@ public class ManageGameManager : MonoBehaviour
 
     public void EndGame()
     {
+        ingame.Stop();
         isPause = false;
         if (s != null) s.EndGame();
         s = null;
