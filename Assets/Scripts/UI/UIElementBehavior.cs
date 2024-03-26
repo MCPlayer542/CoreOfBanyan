@@ -20,6 +20,8 @@ public class UIElementBehavior : MonoBehaviour
     static float cursorFloat = 30;
 
     public Vector3 P1, P2;
+
+    public Vector3 PP1, PP2;
     float sizeOfFont;
     bool UIStatus = false;
 
@@ -35,8 +37,9 @@ public class UIElementBehavior : MonoBehaviour
         if (!UIStatus)
         {
             sizeOfFont = t1.fontSize;
-            P1 = t1.rectTransform.localPosition;
-            P2 = t2.rectTransform.localPosition;
+            PP1 = P1 = t1.rectTransform.localPosition;
+            PP2 = P2 = t2.rectTransform.localPosition;
+
             UIStatus = true;
         }
 
@@ -44,10 +47,12 @@ public class UIElementBehavior : MonoBehaviour
         {
             t1.rectTransform.localPosition = new(-114514, -114514, 0);
             t2.rectTransform.localPosition = new(-114514, -114514, 0);
+            PP1 = P1;
+            PP2 = P2;
             return;
         }
 
-        Vector3 p1 = P1, p2 = P2;
+        Vector3 p1 = PP1, p2 = PP2;
 
         float scale = Math.Min(Screen.width / Width, Screen.height / Height);
         if (isBG)

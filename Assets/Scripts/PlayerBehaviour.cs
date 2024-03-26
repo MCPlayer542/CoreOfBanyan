@@ -57,6 +57,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool alive = true;
     public Neighbor anchoring = 0;
     public bool isRobot=false;
+    public int KillCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
         last_move = -s.game_pace;
         mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
         PestNumber=0;
+        KillCount=1;
     }
     private const float S3_2 = 0.8660254f;
     Vector3 Linear(Vector3 a, Vector3 b, float t)
@@ -166,6 +168,7 @@ public class PlayerBehaviour : MonoBehaviour
                     s.LBmap[cur.x][cur.y].isRoot=false;
                     s.UpdateMap();
                     s.players[i].gameObject.SetActive(false);
+                    KillCount++;
                 }
             }
             int alivePlayerNumber=0;
