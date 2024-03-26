@@ -7,6 +7,7 @@ public class TutorialServer:GameServer
     ManageGameManager gm=null;
 
     int level,stage;
+    TutorialTextBehavior text=null;
     new public void Awake()
     {
         gm=GetComponent<ManageGameManager>();
@@ -89,12 +90,28 @@ public class TutorialServer:GameServer
             LBmap[p.x][p.y].isWall = true;
             map[p.x][p.y].SetActive(false);
         }
-        stage=0;
-        TutorialStart();
+        text=gameObject.AddComponent<TutorialTextBehavior>();
+        TutorialInit();
     }
     void Update()
     {
         if(TutorialFinished()) TutorialStart();
+    }
+    void TutorialInit()
+    {
+        switch(level)
+        {
+            case 1:
+            break;
+            case 2:
+            break;
+            case 3:
+            break;
+            case 4:
+            break;
+        }
+        stage=0;
+        TutorialStart();
     }
     void TutorialStart()
     {
@@ -102,8 +119,16 @@ public class TutorialServer:GameServer
         switch(level*10+stage)
         {
             case 11:
+                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果");
             break;
             case 12:
+                text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加");
+            break;
+            case 13:
+                text.SetText("现在同时按住D和W，进行斜向移动，吃掉场地角落的苹果；你也可以用WASD的其他组合来进行类似的斜向移动");
+            break;
+            case 14:
+                text.SetText("苹果在生成后一段时间会闪烁，不及时吃掉的话会消失");
             break;
             case 15:
                 gm.NewTutorial();
@@ -123,12 +148,9 @@ public class TutorialServer:GameServer
     {
         switch(level*10+stage)
         {
-            case 11:
-            break;
-            case 12:
-            break;
+            default:
+                return Input.GetKeyDown(KeyCode.Space);
         }
-        return false;
     }
     void UpdateControlKeyCode()
     {

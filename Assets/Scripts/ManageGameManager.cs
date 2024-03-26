@@ -70,7 +70,7 @@ public class ManageGameManager : MonoBehaviour
     }
     public void NewTutorial()
     {
-        ++tutorial_level;
+        //++tutorial_level;
         EndGame();
         maintheme.Stop();
         ingame.Play();
