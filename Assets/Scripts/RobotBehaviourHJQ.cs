@@ -262,6 +262,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             Vector2Int cutP=TryCut();
             if(cutP.x!=114514&&UnityEngine.Random.Range(0f,1f)<cutProbability)return GetDirection(cutP);
             Vector2Int p=GetTarget();
+            if(p.x==114514)return -1;
             return GetDirection(p);
         }
     }
