@@ -18,7 +18,7 @@ public class FruitTextBehavior : MonoBehaviour
     public void init(Vector3 pos,float val)
     {
         fruit_text.color=Color.green;
-        fruit_text.text="+"+val;
+        fruit_text.text="+"+(long)val;
         virpos=pos;
         transform.position=RectTransformUtility.WorldToScreenPoint(Camera.main, virpos);
     }
@@ -32,5 +32,6 @@ public class FruitTextBehavior : MonoBehaviour
         Color c=fruit_text.color;
         c.a-=expire_speed*Time.smoothDeltaTime;
         fruit_text.color=c;
+        if(c.a<=0) Destroy(gameObject);
     }
 }
