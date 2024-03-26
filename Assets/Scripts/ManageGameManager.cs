@@ -130,7 +130,7 @@ public class ManageGameManager : MonoBehaviour
     public static bool GetKeyDown(KeyCode k)
     {
         if (isPause) return false;
-        if (k==0) return false;
+        if (k == 0) return false;
         return Input.GetKeyDown(k);
     }
 
@@ -142,7 +142,7 @@ public class ManageGameManager : MonoBehaviour
             for (int i = 0; i < r.childCount; ++i)
             {
                 ClickScript.isVisible = false;
-                r.GetChild(i).GetChild(0).GetComponent<Canvas>().enabled = false;
+                r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
         }
         if (sid == -1)
@@ -156,7 +156,7 @@ public class ManageGameManager : MonoBehaviour
         var R = displayObjects[sid].transform;
         for (int i = 0; i < R.childCount; ++i)
         {
-            R.GetChild(sid).GetChild(0).GetComponent<Canvas>().enabled = true;
+            R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             ClickScript.isVisible = true;
         }
     }

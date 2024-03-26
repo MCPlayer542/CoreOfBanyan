@@ -25,6 +25,8 @@ public class UIElementBehavior : MonoBehaviour
 
     public bool isBG = false;
 
+    public bool isVisible = true;
+
     // Update is called once per frame
     void Update()
     {
@@ -38,16 +40,24 @@ public class UIElementBehavior : MonoBehaviour
             UIStatus = true;
         }
 
+        if (!isVisible)
+        {
+            t1.rectTransform.localPosition = new(-114514, -114514, 0);
+            t2.rectTransform.localPosition = new(-114514, -114514, 0);
+            return;
+        }
+
         Vector3 p1 = P1, p2 = P2;
 
-        //Debug.Log(p1);
+        float scale = Math.Min(Screen.width / Width, Screen.height / Height);
         if (isBG)
         {
+            scale = Math.Max(Screen.width / Width, Screen.height / Height);
             p1 = new(p1.x + cursorFloat * Input.mousePosition.x / Screen.width, p1.y + cursorFloat * Input.mousePosition.y / Screen.height, p1.z);
             p2 = new(p2.x + cursorFloat * Input.mousePosition.x / Screen.width, p2.y + cursorFloat * Input.mousePosition.y / Screen.height, p2.z);
         }
 
-        float scale = Math.Max(Screen.width / Width, Screen.height / Height);
+
         t1.fontSize = sizeOfFont * scale;
         t1.rectTransform.localPosition = new(p1.x * scale, p1.y * scale, p1.z);
         t2.rectTransform.localPosition = new(p2.x * scale, p2.y * scale, p2.z);
