@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f1503018805666c45893d82a9c02a83b
+guid: 18f3554164e2ec64b848bfcaed870855
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - mplus_hzk_12
+  - ipix_12px
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
