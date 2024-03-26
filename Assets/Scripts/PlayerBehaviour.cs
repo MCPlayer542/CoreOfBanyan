@@ -53,6 +53,7 @@ public class PlayerBehaviour : MonoBehaviour
     Vector3 prev;
     public float last_move;
     public PlayerNumberBehavior mNumberBehavior;
+    public AudioSource fast_return;
 
     public Neighbor anchoring = 0;
     // Start is called before the first frame update
@@ -89,11 +90,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (GameServer.GameOverFlag) return;
 
-        if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid]))
-        {
-            s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
-            s.LBmap[curpos.x][curpos.y].neighbor = 0;
-        }
+        if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid])) FastReturn();
         if (s.LBmap[curpos.x][curpos.y].owner == -1)
         {
             s.BackHome(pid);
@@ -281,6 +278,13 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         return true;
+    }
+    public void FastReturn()
+    {
+        if(GameServer.GameOverFlag) return;
+        fast_return.Play();
+        s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
+        s.LBmap[curpos.x][curpos.y].neighbor = 0;
     }
     public void Reinforce()
     {

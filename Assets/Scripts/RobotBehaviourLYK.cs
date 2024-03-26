@@ -28,7 +28,7 @@ public class RobotBehaviourLYK : MonoBehaviour
         if (Time.time - last_move <= s.game_pace)
             return;
         if(!s.LBmap[self.curpos.x][self.curpos.y].nearRoot){
-            ReturnRoot(self.pid);
+            self.FastReturn();
             return;
         }
         Vector2Int p = new(0,0);
@@ -109,7 +109,7 @@ public class RobotBehaviourLYK : MonoBehaviour
         return Value(p,dis)>Value(tp,tdis);
         // return tdis<dis||(tdis==dis&&s.LBmap[tp.x][tp.y].hp<s.LBmap[p.x][p.y].hp);
     }
-    void ReturnRoot(int pid){
+    /*void ReturnRoot(int pid){
         Vector2Int p=s.players[pid].curpos;
         if (p != s.PosToCell(s.bornPos[pid]))
         {
@@ -121,5 +121,5 @@ public class RobotBehaviourLYK : MonoBehaviour
             s.BackHome(pid);
             s.UpdateMap();
         }
-    }
+    }*/
 }

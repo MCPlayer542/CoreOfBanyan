@@ -274,7 +274,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             return GetDirection(p);
         }
     }
-    void ReturnRoot(int pid){
+    /*void ReturnRoot(int pid){
         Vector2Int p=s.players[pid].curpos;
         if (p != s.PosToCell(s.bornPos[pid]))
         {
@@ -286,14 +286,14 @@ public class RobotBehaviourHJQ : MonoBehaviour
             s.BackHome(pid);
             s.UpdateMap();
         }
-    }
+    }*/
     void Update()
     {
         if(ManageGameManager.isPause)return;
         if(Time.time-lastUpdate<s.game_pace*1.1f)return;
         lastUpdate=Time.time;
         int Status=GetDir();
-        if(Status==-1)ReturnRoot(mPlayer.pid);
+        if(Status==-1) mPlayer.FastReturn();
         else mPlayer.TryMove(Status);
     }
 }

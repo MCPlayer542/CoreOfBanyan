@@ -115,7 +115,7 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    players[0].AddComponent<RobotBehaviourLYK>();
+    players[0].AddComponent<PlayerBehaviour>();
     players[1].AddComponent<RobotBehaviourLYK>();
     players[2].AddComponent<RobotBehaviourLYK>();
     players[3].AddComponent<RobotBehaviourLYK>();
@@ -225,7 +225,8 @@ public class GameServer : MonoBehaviour
   void UpdateControlKeyCode()
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
-    keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
+    //keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
+    keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
