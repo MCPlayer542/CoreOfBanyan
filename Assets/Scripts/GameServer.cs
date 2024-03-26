@@ -122,19 +122,19 @@ public class GameServer : MonoBehaviour
     var p=players[i].AddComponent<RobotBehaviourHJQ>();
    } 
   }
-  void Update()
+  /*void Update()
   {
-    /*timeKeeper += Time.smoothDeltaTime;
+    timeKeeper += Time.smoothDeltaTime;
 
     if (timeKeeper >= 0.5f)
     {
       timeKeeper = 0;
       for (int i = 0; i < PlayerNumber; ++i)
         players[i].Movable = true;
-    }*/
+    }
 
     UpdateMap();
-  }
+  }*/
   float CalcDis(Vector3 p, Vector2Int q)
   {
     // only used in PosToCell
