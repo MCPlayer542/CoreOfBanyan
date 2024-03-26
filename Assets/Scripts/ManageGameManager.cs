@@ -138,7 +138,7 @@ public class ManageGameManager : MonoBehaviour
         return Input.GetKeyDown(k);
     }
 
-    public void ChangeDisplayStatus(int sid)
+    public void ChangeDisplayStatus(List<int> lsid)
     {
         foreach (var d in displayObjects)
         {
@@ -148,18 +148,22 @@ public class ManageGameManager : MonoBehaviour
                 r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
         }
-        if (sid == -1)
+        EndGame();
+        foreach (var sid in lsid)
         {
-            NewGame();
-        }
-        if (sid < 0)
-        {
-            return;
-        }
-        var R = displayObjects[sid].transform;
-        for (int i = 0; i < R.childCount; ++i)
-        {
-            R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
+            if (sid == -1)
+            {
+                NewGame();
+            }
+            if (sid < 0)
+            {
+                return;
+            }
+            var R = displayObjects[sid].transform;
+            for (int i = 0; i < R.childCount; ++i)
+            {
+                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
+            }
         }
     }
 
