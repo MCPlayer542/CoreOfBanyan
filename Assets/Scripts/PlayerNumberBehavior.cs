@@ -15,17 +15,20 @@ public class PlayerNumberBehavior : MonoBehaviour
     float sizeOfFontEatFruitNotice = 0.3f;
     void Start()
     {
-        mPlayerBehaviour=gameObject.GetComponent<PlayerBehaviour>();
-        mOldEnergyUI=transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        mEnergyUI=transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
-        mGameServer=Camera.main.GetComponent<GameServer>();
-        mEnergyUI.color=Color.blue;
+        mPlayerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
+        mOldEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        mEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        mGameServer = Camera.main.GetComponent<GameServer>();
+        mEnergyUI.color = Color.blue;
     }
-    public void EatFruitNotice(Vector3 pos,float E)
+    public void EatFruitNotice(Vector3 pos, float E)
     {
-        Vector3 random_bias=new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f),0);
-        FruitTextBehavior fruit_text=Instantiate(Resources.Load("FruitText") as GameObject).GetComponent<FruitTextBehavior>();
-        fruit_text.init(pos+random_bias,E);
+        //Debug.Log("test");
+        Vector3 random_bias = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+        Vector3 v = mPlayerBehaviour.transform.position;
+        v.y += 0.3f;
+        FruitTextBehavior fruit_text = Instantiate(Resources.Load("FruitText") as GameObject).transform.GetChild(0).GetChild(0).GetComponent<FruitTextBehavior>();
+        fruit_text.init(v + random_bias, E);
         // var t = mEatFruitUI;
         // eatTime = Time.time;
         // t.text = "+" + (int)E;
@@ -71,7 +74,8 @@ public class PlayerNumberBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateEnergyUI();
         if (ManageGameManager.isPause) return;
+
+        UpdateEnergyUI();
     }
 }
