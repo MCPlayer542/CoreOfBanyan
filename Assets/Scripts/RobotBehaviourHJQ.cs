@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditorInternal;
+//using UnityEditor.Experimental.GraphView;
+//using UnityEditorInternal;
 using UnityEngine;
 
 public class NodeInformation : IComparable<NodeInformation>
@@ -202,7 +202,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             {
                 if (i - j <= n && j - i <= n)
                 {
-                    if (s.LBmap[i][j].owner == pid && !s.LBmap[i][j].nearPlayer && NodeMap[i][j].Dist <= 4 && mPlayer.energy > NodeMap[i][j].Energy * 1.2f)
+                    if (s.LBmap[i][j].owner == pid && !s.LBmap[i][j].nearPlayer && NodeMap[i][j].Dist <= n && mPlayer.energy > NodeMap[i][j].Energy * 1.2f)
                     {
                         pos.x = i; pos.y = j;
                     }
@@ -263,7 +263,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
                 if (i - j <= n && j - i <= n)
                 {
                     if (s.LBmap[i][j].owner == pid) continue;
-                    if (s.LBmap[i][j].owner != -1 && s.LBmap[i][j].nearRoot && NodeMap[i][j].Dist <= 2 && NodeMap[i][j].Energy * 1.2f <= mPlayer.energy)
+                    if (s.LBmap[i][j].owner != -1 && s.LBmap[i][j].nearRoot && NodeMap[i][j].Dist <= 4 && NodeMap[i][j].Energy * 1.2f <= mPlayer.energy)
                     {
                         p.x = i; p.y = j;
                     }
@@ -299,7 +299,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         {
             if (i == pid) continue;
             Vector2Int p = s.players[i].curpos;
-            if (NodeMap[p.x][p.y].Dist <= 1 && s.players[i].energy > NodeMap[bp.x][bp.y].Energy)
+            if (Math.Abs(bp.x-p.x)+Math.Abs(bp.y-p.y)<= 2 && s.players[i].energy > NodeMap[bp.x][bp.y].Energy)
             {
                 return -1;
             }
