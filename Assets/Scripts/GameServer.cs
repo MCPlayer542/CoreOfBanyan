@@ -105,7 +105,7 @@ public class GameServer : MonoBehaviour
       map[p.x][p.y].SetActive(false);
     }
     // players[0].AddComponent<RobotBehaviourHJQ>();
-    players[1].AddComponent<RobotBehaviourHJQ>();
+    players[1].AddComponent<RobotBehaviourLYK>();
   }
   void Update()
   {

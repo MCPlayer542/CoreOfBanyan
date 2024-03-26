@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -27,7 +28,7 @@ public class RobotBehaviourLYK : MonoBehaviour
         if (Time.time - last_move <= s.game_pace)
             return;
         if(!s.LBmap[self.curpos.x][self.curpos.y].nearRoot){
-            s.BackHome(self.pid);
+            ReturnRoot(self.pid);
             return;
         }
         Vector2Int p = new(0,0);
@@ -40,9 +41,10 @@ public class RobotBehaviourLYK : MonoBehaviour
                     var tp = new Vector2Int(i,j)+NeighborPos.Seek[k];
                     if(s.OutOfScreen(tp)) continue;
                     if(s.LBmap[tp.x][tp.y].isWall) continue;
-                    if(s.LBmap[tp.x][tp.y].owner==self.pid) continue;
+                    if(s.LBmap[tp.x][tp.y].owner==self.pid&&s.LBmap[tp.x][tp.y].nearPlayer) continue;
                     var tdis = Calc_dis(self.curpos,tp);
-                    if(tdis<dis||(tdis==dis&&s.LBmap[tp.x][tp.y].hp<s.LBmap[p.x][p.y].hp)){
+                    if(tdis>=110000) continue;
+                    if(!MCmp(p,tp,dis,tdis)){
                         dis=tdis;
                         p=tp;
                     }
@@ -60,10 +62,10 @@ public class RobotBehaviourLYK : MonoBehaviour
                 dir = i;
             }
         }
-        Debug.Log(p);
-        Debug.Log(self.curpos);
+        // Debug.Log(p);
+        // Debug.Log(self.curpos);
         // Debug.Log(s.LBmap[self.curpos.x][self.curpos.y].owner);
-        Debug.Log(Calc_dis(self.curpos,p));
+        // Debug.Log(Calc_dis(self.curpos,p));
         // Debug.Log(Calc_dis(p,self.curpos+NeighborPos.Seek[dir]));
         if(self.TryMove(dir))
             last_move = Time.time;
@@ -88,12 +90,38 @@ public class RobotBehaviourLYK : MonoBehaviour
                     if(nxt==b) return dis[cur]+1;
                 }
                 else{
-                    if(((int)nxtb.neighbor&(1<<i))==0)  continue;
+                    if(((int)s.LBmap[cur.x][cur.y].neighbor&(1<<i))==0)  continue;
                     dis[nxt]=dis[cur]+1;
                     q.Enqueue(nxt);
                 }
             }
         }
         return 114514;
+    }
+
+    double Value(Vector2Int p, int dis){
+        var lb = s.LBmap[p.x][p.y];
+        if(lb.owner == self.pid){
+            if(lb.nearPlayer) return -114514;
+            else return 114514+lb.hp;
+        }
+        return -10*dis-lb.hp;
+    }
+    bool MCmp(Vector2Int p, Vector2Int tp, int dis, int tdis){
+        return Value(p,dis)>Value(tp,tdis);
+        // return tdis<dis||(tdis==dis&&s.LBmap[tp.x][tp.y].hp<s.LBmap[p.x][p.y].hp);
+    }
+    void ReturnRoot(int pid){
+        Vector2Int p=s.players[pid].curpos;
+        if (p != s.PosToCell(s.bornPos[pid]))
+        {
+            s.LBmap[p.x][p.y].Captured(-1, s.LBmap[p.x][p.y].neighbor, 1);
+            s.LBmap[p.x][p.y].neighbor = 0;
+        }
+        if (s.LBmap[p.x][p.y].owner == -1)
+        {
+            s.BackHome(pid);
+            s.UpdateMap();
+        }
     }
 }
