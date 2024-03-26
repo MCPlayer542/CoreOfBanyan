@@ -38,6 +38,12 @@ public class ManageGameManager : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+            ChangeDisplayStatus(new() { 1 });
+        }
     }
 
     public void NewGame()
@@ -148,13 +154,14 @@ public class ManageGameManager : MonoBehaviour
                 r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
         }
-        EndGame();
+        if (lsid == null)
+        {
+            EndGame();
+            NewGame();
+            return;
+        }
         foreach (var sid in lsid)
         {
-            if (sid == -1)
-            {
-                NewGame();
-            }
             if (sid < 0)
             {
                 return;
@@ -162,7 +169,7 @@ public class ManageGameManager : MonoBehaviour
             var R = displayObjects[sid].transform;
             for (int i = 0; i < R.childCount; ++i)
             {
-                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
+                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = true;
             }
         }
     }
