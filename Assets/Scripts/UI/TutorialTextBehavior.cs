@@ -20,10 +20,7 @@ public class TutorialTextBehavior : MonoBehaviour
     public void SetText(string s, bool isEnterButton = false)
     {
         transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = s;
-        if (isEnterButton)
-        {
-
-        }
+        transform.GetChild(2).GetComponent<UIElementBehavior>().isVisible = isEnterButton;
     }
     public string GetText()
     {
