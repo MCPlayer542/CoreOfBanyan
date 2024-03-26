@@ -202,7 +202,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             {
                 if (i - j <= n && j - i <= n)
                 {
-                    if (s.LBmap[i][j].owner == pid && !s.LBmap[i][j].nearPlayer && NodeMap[i][j].Dist <= 4 && mPlayer.energy > NodeMap[i][j].Energy * 1.2f)
+                    if (s.LBmap[i][j].owner == pid && !s.LBmap[i][j].nearPlayer && NodeMap[i][j].Dist <= n && mPlayer.energy > NodeMap[i][j].Energy * 1.2f)
                     {
                         pos.x = i; pos.y = j;
                     }
@@ -263,7 +263,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
                 if (i - j <= n && j - i <= n)
                 {
                     if (s.LBmap[i][j].owner == pid) continue;
-                    if (s.LBmap[i][j].owner != -1 && s.LBmap[i][j].nearRoot && NodeMap[i][j].Dist <= 2 && NodeMap[i][j].Energy * 1.2f <= mPlayer.energy)
+                    if (s.LBmap[i][j].owner != -1 && s.LBmap[i][j].nearRoot && NodeMap[i][j].Dist <= 4 && NodeMap[i][j].Energy * 1.2f <= mPlayer.energy)
                     {
                         p.x = i; p.y = j;
                     }
