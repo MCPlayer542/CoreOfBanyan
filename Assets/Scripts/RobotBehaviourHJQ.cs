@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+
 //using UnityEditor.Experimental.GraphView;
 //using UnityEditorInternal;
 using UnityEngine;
@@ -128,7 +130,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     Vector2Int GetConnect(double E)
     {
         Vector2Int pos = new(114514, 114514);
-        int dis = E < 5 ? 1 : n / 2;
+        int dis = E < 5 ? 1 : n / 3*2;
         for (int i = 0; i <= 2 * n; ++i)
         {
             for (int j = 0; j <= 2 * n; ++j)
@@ -146,10 +148,24 @@ public class RobotBehaviourHJQ : MonoBehaviour
         }
         return pos;
     }
+    int GetConnect2()
+    {
+        Vector2Int p = new(114514, 114514);
+        foreach (var dlt in NeighborPos.Seek)
+        {
+            Vector2Int t = mPlayer.curpos + dlt;
+            if (s.OutOfScreen(t)) continue;
+            if (s.LBmap[t.x][t.y].owner == pid && s.LBmap[t.x][t.y].nearRoot != s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot){
+                p = t;
+            }
+        }
+        if (p.x == 114514) return -1;
+        return GetDirection(p);
+    }
     Vector2Int GetCapture(double E)
     {
         Vector2Int pos = new(114514, 114514);
-        int dis = E < 5 ? 1 : n / 2;
+        int dis = E < 5 ? 1 : n / 3;
         for (int i = 0; i <= 2 * n; ++i)
         {
             for (int j = 0; j <= 2 * n; ++j)
@@ -300,8 +316,12 @@ public class RobotBehaviourHJQ : MonoBehaviour
         {
             if (i == pid) continue;
             Vector2Int p = s.players[i].curpos;
-            if (Math.Abs(bp.x-p.x)+Math.Abs(bp.y-p.y)<= 2 && s.players[i].energy > s.LBmap[bp.x][bp.y].hp)
+            int dis1=Math.Abs(bp.x-p.x)+Math.Abs(bp.y-p.y);
+            int dis2=Math.Abs(mPlayer.curpos.x-bp.x)+Math.Abs(mPlayer.curpos.y-bp.y);
+            if (dis1<= 2 && s.players[i].energy > s.LBmap[bp.x][bp.y].hp)
             {
+                if(mPlayer.curpos==bp)return GetDirection(p);
+                if(dis2<=2)return GetDirection(bp);
                 return -1;
             }
         }
@@ -315,6 +335,9 @@ public class RobotBehaviourHJQ : MonoBehaviour
         if (res != 114514) return res;
 
         res = TryCut2();
+        if (res != -1) return res;
+
+        res = GetConnect2();
         if (res != -1) return res;
 
         double easyTargetEnergy = 1e6;
@@ -337,6 +360,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         }
         if (targetID != -1) return GetDirection(s.PosToCell(s.bornPos[targetID]));
 
+        Vector2Int bp = s.PosToCell(s.bornPos[pid]);
         if (!s.LBmap[x][y].nearRoot)
         {
             Vector2Int p1 = GetConnect(E);
@@ -345,13 +369,16 @@ public class RobotBehaviourHJQ : MonoBehaviour
             if (p1.x == 114514) return GetDirection(p2);
             if (p2.x == 114514) return GetDirection(p1);
             if (NodeMap[p1.x][p1.y].Dist < NodeMap[p2.x][p2.y].Dist) return GetDirection(p1);
-            return GetDirection(p2);
+            if (Math.Max(p2.x-bp.x,p2.y-bp.y)<n)return GetDirection(p2);
+            return -1;
         }
         else
         {
             if (mPlayer.energy > 20 && UnityEngine.Random.Range(0f, 1f) < reinforceProbability) mPlayer.Reinforce();
+
             Vector2Int cutP = TryCut();
-            if (cutP.x != 114514 && UnityEngine.Random.Range(0f, 1f) < cutProbability) return GetDirection(cutP);
+            if (cutP.x != 114514 && (Math.Max(cutP.x-bp.x,cutP.y-bp.y)<=n/2||UnityEngine.Random.Range(0f, 1f) < cutProbability)) return GetDirection(cutP);
+
             Vector2Int p = GetTarget();
             if (p.x == 114514) return -1;
             return GetDirection(p);
