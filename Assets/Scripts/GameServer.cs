@@ -31,7 +31,7 @@ public class GameServer : MonoBehaviour
   public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
-  public static int n = 5;
+  public static int n = 10;
   public int PlayerNumber = 6;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
@@ -115,11 +115,11 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    players[1].AddComponent<RobotBehaviourHJQ>();
-    players[2].AddComponent<RobotBehaviourHJQ>();
-    players[3].AddComponent<RobotBehaviourHJQ>();
-    players[4].AddComponent<RobotBehaviourHJQ>();
-    players[5].AddComponent<RobotBehaviourHJQ>();
+    players[1].AddComponent<RobotBehaviourLYK>();
+    players[2].AddComponent<RobotBehaviourLYK>();
+    players[3].AddComponent<RobotBehaviourLYK>();
+    players[4].AddComponent<RobotBehaviourLYK>();
+    players[5].AddComponent<RobotBehaviourLYK>();
   }
   void Update()
   {
@@ -224,8 +224,7 @@ public class GameServer : MonoBehaviour
   void UpdateControlKeyCode()
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
-    //keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
-    keySet.Add(new(0,0,0,0,0,0));
+    keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
     keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
     keySet.Add(new(0,0,0,0,0,0));
