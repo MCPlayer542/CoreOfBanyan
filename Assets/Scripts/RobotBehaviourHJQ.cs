@@ -349,8 +349,10 @@ public class RobotBehaviourHJQ : MonoBehaviour
             if(!s.players[i].alive)continue;
             Vector2Int p = s.PosToCell(s.bornPos[i]);
             bool NearRoot = s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot;
-            if ((!NearRoot && E > NodeMap[p.x][p.y].Energy * 1.5f) || (NearRoot && E > NodeMap[p.x][p.y].Energy))
+            double eNeed=s.players[i].energy+NodeMap[p.x][p.y].Energy;
+            if ((!NearRoot && E > eNeed * 1.5f) || (NearRoot && E > eNeed))
             {
+                if(Math.Max(x-p.x,y-p.y)<=n/2)return GetDirection(s.PosToCell(s.bornPos[i]));
                 if (easyTargetEnergy >= NodeMap[p.x][p.y].Energy)
                 {
                     easyTargetEnergy = NodeMap[p.x][p.y].Energy;
