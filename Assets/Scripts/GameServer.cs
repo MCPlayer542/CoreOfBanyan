@@ -31,7 +31,7 @@ public class GameServer : MonoBehaviour
   public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public List<MKeySetClass> keySet = new();
-  public static int n = 10;
+  public static int n = 5;
   public int PlayerNumber = 6;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
@@ -115,12 +115,12 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    players[0].AddComponent<PlayerBehaviour>();
-    players[1].AddComponent<RobotBehaviourLYK>();
-    players[2].AddComponent<RobotBehaviourLYK>();
-    players[3].AddComponent<RobotBehaviourLYK>();
-    players[4].AddComponent<RobotBehaviourLYK>();
-    players[5].AddComponent<RobotBehaviourLYK>();
+    players[0].AddComponent<RobotBehaviourHJQ>();
+    players[1].AddComponent<RobotBehaviourHJQ>();
+    players[2].AddComponent<RobotBehaviourHJQ>();
+    players[3].AddComponent<RobotBehaviourHJQ>();
+    players[4].AddComponent<RobotBehaviourHJQ>();
+    players[5].AddComponent<RobotBehaviourHJQ>();
   }
   void Update()
   {

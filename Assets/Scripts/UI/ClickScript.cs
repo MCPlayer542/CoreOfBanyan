@@ -8,7 +8,7 @@ public class ClickScript : MonoBehaviour
     // Start is called before the first frame update
 
     public static bool isVisible = true;
-    public bool isActive = false;
+    public bool isActive = true;
     string txt = "";
     void Awake()
     {
@@ -28,7 +28,7 @@ public class ClickScript : MonoBehaviour
             var p = Input.mousePosition;
             if (isCollision(p))
             {
-                transform.GetComponent<TMP_Text>().text = "> " + txt + "< ";
+                transform.GetComponent<TMP_Text>().text = "> " + txt + " <";
                 if (Input.GetMouseButtonDown(0))
                 {
                     Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(-1);
