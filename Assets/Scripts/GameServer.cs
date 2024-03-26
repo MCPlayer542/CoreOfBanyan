@@ -185,6 +185,7 @@ public class GameServer : MonoBehaviour
     }
     for (int i = 0; i < PlayerNumber; ++i)
     {
+      if(!players[i].alive)continue;
       dfsp(players[i].curpos);
       dfsr(PosToCell(bornPos[i]));
     }
