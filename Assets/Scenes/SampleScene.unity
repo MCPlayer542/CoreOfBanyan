@@ -393,6 +393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 331713758}
+  - component: {fileID: 331713759}
   m_Layer: 0
   m_Name: PauseDisplay
   m_TagString: Untagged
@@ -419,6 +420,18 @@ Transform:
   - {fileID: 1091498233}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &331713759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331713757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08944e2c43105249abcfc94dec2dfd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &377964699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -457,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069288404215088349, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 350
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 3069288404215088349, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1573,6 +1586,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1817125749}
+  - component: {fileID: 1817125750}
   m_Layer: 0
   m_Name: EndDisplay
   m_TagString: Untagged
@@ -1598,6 +1612,18 @@ Transform:
   - {fileID: 2042486141}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1817125750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817125748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08944e2c43105249abcfc94dec2dfd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2000685456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5142051940564426779, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
@@ -1755,7 +1781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069288404215088349, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 350
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 3069288404215088349, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
       propertyPath: m_LocalPosition.z
