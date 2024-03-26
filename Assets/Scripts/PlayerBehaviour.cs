@@ -180,7 +180,11 @@ public class PlayerBehaviour : MonoBehaviour
             for(int i=0;i<s.PlayerNumber;++i)
                 if(s.players[i].alive)
                     ++alivePlayerNumber;
-            if(alivePlayerNumber<=1) GameServer.GameOverFlag=true;
+            if(alivePlayerNumber<=1)
+            {
+                s.end_game.Play();
+                GameServer.GameOverFlag=true;
+            }
         }
 
 
