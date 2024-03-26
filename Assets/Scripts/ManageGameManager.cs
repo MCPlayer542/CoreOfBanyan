@@ -148,6 +148,7 @@ public class ManageGameManager : MonoBehaviour
                 r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
         }
+        EndGame();
         foreach (var sid in lsid)
         {
             if (sid == -1)
