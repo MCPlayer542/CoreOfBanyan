@@ -49,6 +49,8 @@ public class GameServer : MonoBehaviour
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
     VJoystickBehavior.s = this;
+    RobotBehaviourHJQ.s=this;
+    RobotBehaviourLYK.s=this;
     FruitBehavior.life_time = 50 * game_pace;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
@@ -114,11 +116,10 @@ public class GameServer : MonoBehaviour
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    /*players[1].AddComponent<RobotBehaviourLYK>();
-    players[2].AddComponent<RobotBehaviourLYK>();
-    players[3].AddComponent<RobotBehaviourLYK>();
-    players[4].AddComponent<RobotBehaviourLYK>();
-    players[5].AddComponent<RobotBehaviourLYK>();*/
+    for(int i=1;i<5;++i)
+   {
+    var p=players[i].AddComponent<RobotBehaviourHJQ>();
+   } 
   }
   void Update()
   {
