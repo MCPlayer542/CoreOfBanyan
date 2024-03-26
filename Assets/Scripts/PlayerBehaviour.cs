@@ -54,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float last_move;
     public PlayerNumberBehavior mNumberBehavior;
     public AudioSource fast_return;
-
+    public bool alive = true;
     public Neighbor anchoring = 0;
     // Start is called before the first frame update
     void Start()
@@ -89,6 +89,7 @@ public class PlayerBehaviour : MonoBehaviour
             transform.position = p;
         }
         if (GameServer.GameOverFlag) return;
+        if (!alive) return;
 
         if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid])) FastReturn();
         if (s.LBmap[curpos.x][curpos.y].owner == -1)
@@ -158,8 +159,19 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             if (!TryCapture(curLand, preLand, cur, pre)) return false;
-            Vector2Int p1 = new(0, 0), p2 = new(2 * GameServer.n, 2 * GameServer.n);
-            if (cur == p1 || cur == p2) GameServer.GameOverFlag = true;
+            for(int i=0;i<s.PlayerNumber;++i){
+                if(cur==s.PosToCell(s.bornPos[i])){
+                    s.players[i].alive =false;
+                    s.LBmap[cur.x][cur.y].isRoot=false;
+                    s.UpdateMap();
+                    s.players[i].gameObject.SetActive(false);
+                }
+            }
+            int alivePlayerNumber=0;
+            for(int i=0;i<s.PlayerNumber;++i)
+                if(s.players[i].alive)
+                    ++alivePlayerNumber;
+            if(alivePlayerNumber<=1) GameServer.GameOverFlag=true;
         }
 
 
@@ -263,6 +275,7 @@ public class PlayerBehaviour : MonoBehaviour
         //Debug.Log("shit " + curpos + " " + s.players[1 - pid].curpos);
         for (int i = 0; i < s.PlayerNumber; ++i)
         {
+            if(!s.players[i].alive) continue;
             if (i != pid && cur == s.players[i].curpos)
             {
                 if (s.players[i].energy < energy)
@@ -282,6 +295,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void FastReturn()
     {
         if(GameServer.GameOverFlag) return;
+        if(!alive) return;
         if(curpos == s.PosToCell(s.bornPos[pid]))return;
         fast_return.Play();
         s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
