@@ -13,9 +13,9 @@ public class ManageGameManager : MonoBehaviour
     GameServer s = null;
     public static bool isPause = true;
     public List<GameObject> displayObjects = new();
+    public AudioSource maintheme=null,ingame=null;
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -43,6 +43,8 @@ public class ManageGameManager : MonoBehaviour
     public void NewGame()
     {
         EndGame();
+        maintheme.Stop();
+        ingame.Play();
         isPause = false;
         s = Camera.main.AddComponent<GameServer>();
         GameServer.GameOverFlag = false;
@@ -61,6 +63,7 @@ public class ManageGameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        ingame.Pause();
         isPause = true;
         hps = new();
         energys = new();
@@ -87,6 +90,7 @@ public class ManageGameManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        ingame.Play();
         if (hps != null)
         {
             for (int i = 0; i <= 2 * GameServer.n; ++i)
