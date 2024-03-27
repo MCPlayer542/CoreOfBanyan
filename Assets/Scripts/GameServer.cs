@@ -40,9 +40,10 @@ public class GameServer : MonoBehaviour
   public List<Vector2Int> wallList = new();
   public List<Color> colors = new();
   public float game_pace = 1f / 3f;
-  public AudioSource end_game=null;
-  public Vector3 CellToPos(int x,int y){ //res.z=-4 for player
-    return new(0.5f*(x+y),0.866025f*(x-y),-4);
+  public AudioSource end_game = null;
+  public Vector3 CellToPos(int x, int y)
+  { //res.z=-4 for player
+    return new(0.5f * (x + y), 0.866025f * (x - y), -4);
   }
   public void Awake()
   {
@@ -50,28 +51,32 @@ public class GameServer : MonoBehaviour
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
     VJoystickBehavior.s = this;
-    RobotBehaviourHJQ.s=this;
-    RobotBehaviourLYK.s=this;
+    RobotBehaviourHJQ.s = this;
+    RobotBehaviourLYK.s = this;
     FruitBehavior.life_time = 50 * game_pace;
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
     bornPos.Clear();
-    if(n==2){
+    if (PlayerNumber == 2)
+    {
       bornPos.Add(new(0, 0, -4));
       bornPos.Add(new(2 * n, 0, -4));
     }
-    else if(n==3){
+    else if (PlayerNumber == 3)
+    {
       bornPos.Add(new(0, 0, -4));
       bornPos.Add(CellToPos(2 * n, n));
       bornPos.Add(CellToPos(n, 2 * n));
     }
-    else if(n==4){
+    else if (PlayerNumber == 4)
+    {
       bornPos.Add(CellToPos(n, 0));
       bornPos.Add(CellToPos(2 * n, n));
       bornPos.Add(CellToPos(0, n));
       bornPos.Add(CellToPos(n, 2 * n));
     }
-    else{
+    else
+    {
       bornPos.Add(new(0, 0, -4));
       bornPos.Add(new(2 * n, 0, -4));
       bornPos.Add(CellToPos(n, 0));
@@ -84,7 +89,7 @@ public class GameServer : MonoBehaviour
     UpdateControlKeyCode();
     // for(int i=0;i<PlayerNumber;++i)
     //   colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
-    colors = new(){new(0.1f,0.8f,0.1f), new(1f,0.4f,0.15f), Color.cyan, Color.magenta, Color.yellow, Color.gray};
+    colors = new() { new(0.1f, 0.8f, 0.1f), new(1f, 0.4f, 0.15f), Color.cyan, Color.magenta, Color.yellow, Color.gray };
 
     map.Clear();
     LBmap.Clear();
@@ -122,16 +127,18 @@ public class GameServer : MonoBehaviour
       vjoysticks[i].player = players[i];
       vjoysticks[i].transform.position = map[n][n].transform.position;
     }
-    for(int i=0;i<PlayerNumber;++i){
+    //UnityEngine.Debug.Log(PlayerNumber);
+    for (int i = 0; i < PlayerNumber; ++i)
+    {
       var p = PosToCell(bornPos[i]);
       var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
       var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
       sr.sprite = sqrt;
-      var pl=players[i];
+      var pl = players[i];
       pl.transform.position = bornPos[i];
       pl.curpos = PosToCell(bornPos[i]);
       LandBehaviour bornLand = map[pl.curpos.x][pl.curpos.y].GetComponent<LandBehaviour>();
-      bornLand.owner=i;
+      bornLand.owner = i;
       bornLand.hp = 50;
       bornLand.isRoot = true;
       bornLand.nearPlayer = true;
@@ -141,15 +148,16 @@ public class GameServer : MonoBehaviour
     }
     Camera.main.AddComponent<PestAndFruitProducer>();
 
-    wallList = new(){};
-    foreach(var p in wallList){
+    wallList = new() { };
+    foreach (var p in wallList)
+    {
       LBmap[p.x][p.y].isWall = true;
       map[p.x][p.y].SetActive(false);
     }
-    for(int i=0;i<=5;++i)
-   {
-    var p=players[i].AddComponent<RobotBehaviourHJQ>();
-   } 
+    for (int i = 0; i <= 5; ++i)
+    {
+      var p = players[i].AddComponent<RobotBehaviourHJQ>();
+    }
   }
   /*void Update()
   {
@@ -215,7 +223,7 @@ public class GameServer : MonoBehaviour
     }
     for (int i = 0; i < PlayerNumber; ++i)
     {
-      if(!players[i].alive)continue;
+      if (!players[i].alive) continue;
       dfsp(players[i].curpos);
       dfsr(PosToCell(bornPos[i]));
     }
@@ -256,10 +264,10 @@ public class GameServer : MonoBehaviour
   {
     keySet.Add(new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2));
     keySet.Add(new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
-    keySet.Add(new(0,0,0,0,0,0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
+    keySet.Add(new(0, 0, 0, 0, 0, 0));
   }
 
   public virtual void EndGame()
@@ -286,6 +294,6 @@ public class GameServer : MonoBehaviour
   public virtual void GameOver()
   {
     end_game.Play();
-    GameOverFlag=true;
+    GameOverFlag = true;
   }
 }

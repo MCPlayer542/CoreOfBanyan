@@ -37,8 +37,8 @@ public class TutorialServer : GameServer
         ControlType = 0;
         UpdateControlKeyCode();
 
-        colors.Add(new(0.1f,0.8f,0.1f));
-        colors.Add(new(1f,0.4f,0.15f));
+        colors.Add(new(0.1f, 0.8f, 0.1f));
+        colors.Add(new(1f, 0.4f, 0.15f));
         //for(int i=0;i<PlayerNumber;++i)
         //colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
 
@@ -85,16 +85,16 @@ public class TutorialServer : GameServer
             var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
             var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
             sr.sprite = sqrt;
-            var pl=players[i];
+            var pl = players[i];
             pl.transform.position = bornPos[i];
             pl.curpos = PosToCell(bornPos[i]);
             LandBehaviour bornLand = map[pl.curpos.x][pl.curpos.y].GetComponent<LandBehaviour>();
-            bornLand.owner=i;
-            bornLand.hp = level==4&&i==0?50:1000;
+            bornLand.owner = i;
+            bornLand.hp = level == 4 && i == 0 ? 50 : 1000;
             bornLand.isRoot = true;
             bornLand.nearPlayer = true;
             bornLand.nearRoot = true;
-            pl.energy = level==4?3:level==3?0:1000;
+            pl.energy = level == 4 ? 3 : level == 3 ? 0 : 1000;
             bornLand.ChangeImg();
         }
         if (level == 4) Camera.main.AddComponent<PestAndFruitProducer>();
@@ -120,9 +120,9 @@ public class TutorialServer : GameServer
                 break;
             case 2:
                 LandBehaviour t = LBmap[1][1];
-                t.hp=1000;
-                t.owner=0;
-                t.neighbor=(Neighbor)16;
+                t.hp = 1000;
+                t.owner = 0;
+                t.neighbor = (Neighbor)16;
                 t.mPest = Instantiate(Resources.Load("Pest") as GameObject);
                 Vector3 v = t.transform.localPosition;
                 v.z = -3;
@@ -130,82 +130,82 @@ public class TutorialServer : GameServer
                 t.mPest.transform.localPosition = v;
                 t.ChangeImg();
                 ++players[0].PestNumber;
-                t=LBmap[0][1];
-                t.hp=1000;
-                t.owner=0;
-                t.neighbor=(Neighbor)10;
+                t = LBmap[0][1];
+                t.hp = 1000;
+                t.owner = 0;
+                t.neighbor = (Neighbor)10;
                 t.ChangeImg();
-                t=LBmap[1][2];
-                t.hp=1000;
-                t.owner=0;
-                t.neighbor=(Neighbor)9;
+                t = LBmap[1][2];
+                t.hp = 1000;
+                t.owner = 0;
+                t.neighbor = (Neighbor)9;
                 t.ChangeImg();
-                t=LBmap[2][2];
-                t.hp=1000;
-                t.owner=0;
-                t.neighbor=(Neighbor)20;
+                t = LBmap[2][2];
+                t.hp = 1000;
+                t.owner = 0;
+                t.neighbor = (Neighbor)20;
                 t.ChangeImg();
-                t=LBmap[2][1];
-                t.hp=1000;
-                t.owner=0;
-                t.neighbor=(Neighbor)33;
+                t = LBmap[2][1];
+                t.hp = 1000;
+                t.owner = 0;
+                t.neighbor = (Neighbor)33;
                 t.ChangeImg();
-                t=LBmap[1][0];
-                t.hp=1000;
-                t.owner=0;
-                t.neighbor=(Neighbor)18;
+                t = LBmap[1][0];
+                t.hp = 1000;
+                t.owner = 0;
+                t.neighbor = (Neighbor)18;
                 t.ChangeImg();
-                LBmap[0][0].neighbor=(Neighbor)8;
+                LBmap[0][0].neighbor = (Neighbor)8;
                 LBmap[0][0].ChangeImg();
                 UpdateMap();
                 break;
             case 3:
-                t=LBmap[n][n];
-                t.owner=0;
-                t.hp=1000;
-                t.neighbor=(Neighbor)1;
+                t = LBmap[n][n];
+                t.owner = 0;
+                t.hp = 1000;
+                t.neighbor = (Neighbor)1;
                 t.ChangeImg();
-                t=LBmap[n-1][n-1];
-                t.owner=0;
-                t.hp=1000;
-                t.neighbor=(Neighbor)2;
+                t = LBmap[n - 1][n - 1];
+                t.owner = 0;
+                t.hp = 1000;
+                t.neighbor = (Neighbor)2;
                 t.ChangeImg();
-                t=LBmap[1][0];
-                t.owner=0;
-                t.hp=6;
-                t.neighbor=(Neighbor)8;
+                t = LBmap[1][0];
+                t.owner = 0;
+                t.hp = 6;
+                t.neighbor = (Neighbor)8;
                 t.ChangeImg();
-                t=LBmap[2][0];
-                t.owner=0;
-                t.hp=5;
-                t.neighbor=(Neighbor)18;
+                t = LBmap[2][0];
+                t.owner = 0;
+                t.hp = 5;
+                t.neighbor = (Neighbor)18;
                 t.ChangeImg();
-                t=LBmap[3][1];
-                t.owner=0;
-                t.hp=3;
-                t.neighbor=(Neighbor)1;
+                t = LBmap[3][1];
+                t.owner = 0;
+                t.hp = 3;
+                t.neighbor = (Neighbor)1;
                 t.ChangeImg();
-                t=LBmap[0][1];
-                t.owner=0;
-                t.hp=4;
-                t.neighbor=(Neighbor)32;
+                t = LBmap[0][1];
+                t.owner = 0;
+                t.hp = 4;
+                t.neighbor = (Neighbor)32;
                 t.ChangeImg();
-                t=LBmap[0][2];
-                t.owner=0;
-                t.hp=3;
-                t.neighbor=(Neighbor)4;
+                t = LBmap[0][2];
+                t.owner = 0;
+                t.hp = 3;
+                t.neighbor = (Neighbor)4;
                 t.ChangeImg();
-                players[0].curpos=new Vector2Int(n-1,n-1);
-                players[0].transform.position=CellToPos(n-1,n-1);
+                players[0].curpos = new Vector2Int(n - 1, n - 1);
+                players[0].transform.position = CellToPos(n - 1, n - 1);
                 UpdateMap();
                 break;
             case 4:
-                t=LBmap[n][n];
-                t.owner=1;
-                t.hp=50;
+                t = LBmap[n][n];
+                t.owner = 1;
+                t.hp = 50;
                 t.ChangeImg();
-                players[1].curpos=new Vector2Int(n,n);
-                players[1].transform.position=CellToPos(n,n);
+                players[1].curpos = new Vector2Int(n, n);
+                players[1].transform.position = CellToPos(n, n);
                 UpdateMap();
                 break;
         }
@@ -230,7 +230,7 @@ public class TutorialServer : GameServer
                 t.ChangeImg();
                 UpdateMap();
                 SetStageMovablility(true);
-                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！",false);
+                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！", false);
                 break;
             case 12:
                 SetStageMovablility(false);
@@ -254,7 +254,7 @@ public class TutorialServer : GameServer
                 t.ChangeImg();
                 UpdateMap();
                 SetStageMovablility(true);
-                text.SetText("现在同时按住 D 和 W，进行斜向移动，吃掉场地角落的苹果；你也可以用 WASD 的其他组合来进行类似的斜向移动！",false);
+                text.SetText("现在同时按住 D 和 W，进行斜向移动，吃掉场地角落的苹果；你也可以用 WASD 的其他组合来进行类似的斜向移动！", false);
                 break;
             case 14:
                 SetStageMovablility(false);
@@ -265,7 +265,7 @@ public class TutorialServer : GameServer
                 break;
             case 21:
                 SetStageMovablility(true);
-                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的！",false);
+                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的！", false);
                 break;
             case 22:
                 SetStageMovablility(false);
@@ -273,7 +273,7 @@ public class TutorialServer : GameServer
                 break;
             case 23:
                 SetStageMovablility(true);
-                text.SetText("现在按下数字键1，使用“落叶归根”快速回到你的树根(方形结点)！",false);
+                text.SetText("现在按下数字键1，使用“落叶归根”快速回到你的树根(方形结点)！", false);
                 break;
             case 24:
                 SetStageMovablility(false);
@@ -288,16 +288,16 @@ public class TutorialServer : GameServer
                 break;
             case 32:
                 SetStageMovablility(true);
-                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长！",false);
+                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长！", false);
                 break;
             case 33:
                 SetStageMovablility(true);
-                text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！",false);
+                text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！", false);
                 break;
             case 34:
-                players[0].energy=5000;
+                players[0].energy = 5000;
                 SetStageMovablility(true);
-                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝！",false);
+                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝！", false);
                 break;
             case 35:
                 SetStageMovablility(false);
@@ -308,16 +308,16 @@ public class TutorialServer : GameServer
                 break;
             case 41:
                 SetStageMovablility(true);
-                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上来占领它！",false);
+                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上来占领它！", false);
                 break;
             case 42:
                 SetStageMovablility(false);
                 text.SetText("它被我们打回根了！现在我们去占领它的根，消灭它吧！");
-                LBmap[2*n][2*n].hp=50;
+                LBmap[2 * n][2 * n].hp = 50;
                 break;
             case 43:
                 SetStageMovablility(true);
-                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了！",false);
+                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了！", false);
                 break;
         }
     }
@@ -330,17 +330,17 @@ public class TutorialServer : GameServer
             case 13:
                 return LBmap[2 * n][n].mFruit == null;
             case 21:
-                return players[0].PestNumber==0;
+                return players[0].PestNumber == 0;
             case 23:
                 return players[0].returning;
             case 32:
                 return players[0].returning;
             case 33:
-                return (LBmap[n][n].owner==-1||LBmap[n][n].nearRoot)&&(LBmap[n-1][n-1].owner==-1||LBmap[n-1][n-1].nearRoot);
+                return (LBmap[n][n].owner == -1 || LBmap[n][n].nearRoot) && (LBmap[n - 1][n - 1].owner == -1 || LBmap[n - 1][n - 1].nearRoot);
             case 34:
                 return players[0].reinforcing;
             case 41:
-                return players[1].curpos.x==2*n&&players[1].curpos.y==2*n;
+                return players[1].curpos.x == 2 * n && players[1].curpos.y == 2 * n;
             case 44:
                 return false;
             default:
@@ -349,7 +349,7 @@ public class TutorialServer : GameServer
     }
     void SetStageMovablility(bool b)
     {
-        keySet[0]=b?new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2):new(0, 0, 0, 0, 0, 0);
+        keySet[0] = b ? new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2) : new(0, 0, 0, 0, 0, 0);
     }
     void UpdateControlKeyCode()
     {
@@ -366,8 +366,8 @@ public class TutorialServer : GameServer
     }
     public override void EndGame()
     {
-        base.EndGame();
         Destroy(text.gameObject);
-        Destroy(Camera.main.GetComponent<TutorialServer>());
+        base.EndGame();
+        //Destroy(transform.gameObject);
     }
 }
