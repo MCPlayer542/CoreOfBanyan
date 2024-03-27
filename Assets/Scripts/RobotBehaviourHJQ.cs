@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 
 //using UnityEditor.Experimental.GraphView;
 //using UnityEditorInternal;
@@ -42,7 +42,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     public List<Vector2Int> mSeek = new() { new(1, 1), new(1, 0), new(0, 1), new(-1, -1), new(0, -1), new(-1, 0) };
     float lastUpdate;
     float reinforceProbability = 0.1f;
-    float cutProbability = 0.4f;
+    float cutProbability = 0.5f;
     int CountSetBits(int n)
     {
         int count = 0;
@@ -372,7 +372,10 @@ public class RobotBehaviourHJQ : MonoBehaviour
             Vector2Int p2 = GetCapture(E);
             if (p1.x == 114514 && p2.x == 114514) return -1;
             if (p1.x == 114514) return GetDirection(p2);
-            if (p2.x == 114514) return GetDirection(p1);
+            if (p2.x == 114514){
+                if(UnityEngine.Random.Range(0f, 1f) < cutProbability)return GetDirection(p1);
+                return -1;
+            } 
             if (NodeMap[p1.x][p1.y].Dist < NodeMap[p2.x][p2.y].Dist) return GetDirection(p1);
             if (Math.Max(p2.x - bp.x, p2.y - bp.y) < n) return GetDirection(p2);
             return -1;
