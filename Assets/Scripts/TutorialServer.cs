@@ -38,7 +38,7 @@ public class TutorialServer : GameServer
         UpdateControlKeyCode();
 
         colors.Add(new(0.1f,0.8f,0.1f));
-        colors.Add(new(1f,0.4f,0.15f));
+        colors.Add(Color.cyan);
         //for(int i=0;i<PlayerNumber;++i)
         //colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
 
@@ -197,12 +197,29 @@ public class TutorialServer : GameServer
                 t.ChangeImg();
                 players[0].curpos=new Vector2Int(n-1,n-1);
                 players[0].transform.position=CellToPos(n-1,n-1);
+                players[0].KillCount=60;
                 UpdateMap();
                 break;
             case 4:
                 t=LBmap[n][n];
                 t.owner=1;
-                t.hp=50;
+                t.hp=30;
+                t.neighbor=(Neighbor)11;
+                t.ChangeImg();
+                t=LBmap[n-1][n-1];
+                t.owner=1;
+                t.hp=10;
+                t.neighbor=(Neighbor)2;
+                t.ChangeImg();
+                t=LBmap[n+1][n+1];
+                t.owner=1;
+                t.hp=15;
+                t.neighbor=(Neighbor)1;
+                t.ChangeImg();
+                t=LBmap[n+1][n];
+                t.owner=1;
+                t.hp=8;
+                t.neighbor=(Neighbor)16;
                 t.ChangeImg();
                 players[1].curpos=new Vector2Int(n,n);
                 players[1].transform.position=CellToPos(n,n);
@@ -230,11 +247,11 @@ public class TutorialServer : GameServer
                 t.ChangeImg();
                 UpdateMap();
                 SetStageMovablility(true);
-                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！",false);
+                text.SetText("按住A或D来进行左右移动可以吃掉场地中间的苹果，注意每隔一段时间才能移动一次！",false);
                 break;
             case 12:
                 SetStageMovablility(false);
-                text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
+                text.SetText("你有没有注意到吃掉苹果时飘起的绿色数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
                 break;
             case 13:
                 players[0].curpos = new Vector2Int(n, n);
@@ -265,7 +282,7 @@ public class TutorialServer : GameServer
                 break;
             case 21:
                 SetStageMovablility(true);
-                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的！",false);
+                text.SetText("去到树枝末端可以消灭害虫，注意树枝是不能长成回路的！",false);
                 break;
             case 22:
                 SetStageMovablility(false);
@@ -295,9 +312,8 @@ public class TutorialServer : GameServer
                 text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！",false);
                 break;
             case 34:
-                players[0].energy=5000;
                 SetStageMovablility(true);
-                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝！",false);
+                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定创造力加固脚下的和与你直接相连的树枝！",false);
                 break;
             case 35:
                 SetStageMovablility(false);
@@ -307,15 +323,23 @@ public class TutorialServer : GameServer
                 gm.NewTutorial();
                 break;
             case 41:
-                SetStageMovablility(true);
-                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上来占领它！",false);
+                SetStageMovablility(false);
+                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？当你的创造力超过它树枝的坚固性时，我们可以移动到它的树枝上来占领它！");
                 break;
             case 42:
+                SetStageMovablility(false);
+                text.SetText("你需要积累一定的创造力才能将它的树枝占领，在此之前请尽快开枝散叶，让创造力快速增长！");
+                break;
+            case 43:
+                SetStageMovablility(true);
+                text.SetText("不要忘了吃苹果、清害虫和使用技能，建议使用双手操作！",false);
+                break;
+            case 44:
                 SetStageMovablility(false);
                 text.SetText("它被我们打回根了！现在我们去占领它的根，消灭它吧！");
                 LBmap[2*n][2*n].hp=50;
                 break;
-            case 43:
+            case 45:
                 SetStageMovablility(true);
                 text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了！",false);
                 break;
@@ -339,9 +363,9 @@ public class TutorialServer : GameServer
                 return (LBmap[n][n].owner==-1||LBmap[n][n].nearRoot)&&(LBmap[n-1][n-1].owner==-1||LBmap[n-1][n-1].nearRoot);
             case 34:
                 return players[0].reinforcing;
-            case 41:
+            case 43:
                 return players[1].curpos.x==2*n&&players[1].curpos.y==2*n;
-            case 44:
+            case 46:
                 return false;
             default:
                 return text.isPressed();
