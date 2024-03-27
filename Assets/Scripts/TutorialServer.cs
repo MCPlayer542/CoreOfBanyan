@@ -37,8 +37,8 @@ public class TutorialServer : GameServer
         ControlType = 0;
         UpdateControlKeyCode();
 
-        colors.Add(Color.green);
-        colors.Add(Color.red);
+        colors.Add(new(0.1f,0.8f,0.1f));
+        colors.Add(new(1f,0.4f,0.15f));
         //for(int i=0;i<PlayerNumber;++i)
         //colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
 
@@ -90,11 +90,11 @@ public class TutorialServer : GameServer
             pl.curpos = PosToCell(bornPos[i]);
             LandBehaviour bornLand = map[pl.curpos.x][pl.curpos.y].GetComponent<LandBehaviour>();
             bornLand.owner=i;
-            bornLand.hp = level==4?50:1000;
+            bornLand.hp = level==4&&i==0?50:1000;
             bornLand.isRoot = true;
             bornLand.nearPlayer = true;
             bornLand.nearRoot = true;
-            pl.energy = level==4?3:1000;
+            pl.energy = level==4?3:level==3?0:1000;
             bornLand.ChangeImg();
         }
         if (level == 4) Camera.main.AddComponent<PestAndFruitProducer>();
@@ -160,8 +160,53 @@ public class TutorialServer : GameServer
                 UpdateMap();
                 break;
             case 3:
+                t=LBmap[n][n];
+                t.owner=0;
+                t.hp=1000;
+                t.neighbor=(Neighbor)1;
+                t.ChangeImg();
+                t=LBmap[n-1][n-1];
+                t.owner=0;
+                t.hp=1000;
+                t.neighbor=(Neighbor)2;
+                t.ChangeImg();
+                t=LBmap[1][0];
+                t.owner=0;
+                t.hp=6;
+                t.neighbor=(Neighbor)8;
+                t.ChangeImg();
+                t=LBmap[2][0];
+                t.owner=0;
+                t.hp=5;
+                t.neighbor=(Neighbor)18;
+                t.ChangeImg();
+                t=LBmap[3][1];
+                t.owner=0;
+                t.hp=3;
+                t.neighbor=(Neighbor)1;
+                t.ChangeImg();
+                t=LBmap[0][1];
+                t.owner=0;
+                t.hp=4;
+                t.neighbor=(Neighbor)32;
+                t.ChangeImg();
+                t=LBmap[0][2];
+                t.owner=0;
+                t.hp=3;
+                t.neighbor=(Neighbor)4;
+                t.ChangeImg();
+                players[0].curpos=new Vector2Int(n-1,n-1);
+                players[0].transform.position=CellToPos(n-1,n-1);
+                UpdateMap();
                 break;
             case 4:
+                t=LBmap[n][n];
+                t.owner=1;
+                t.hp=50;
+                t.ChangeImg();
+                players[1].curpos=new Vector2Int(n,n);
+                players[1].transform.position=CellToPos(n,n);
+                UpdateMap();
                 break;
         }
         stage = 0;
@@ -184,9 +229,11 @@ public class TutorialServer : GameServer
                 t.mFruit.transform.localPosition = v;
                 t.ChangeImg();
                 UpdateMap();
-                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！");
+                SetStageMovablility(true);
+                text.SetText("按住A和D来进行左右移动，吃掉场地中间的苹果，注意每隔一段时间才能移动一次！",false);
                 break;
             case 12:
+                SetStageMovablility(false);
                 text.SetText("你有没有注意到吃掉苹果时飘起的数字？核心上方的深蓝色数字代表你的创造力，吃苹果时会增加！");
                 break;
             case 13:
@@ -206,55 +253,71 @@ public class TutorialServer : GameServer
                 t.mFruit.transform.localPosition = v;
                 t.ChangeImg();
                 UpdateMap();
-                text.SetText("现在同时按住 D 和 W，进行斜向移动，吃掉场地角落的苹果；你也可以用 WASD 的其他组合来进行类似的斜向移动！");
+                SetStageMovablility(true);
+                text.SetText("现在同时按住 D 和 W，进行斜向移动，吃掉场地角落的苹果；你也可以用 WASD 的其他组合来进行类似的斜向移动！",false);
                 break;
             case 14:
+                SetStageMovablility(false);
                 text.SetText("苹果在生成后一段时间会闪烁，不及时吃掉的话会消失！");
                 break;
             case 15:
                 gm.NewTutorial();
                 break;
             case 21:
-                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的！");
+                SetStageMovablility(true);
+                text.SetText("去到树枝末端消灭害虫，注意树枝是不能长成回路的！",false);
                 break;
             case 22:
+                SetStageMovablility(false);
                 text.SetText("你有没有注意到被害虫侵袭的树枝上的数字减少了？树枝上的黑色数字代表坚固性，害虫会啃食你的枝干，减少到1后会断开，注意及时清理！");
                 break;
             case 23:
-                text.SetText("现在按下数字键1，使用“落叶归根”快速回到你的树根(方形结点)！");
+                SetStageMovablility(true);
+                text.SetText("现在按下数字键1，使用“落叶归根”快速回到你的树根(方形结点)！",false);
                 break;
             case 24:
+                SetStageMovablility(false);
                 text.SetText("注意这并不是没有代价的，你失去了刚刚所在的树枝！");
                 break;
             case 25:
                 gm.NewTutorial();
                 break;
             case 31:
+                SetStageMovablility(false);
                 text.SetText("噢不！你现在和根断开了！你头上的创造力会变成红色并不再自动增加，脚下树枝的坚固值也变为红色并在逐渐流失！");
                 break;
             case 32:
-                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长！");
+                SetStageMovablility(true);
+                text.SetText("你可以使用“落叶归根”快速回到根，使你的创造力恢复增长！",false);
                 break;
             case 33:
-                text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！");
+                SetStageMovablility(true);
+                text.SetText("非常棒！现在移动回去接上树枝，使树枝的坚固性恢复增长，避免树枝消亡！",false);
                 break;
             case 34:
-                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝！");
+                players[0].energy=5000;
+                SetStageMovablility(true);
+                text.SetText("现在树枝有点脆弱，可以按数字键2来使用“固若金汤”，消耗一定能量加固脚下的和与你直接相连的树枝！",false);
                 break;
             case 35:
+                SetStageMovablility(false);
                 text.SetText("根非常重要，它是你的一切能量来源。和树根连通的树枝越多，你的创造力增长就越快，同时只有与根连通的地方才会结果或生虫！");
                 break;
             case 36:
                 gm.NewTutorial();
                 break;
             case 41:
-                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上来占领它！");
+                SetStageMovablility(true);
+                text.SetText("现在我们进入实战！看到中间的那个榕树核心了吗？积累一定创造力后，我们可以移动到它的树枝上来占领它！",false);
                 break;
             case 42:
+                SetStageMovablility(false);
                 text.SetText("它被我们打回根了！现在我们去占领它的根，消灭它吧！");
+                LBmap[2*n][2*n].hp=50;
                 break;
             case 43:
-                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了！");
+                SetStageMovablility(true);
+                text.SetText("如果场上只有你一棵榕树，你就获得了胜利；也要当心不要被别人消灭了！",false);
                 break;
         }
     }
@@ -269,12 +332,24 @@ public class TutorialServer : GameServer
             case 21:
                 return players[0].PestNumber==0;
             case 23:
-                return Input.GetKey(KeyCode.Alpha1);
+                return players[0].returning;
+            case 32:
+                return players[0].returning;
+            case 33:
+                return (LBmap[n][n].owner==-1||LBmap[n][n].nearRoot)&&(LBmap[n-1][n-1].owner==-1||LBmap[n-1][n-1].nearRoot);
+            case 34:
+                return players[0].reinforcing;
+            case 41:
+                return players[1].curpos.x==2*n&&players[1].curpos.y==2*n;
             case 44:
                 return false;
             default:
                 return text.isPressed();
         }
+    }
+    void SetStageMovablility(bool b)
+    {
+        keySet[0]=b?new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2):new(0, 0, 0, 0, 0, 0);
     }
     void UpdateControlKeyCode()
     {
