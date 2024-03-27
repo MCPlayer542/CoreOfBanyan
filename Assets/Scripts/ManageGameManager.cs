@@ -211,8 +211,12 @@ public class ManageGameManager : MonoBehaviour
     {
         if (lsid == null)
         {
-            if (isTutorial) NewGame();
-            else NewTutorial();
+            if (isTutorial)
+            {
+                --tutorial_level;
+                NewTutorial();
+            }
+            else NewGame();
             maintheme.Stop();
             return;
         }
