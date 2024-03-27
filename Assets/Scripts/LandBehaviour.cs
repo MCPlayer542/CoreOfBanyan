@@ -120,7 +120,7 @@ public class LandBehaviour : MonoBehaviour
         Destroy(t);
         foreach (var i in s.players)
         {
-            if (owner == i.pid && Time.time - i.last_move > s.game_pace * 0.7 && s.PosToCell(i.GetComponent<PlayerBehaviour>().transform.position) == s.PosToCell(transform.position) && GameServer.keySet[i.pid].isKeyDown())
+            if (i.alive && owner == i.pid && Time.time - i.last_move > s.game_pace * 0.7 && s.PosToCell(i.GetComponent<PlayerBehaviour>().transform.position) == s.PosToCell(transform.position) && GameServer.keySet[i.pid].isKeyDown())
             {
                 var a = i.anchoring;
                 if (a == Neighbor.None) break;
