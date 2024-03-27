@@ -18,13 +18,18 @@ public class SoloEZBehavior : MonoBehaviour
 
     }
 
+    double curtime = -114;
+
     // Update is called once per frame
     void Update()
     {
         if (transform.gameObject.GetComponent<ClickScript>().isCollision() && Input.GetMouseButtonDown(0))
         {
+            curtime = Time.timeAsDouble;
+        }
+        if (Time.timeAsDouble - curtime < 0.4)
+        {
             ManageGameManager.gameStatus = false;
-            GameServer.GameOverFlag = false;
             ManageGameManager.init = init;
             Camera.main.GetComponent<ManageGameManager>().EndGame();
             ManageGameManager.isTutorial = false;

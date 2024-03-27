@@ -83,6 +83,7 @@ public class ManageGameManager : MonoBehaviour
 
     }
 
+
     public void NewGame()
     {
         isTutorial = false;
