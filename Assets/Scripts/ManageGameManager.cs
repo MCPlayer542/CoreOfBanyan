@@ -71,7 +71,7 @@ public class ManageGameManager : MonoBehaviour
             }
         }
 
-        if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape) && displayObjects[3].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+        if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape) && (!displayObjects[3].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
         {
             ChangePauseStatus();
             var R = displayObjects[1].transform;
