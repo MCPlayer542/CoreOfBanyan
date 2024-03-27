@@ -78,17 +78,13 @@ public class ManageGameManager : MonoBehaviour
             {
                 R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
+            DisplayStatus(new() { 1 });
         }
-
 
         if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape) && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
         {
             ChangePauseStatus();
-            var R = displayObjects[1].transform;
-            for (int i = 0; i < R.childCount; ++i)
-            {
-                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = !R.GetChild(i).GetComponent<UIElementBehavior>().isVisible;
-            }
+            DisplayStatus(new() { 1 });
         }
 
     }
