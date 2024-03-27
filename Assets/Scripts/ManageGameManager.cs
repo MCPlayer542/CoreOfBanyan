@@ -71,14 +71,14 @@ public class ManageGameManager : MonoBehaviour
             }
         }
 
-        if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape) && displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+        if (Input.GetKeyDown(KeyCode.Escape) && displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
         {
             var R = displayObjects[4].transform;
             for (int i = 0; i < R.childCount; ++i)
             {
                 R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
             }
-            DisplayStatus(new() { 1 });
+            //DisplayStatus(new() { 1 });
         }
 
         if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape) && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
