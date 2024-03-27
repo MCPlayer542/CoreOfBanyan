@@ -22,8 +22,8 @@ public class UIElementBehavior : MonoBehaviour
     public Vector3 P1, P2;
 
     public Vector3 PP1, PP2;
-    float sizeOfFont;
-    bool UIStatus = false;
+    public float sizeOfFont = 0;
+    public bool UIStatus = false;
 
     public bool isBG = false;
 
