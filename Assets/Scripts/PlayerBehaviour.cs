@@ -54,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
     Vector3 prev;
     public float last_move;
     public PlayerNumberBehavior mNumberBehavior;
-    public AudioSource fast_return, pest_death, fruit_gain;
+    public AudioSource fast_return, pest_death, fruit_gain,forced_return,reinforce;
     public bool alive = true, returning = false, reinforcing = false;
     public Neighbor anchoring = 0;
     public bool isRobot = false;
@@ -321,6 +321,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void Reinforce()
     {
         reinforcing = true;
+        if(!isRobot) reinforce.Play();
         float amount = (float)energy * 0.025f;
         energy *= 0.9f;
         s.LBmap[curpos.x][curpos.y].hp += amount;

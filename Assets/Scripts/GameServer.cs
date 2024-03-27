@@ -258,6 +258,7 @@ public class GameServer : MonoBehaviour
   }
   public void BackHome(int pid)
   {
+    if(!players[pid].returning&&!players[pid].isRobot) players[pid].forced_return.Play();
     players[pid].curpos = PosToCell(bornPos[pid]);
     players[pid].transform.position = bornPos[pid];
   }
