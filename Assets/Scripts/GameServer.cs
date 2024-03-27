@@ -39,7 +39,7 @@ public class GameServer : MonoBehaviour
   public List<VJoystickBehavior> vjoysticks = new();
   public List<Vector2Int> wallList = new();
   public List<Color> colors = new();
-  public float game_pace = 1f / 3f;
+  public float game_pace =0.4f;// 1f / 3f;
   public static AudioSource end_game = null;
 
   public Vector3 CellToPos(int x, int y)
