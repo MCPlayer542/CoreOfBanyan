@@ -67,7 +67,7 @@ public class GameServer : MonoBehaviour
     UpdateControlKeyCode();
     // for(int i=0;i<PlayerNumber;++i)
     //   colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
-    colors = new(){Color.green, Color.blue, Color.cyan, Color.magenta, Color.yellow, Color.gray};
+    colors = new(){new(0.1f,0.8f,0.1f), new(1f,0.4f,0.15f), Color.cyan, Color.magenta, Color.yellow, Color.gray};
 
     map.Clear();
     LBmap.Clear();
