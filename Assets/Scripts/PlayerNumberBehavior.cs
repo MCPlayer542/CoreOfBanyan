@@ -55,7 +55,6 @@ public class PlayerNumberBehavior : MonoBehaviour
     {
         var p = mPlayerBehaviour;
         var t = mEnergyUI;
-        Debug.Log("("+p.curpos.x+","+p.curpos.y+")["+mGameServer.LBmap[p.curpos.x][p.curpos.y].nearRoot+"]");
         t.color=mGameServer.LBmap[p.curpos.x][p.curpos.y].nearRoot?Color.blue:Color.red;
         t.text = "" + (long)p.energy;
         Vector3 v = mPlayerBehaviour.transform.position;

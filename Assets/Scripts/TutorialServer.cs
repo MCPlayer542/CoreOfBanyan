@@ -85,6 +85,17 @@ public class TutorialServer : GameServer
             var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
             var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
             sr.sprite = sqrt;
+            var pl=players[i];
+            pl.transform.position = bornPos[i];
+            pl.curpos = PosToCell(bornPos[i]);
+            LandBehaviour bornLand = map[pl.curpos.x][pl.curpos.y].GetComponent<LandBehaviour>();
+            bornLand.owner=i;
+            bornLand.hp = level==4?50:1000;
+            bornLand.isRoot = true;
+            bornLand.nearPlayer = true;
+            bornLand.nearRoot = true;
+            pl.energy = level==4?3:1000;
+            bornLand.ChangeImg();
         }
         if (level == 4) Camera.main.AddComponent<PestAndFruitProducer>();
 
@@ -108,6 +119,45 @@ public class TutorialServer : GameServer
             case 1:
                 break;
             case 2:
+                LandBehaviour t = LBmap[1][1];
+                t.hp=1000;
+                t.owner=0;
+                t.neighbor=(Neighbor)16;
+                t.mPest = Instantiate(Resources.Load("Pest") as GameObject);
+                Vector3 v = t.transform.localPosition;
+                v.z = -3;
+                v.y += 0.2f;
+                t.mPest.transform.localPosition = v;
+                t.ChangeImg();
+                ++players[0].PestNumber;
+                t=LBmap[0][1];
+                t.hp=1000;
+                t.owner=0;
+                t.neighbor=(Neighbor)10;
+                t.ChangeImg();
+                t=LBmap[1][2];
+                t.hp=1000;
+                t.owner=0;
+                t.neighbor=(Neighbor)9;
+                t.ChangeImg();
+                t=LBmap[2][2];
+                t.hp=1000;
+                t.owner=0;
+                t.neighbor=(Neighbor)20;
+                t.ChangeImg();
+                t=LBmap[2][1];
+                t.hp=1000;
+                t.owner=0;
+                t.neighbor=(Neighbor)33;
+                t.ChangeImg();
+                t=LBmap[1][0];
+                t.hp=1000;
+                t.owner=0;
+                t.neighbor=(Neighbor)18;
+                t.ChangeImg();
+                LBmap[0][0].neighbor=(Neighbor)8;
+                LBmap[0][0].ChangeImg();
+                UpdateMap();
                 break;
             case 3:
                 break;
@@ -123,7 +173,7 @@ public class TutorialServer : GameServer
         switch (level * 10 + stage)
         {
             case 11:
-                LBmap[n][n].hp = 100;
+                LBmap[n][n].hp = 1000;
                 LBmap[n][n].owner = 0;
                 LandBehaviour t = LBmap[n][n];
                 t.mFruit = Instantiate(Resources.Load("Fruit") as GameObject);
@@ -142,10 +192,10 @@ public class TutorialServer : GameServer
             case 13:
                 players[0].curpos = new Vector2Int(n, n);
                 players[0].transform.position = CellToPos(n, n);
-                LBmap[n][n].hp = 100;
+                LBmap[n][n].hp = 1000;
                 LBmap[n][n].owner = 0;
                 LBmap[n][n].ChangeImg();
-                LBmap[2 * n][n].hp = 100;
+                LBmap[2 * n][n].hp = 1000;
                 LBmap[2 * n][n].owner = 0;
                 t = LBmap[2 * n][n];
                 t.mFruit = Instantiate(Resources.Load("Fruit") as GameObject);
@@ -216,6 +266,10 @@ public class TutorialServer : GameServer
                 return LBmap[n][n].mFruit == null;
             case 13:
                 return LBmap[2 * n][n].mFruit == null;
+            case 21:
+                return players[0].PestNumber==0;
+            case 23:
+                return Input.GetKey(KeyCode.Alpha1);
             case 44:
                 return false;
             default:

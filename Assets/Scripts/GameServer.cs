@@ -109,6 +109,17 @@ public class GameServer : MonoBehaviour
       var sr = map[p.x][p.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
       var sqrt = Resources.Load<Sprite>("Textures/SquareRoot");
       sr.sprite = sqrt;
+      var pl=players[i];
+      pl.transform.position = bornPos[i];
+      pl.curpos = PosToCell(bornPos[i]);
+      LandBehaviour bornLand = map[pl.curpos.x][pl.curpos.y].GetComponent<LandBehaviour>();
+      bornLand.owner=i;
+      bornLand.hp = 50;
+      bornLand.isRoot = true;
+      bornLand.nearPlayer = true;
+      bornLand.nearRoot = true;
+      pl.energy = 3;
+      bornLand.ChangeImg();
     }
     Camera.main.AddComponent<PestAndFruitProducer>();
 

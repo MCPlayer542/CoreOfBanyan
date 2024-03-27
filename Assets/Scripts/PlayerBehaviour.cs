@@ -42,7 +42,7 @@ public class OPQ
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public int PestNumber;
+    public int PestNumber=0;
     public bool Movable;
     public int pid;
     public float speed;
@@ -62,20 +62,21 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         opQueue = new();
-        transform.position = s.bornPos[pid];
         speed = 3.0f;
-        curpos = s.PosToCell(s.bornPos[pid]);
-        LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
-        energy = 114514; //big enough
-        TryCapture(bornLand, bornLand, curpos, curpos);
-        s.LBmap[curpos.x][curpos.y].hp = 50;
-        s.LBmap[curpos.x][curpos.y].isRoot = true;
-        s.LBmap[curpos.x][curpos.y].nearPlayer = true;
-        s.LBmap[curpos.x][curpos.y].nearRoot = true;
-        energy = 3;
+
+        // transform.position = s.bornPos[pid];
+        // curpos = s.PosToCell(s.bornPos[pid]);
+        // LandBehaviour bornLand = s.map[curpos.x][curpos.y].GetComponent<LandBehaviour>();
+        // energy = 114514; //big enough
+        // TryCapture(bornLand, bornLand, curpos, curpos);
+        // s.LBmap[curpos.x][curpos.y].hp = 50;
+        // s.LBmap[curpos.x][curpos.y].isRoot = true;
+        // s.LBmap[curpos.x][curpos.y].nearPlayer = true;
+        // s.LBmap[curpos.x][curpos.y].nearRoot = true;
+        // energy = 3;
+        
         last_move = -s.game_pace;
         mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
-        PestNumber=0;
         KillCount=0;
     }
     private const float S3_2 = 0.8660254f;
