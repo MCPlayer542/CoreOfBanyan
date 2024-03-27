@@ -58,7 +58,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         n = GameServer.n;
         //s=Camera.main.GetComponent<GameServer>();
         mPlayer = gameObject.GetComponent<PlayerBehaviour>();
-        mPlayer.isRobot=true;
+        mPlayer.isRobot = true;
         for (int i = 0; i <= 2 * n; ++i)
         {
             NodeMap.Add(new List<NodeInformation>());
@@ -72,8 +72,8 @@ public class RobotBehaviourHJQ : MonoBehaviour
             }
         }
         pid = mPlayer.pid;
-        lastUpdate = Time.time + s.game_pace / s.PlayerNumber * pid;
-        s.keySet[pid] = new(0,0,0,0,0,0);
+        lastUpdate = Time.time + s.game_pace / GameServer.PlayerNumber * pid;
+        GameServer.keySet[pid] = new(0, 0, 0, 0, 0, 0);
     }
     void InitNodeMap()
     {
@@ -131,7 +131,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     Vector2Int GetConnect(double E)
     {
         Vector2Int pos = new(114514, 114514);
-        int dis = E < 5 ? 1 : n / 3*2;
+        int dis = E < 5 ? 1 : n / 3 * 2;
         for (int i = 0; i <= 2 * n; ++i)
         {
             for (int j = 0; j <= 2 * n; ++j)
@@ -156,7 +156,8 @@ public class RobotBehaviourHJQ : MonoBehaviour
         {
             Vector2Int t = mPlayer.curpos + dlt;
             if (s.OutOfScreen(t)) continue;
-            if (s.LBmap[t.x][t.y].owner == pid && s.LBmap[t.x][t.y].nearRoot != s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot){
+            if (s.LBmap[t.x][t.y].owner == pid && s.LBmap[t.x][t.y].nearRoot != s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot)
+            {
                 p = t;
             }
         }
@@ -240,7 +241,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
                 {
                     if (s.LBmap[i][j].owner == pid) continue;
                     bool flag = false;
-                    for (int k = 0; k < s.PlayerNumber; k++)
+                    for (int k = 0; k < GameServer.PlayerNumber; k++)
                     {
                         Vector2Int p = s.PosToCell(s.bornPos[pid]);
                         if (p.x == i && p.y == j) flag = true;
@@ -313,16 +314,16 @@ public class RobotBehaviourHJQ : MonoBehaviour
     {
         Vector2Int bp = s.PosToCell(s.bornPos[pid]);
         if (mPlayer.energy > 10 && NodeMap[bp.x][bp.y].Dist <= 1) mPlayer.Reinforce();
-        for (int i = 0; i < s.PlayerNumber; ++i)
+        for (int i = 0; i < GameServer.PlayerNumber; ++i)
         {
             if (i == pid) continue;
             Vector2Int p = s.players[i].curpos;
-            int dis1=Math.Abs(bp.x-p.x)+Math.Abs(bp.y-p.y);
-            int dis2=Math.Abs(mPlayer.curpos.x-bp.x)+Math.Abs(mPlayer.curpos.y-bp.y);
-            if (dis1<= 2 && s.players[i].energy > s.LBmap[bp.x][bp.y].hp)
+            int dis1 = Math.Abs(bp.x - p.x) + Math.Abs(bp.y - p.y);
+            int dis2 = Math.Abs(mPlayer.curpos.x - bp.x) + Math.Abs(mPlayer.curpos.y - bp.y);
+            if (dis1 <= 2 && s.players[i].energy > s.LBmap[bp.x][bp.y].hp)
             {
-                if(mPlayer.curpos==bp)return GetDirection(p);
-                if(dis2<=2)return GetDirection(bp);
+                if (mPlayer.curpos == bp) return GetDirection(p);
+                if (dis2 <= 2) return GetDirection(bp);
                 return -1;
             }
         }
@@ -344,14 +345,14 @@ public class RobotBehaviourHJQ : MonoBehaviour
         double easyTargetEnergy = 1e6;
         double E = mPlayer.energy;
         int x = mPlayer.curpos.x, y = mPlayer.curpos.y, targetID = -1;
-        for (int i = 0; i < s.PlayerNumber; i++)
+        for (int i = 0; i < GameServer.PlayerNumber; i++)
         {
             if (i == pid) continue;
-            if(!s.players[i].alive)continue;
+            if (!s.players[i].alive) continue;
             Vector2Int p = s.PosToCell(s.bornPos[i]);
             bool NearRoot = s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot;
-            double eNeed=s.players[i].energy+NodeMap[p.x][p.y].Energy;
-            if(Math.Max(x-p.x,y-p.y)<=n/2&&E > eNeed)return GetDirection(s.PosToCell(s.bornPos[i]));
+            double eNeed = s.players[i].energy + NodeMap[p.x][p.y].Energy;
+            if (Math.Max(x - p.x, y - p.y) <= n / 2 && E > eNeed) return GetDirection(s.PosToCell(s.bornPos[i]));
             if ((!NearRoot && E > eNeed * 1.5f) || (NearRoot && E > eNeed))
             {
                 if (easyTargetEnergy >= NodeMap[p.x][p.y].Energy)
@@ -372,7 +373,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             if (p1.x == 114514) return GetDirection(p2);
             if (p2.x == 114514) return GetDirection(p1);
             if (NodeMap[p1.x][p1.y].Dist < NodeMap[p2.x][p2.y].Dist) return GetDirection(p1);
-            if (Math.Max(p2.x-bp.x,p2.y-bp.y)<n)return GetDirection(p2);
+            if (Math.Max(p2.x - bp.x, p2.y - bp.y) < n) return GetDirection(p2);
             return -1;
         }
         else
@@ -380,7 +381,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             if (mPlayer.energy > 20 && UnityEngine.Random.Range(0f, 1f) < reinforceProbability) mPlayer.Reinforce();
 
             Vector2Int cutP = TryCut();
-            if (cutP.x != 114514 && (Math.Max(cutP.x-bp.x,cutP.y-bp.y)<=n/2||UnityEngine.Random.Range(0f, 1f) < cutProbability)) return GetDirection(cutP);
+            if (cutP.x != 114514 && (Math.Max(cutP.x - bp.x, cutP.y - bp.y) <= n / 2 || UnityEngine.Random.Range(0f, 1f) < cutProbability)) return GetDirection(cutP);
 
             Vector2Int p = GetTarget();
             if (p.x == 114514) return -1;

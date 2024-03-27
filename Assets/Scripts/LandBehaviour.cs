@@ -16,7 +16,7 @@ public enum Neighbor
     RDown = 32,
     None = 0
 };
-public enum DirID{LeftID,RightID,LUpID,RUpID,LDownID,RDownID};
+public enum DirID { LeftID, RightID, LUpID, RUpID, LDownID, RDownID };
 public class NeighborPos
 {
     static public Vector2Int Left = new(-1, -1), Right = new(1, 1), RUp = new(1, 0), LDown = new(-1, 0), RDown = new(0, 1), LUp = new(0, -1);
@@ -48,12 +48,12 @@ public class LandBehaviour : MonoBehaviour
     readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
-        if(ManageGameManager.isPause) return;
-        if(isWall) return;
+        if (ManageGameManager.isPause) return;
+        if (isWall) return;
         Anchoring();
         if (owner == -1) return;
-        if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime * (1+s.players[owner].KillCount/3f);
-        if (nearRoot) hp += Constant1 * Time.smoothDeltaTime * (1+s.players[owner].KillCount/3f);
+        if (nearRoot && nearPlayer) s.players[owner].energy += k3 * Time.smoothDeltaTime * (1 + s.players[owner].KillCount / 3f);
+        if (nearRoot) hp += Constant1 * Time.smoothDeltaTime * (1 + s.players[owner].KillCount / 3f);
         else hp -= Constant2 * Time.smoothDeltaTime;
         if (mPest != null) hp -= Constant3 * Time.smoothDeltaTime;
 
@@ -66,10 +66,10 @@ public class LandBehaviour : MonoBehaviour
 
     public void Captured(int new_owner, Neighbor new_neighbor, float new_hp)
     {
-        if(isRoot) capture_root.Play();
+        if (isRoot) capture_root.Play();
         var cur = s.PosToCell(transform.position);
         if (owner != -1) s.ChangeNeighborOfNeighbor(cur.x, cur.y, new_neighbor);
-        if(mPest!=null) s.players[owner].PestNumber--;
+        if (mPest != null) s.players[owner].PestNumber--;
         Destroy(mPest);
         Destroy(mFruit);
         mPest = null;
@@ -120,7 +120,7 @@ public class LandBehaviour : MonoBehaviour
         Destroy(t);
         foreach (var i in s.players)
         {
-            if (owner == i.pid && Time.time - i.last_move > s.game_pace * 0.7 && s.PosToCell(i.GetComponent<PlayerBehaviour>().transform.position) == s.PosToCell(transform.position) && s.keySet[i.pid].isKeyDown())
+            if (owner == i.pid && Time.time - i.last_move > s.game_pace * 0.7 && s.PosToCell(i.GetComponent<PlayerBehaviour>().transform.position) == s.PosToCell(transform.position) && GameServer.keySet[i.pid].isKeyDown())
             {
                 var a = i.anchoring;
                 if (a == Neighbor.None) break;

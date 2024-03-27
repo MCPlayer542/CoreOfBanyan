@@ -56,7 +56,7 @@ public class ClickScript : MonoBehaviour
         var p = Input.mousePosition;
         return p.x <= transform.GetComponent<TMP_Text>().transform.position.x + txt[0].Length * transform.GetComponent<TMP_Text>().fontSize / 2
         && p.x >= transform.GetComponent<TMP_Text>().transform.position.x - txt[0].Length * transform.GetComponent<TMP_Text>().fontSize / 2
-        && p.y <= transform.GetComponent<TMP_Text>().transform.position.y + transform.GetComponent<TMP_Text>().fontSize / 2
-        && p.y >= transform.GetComponent<TMP_Text>().transform.position.y - transform.GetComponent<TMP_Text>().fontSize / 2;
+        && p.y <= transform.GetComponent<TMP_Text>().transform.position.y + txt.Count * transform.GetComponent<TMP_Text>().fontSize / 2
+        && p.y >= transform.GetComponent<TMP_Text>().transform.position.y - txt.Count * transform.GetComponent<TMP_Text>().fontSize / 2;
     }
 }

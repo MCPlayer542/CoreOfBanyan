@@ -18,9 +18,9 @@ public class RobotBehaviourLYK : MonoBehaviour
     {
         //s = Camera.main.GetComponent<GameServer>();
         self = GetComponent<PlayerBehaviour>();
-        self.isRobot=true;
+        self.isRobot = true;
         n = GameServer.n;
-        s.keySet[self.pid] = new(0,0,0,0,0,0);
+        GameServer.keySet[self.pid] = new(0, 0, 0, 0, 0, 0);
     }
 
     // Update is called once per frame

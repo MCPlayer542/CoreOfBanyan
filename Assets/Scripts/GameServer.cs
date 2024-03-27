@@ -30,9 +30,9 @@ public class GameServer : MonoBehaviour
   public int ControlType;
   public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
-  public List<MKeySetClass> keySet = new();
+  public static List<MKeySetClass> keySet = new();
   public static int n = 10;
-  public int PlayerNumber = 6;
+  public static int PlayerNumber = 6;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();

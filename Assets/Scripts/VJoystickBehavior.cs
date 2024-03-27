@@ -34,10 +34,10 @@ public class VJoystickBehavior : MonoBehaviour
         if (!s.players[pid].alive) return;
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
-        if (ManageGameManager.GetKey(s.keySet[pid].Up)) ty++;
-        if (ManageGameManager.GetKey(s.keySet[pid].Down)) ty--;
-        if (ManageGameManager.GetKey(s.keySet[pid].Left)) tx--;
-        if (ManageGameManager.GetKey(s.keySet[pid].Right)) tx++;
+        if (ManageGameManager.GetKey(GameServer.keySet[pid].Up)) ty++;
+        if (ManageGameManager.GetKey(GameServer.keySet[pid].Down)) ty--;
+        if (ManageGameManager.GetKey(GameServer.keySet[pid].Left)) tx--;
+        if (ManageGameManager.GetKey(GameServer.keySet[pid].Right)) tx++;
         if (tx != 0 && ty != 0)
         {
             p.x += (float)(half * tx * speed * Time.smoothDeltaTime);
