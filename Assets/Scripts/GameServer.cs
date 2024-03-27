@@ -56,12 +56,29 @@ public class GameServer : MonoBehaviour
     transform.position = new(n, 0, -10);
     GetComponent<Camera>().orthographicSize = (n + 1) * 0.866025f;
     bornPos.Clear();
-    bornPos.Add(new(0, 0, -4));
-    bornPos.Add(new(2 * n, 0, -4));
-    bornPos.Add(CellToPos(n, 0));
-    bornPos.Add(CellToPos(0, n));
-    bornPos.Add(CellToPos(2 * n, n));
-    bornPos.Add(CellToPos(n, 2 * n));
+    if(n==2){
+      bornPos.Add(new(0, 0, -4));
+      bornPos.Add(new(2 * n, 0, -4));
+    }
+    else if(n==3){
+      bornPos.Add(new(0, 0, -4));
+      bornPos.Add(CellToPos(2 * n, n));
+      bornPos.Add(CellToPos(n, 2 * n));
+    }
+    else if(n==4){
+      bornPos.Add(CellToPos(n, 0));
+      bornPos.Add(CellToPos(0, n));
+      bornPos.Add(CellToPos(2 * n, n));
+      bornPos.Add(CellToPos(n, 2 * n));
+    }
+    else{
+      bornPos.Add(new(0, 0, -4));
+      bornPos.Add(new(2 * n, 0, -4));
+      bornPos.Add(CellToPos(n, 0));
+      bornPos.Add(CellToPos(0, n));
+      bornPos.Add(CellToPos(2 * n, n));
+      bornPos.Add(CellToPos(n, 2 * n));
+    }
     keySet.Clear();
     ControlType = 0;
     UpdateControlKeyCode();
