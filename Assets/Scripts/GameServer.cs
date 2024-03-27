@@ -67,8 +67,8 @@ public class GameServer : MonoBehaviour
     }
     else if(n==4){
       bornPos.Add(CellToPos(n, 0));
-      bornPos.Add(CellToPos(0, n));
       bornPos.Add(CellToPos(2 * n, n));
+      bornPos.Add(CellToPos(0, n));
       bornPos.Add(CellToPos(n, 2 * n));
     }
     else{
