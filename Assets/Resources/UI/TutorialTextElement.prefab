@@ -5324,9 +5324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05df85fb200fc0c4c922a65fb2ac4a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1: {x: 0, y: 0, z: 0}
+  P1: {x: 220.5, y: -160.5, z: 0}
   P2: {x: 265.6, y: -162.9, z: 0}
-  PP1: {x: 0, y: 0, z: 0}
+  PP1: {x: 220.5, y: -160.5, z: 0}
   PP2: {x: 265.6, y: -162.9, z: 0}
   sizeOfFont: 0
   UIStatus: 1
@@ -5605,8 +5605,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 93631816518b78544af4a41b77257506, type: 2}
-  m_sharedMaterial: {fileID: -9122421385254553386, guid: 93631816518b78544af4a41b77257506, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9cd40930db971ad449cdd6cda3dd4747, type: 2}
+  m_sharedMaterial: {fileID: -8180601341204202028, guid: 9cd40930db971ad449cdd6cda3dd4747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5866,7 +5866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 307.6, y: -162.3}
+  m_AnchoredPosition: {x: 220.5, y: -160.5}
   m_SizeDelta: {x: 300000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3830844170590290107
@@ -5897,10 +5897,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: "\u7A7A\u683C\u4EE5\u7EE7\u7EED"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d1df4fb68a4ef3847a09ee85f8c708ad, type: 2}
-  m_sharedMaterial: {fileID: 857228816178602159, guid: d1df4fb68a4ef3847a09ee85f8c708ad, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9cd40930db971ad449cdd6cda3dd4747, type: 2}
+  m_sharedMaterial: {fileID: -8180601341204202028, guid: 9cd40930db971ad449cdd6cda3dd4747, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5924,8 +5924,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11
-  m_fontSizeBase: 11
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6586,7 +6586,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1003
+  m_SortingOrder: 1006
   m_TargetDisplay: 0
 --- !u!114 &6488733962906114213
 MonoBehaviour:
