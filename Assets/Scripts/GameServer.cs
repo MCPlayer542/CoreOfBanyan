@@ -40,7 +40,8 @@ public class GameServer : MonoBehaviour
   public List<Vector2Int> wallList = new();
   public List<Color> colors = new();
   public float game_pace = 1f / 3f;
-  public AudioSource end_game = null;
+  public static AudioSource end_game = null;
+
   public Vector3 CellToPos(int x, int y)
   { //res.z=-4 for player
     return new(0.5f * (x + y), 0.866025f * (x - y), -4);
@@ -273,6 +274,7 @@ public class GameServer : MonoBehaviour
 
   public virtual void EndGame()
   {
+    //UnityEngine.Debug.Log("orz");
     GameOverFlag = true;
     foreach (var i in LBmap)
     {
@@ -292,9 +294,12 @@ public class GameServer : MonoBehaviour
     Destroy(Camera.main.GetComponent<PestAndFruitProducer>());
     Destroy(Camera.main.GetComponent<GameServer>());
   }
+
   public virtual void GameOver()
   {
     end_game.Play();
-    GameOverFlag = true;
+    //GameOverFlag = true;
+    Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 2 });
+    EndGame();
   }
 }

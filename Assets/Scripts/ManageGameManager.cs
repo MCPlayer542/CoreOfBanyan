@@ -26,7 +26,7 @@ public class InitialStatus
 public class ManageGameManager : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public static bool gameStatus = false;
     public static bool isTutorial = false;
 
     static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
@@ -81,10 +81,6 @@ public class ManageGameManager : MonoBehaviour
             }
         }
 
-        if (GameServer.GameOverFlag && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
-        {
-            ChangeDisplayStatus(new() { 2 });
-        }
     }
 
     public void NewGame()
@@ -94,13 +90,13 @@ public class ManageGameManager : MonoBehaviour
         EndGame();
         maintheme.Stop();
         ingame.Play();
-        isPause = false;
-        GameServer.GameOverFlag = false;
         GameServer.n = init.size;
         GameServer.PlayerNumber = init.playerNumber;
         GameServer.keySet = init.keySet;
+        GameServer.end_game = end_game;
+        GameServer.GameOverFlag = false;
+        isPause = false;
         s = Camera.main.AddComponent<GameServer>();
-        s.end_game = end_game;
     }
     public void NewTutorial()
     {
@@ -109,10 +105,10 @@ public class ManageGameManager : MonoBehaviour
         EndGameButMusic();
         maintheme.Stop();
         if (!ingame.isPlaying) ingame.Play();
-        isPause = false;
+        GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
+        isPause = false;
         s = Camera.main.AddComponent<TutorialServer>();
-        s.end_game = end_game;
     }
 
     public void EndGame()
@@ -212,8 +208,10 @@ public class ManageGameManager : MonoBehaviour
     {
         if (lsid == null)
         {
+            //Debug.Log(lsid);
             if (isTutorial)
             {
+                //Debug.Log("lsid");
                 --tutorial_level;
                 NewTutorial();
             }
