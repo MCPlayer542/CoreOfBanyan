@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -9,10 +10,10 @@ public class ClickScript : MonoBehaviour
 
     public static bool isVisible = true;
     public bool isActive = true;
-    string txt = "";
+    List<string> txt = new() { };
     void Awake()
     {
-        txt = transform.GetComponent<TMP_Text>().text;
+        txt = transform.GetComponent<TMP_Text>().text.Split("\n").ToList();
     }
 
     // Update is called once per frame
@@ -28,11 +29,24 @@ public class ClickScript : MonoBehaviour
             var p = Input.mousePosition;
             if (isCollision())
             {
-                transform.GetComponent<TMP_Text>().text = "> " + txt + " <";
+                string t = "";
+                for (int i = 0; i < txt.Count; ++i)
+                {
+                    if (i == 0) t = t + ">" + txt[i] + "<";
+                    else t = t + txt[i];
+                    if (i != txt.Count - 1) t = t + "\n";
+                }
+                transform.GetComponent<TMP_Text>().text = t;
             }
             else
             {
-                transform.GetComponent<TMP_Text>().text = txt;
+                string t = "";
+                for (int i = 0; i < txt.Count; ++i)
+                {
+                    t = t + txt[i];
+                    if (i != txt.Count - 1) t = t + "\n";
+                }
+                transform.GetComponent<TMP_Text>().text = t;
             }
         }
     }
@@ -40,9 +54,9 @@ public class ClickScript : MonoBehaviour
     public bool isCollision()
     {
         var p = Input.mousePosition;
-        return p.x <= transform.GetComponent<TMP_Text>().transform.position.x + transform.GetComponent<TMP_Text>().text.Length * transform.GetComponent<TMP_Text>().fontSize / 2
-        && p.x >= transform.GetComponent<TMP_Text>().transform.position.x - transform.GetComponent<TMP_Text>().text.Length * transform.GetComponent<TMP_Text>().fontSize / 2
-        && p.y <= transform.GetComponent<TMP_Text>().transform.position.y + transform.GetComponent<TMP_Text>().fontSize / 2
-        && p.y >= transform.GetComponent<TMP_Text>().transform.position.y - transform.GetComponent<TMP_Text>().fontSize / 2;
+        return p.x <= transform.GetComponent<TMP_Text>().transform.position.x + txt[0].Length * transform.GetComponent<TMP_Text>().fontSize / 2
+        && p.x >= transform.GetComponent<TMP_Text>().transform.position.x - txt[0].Length * transform.GetComponent<TMP_Text>().fontSize / 2
+        && p.y <= transform.GetComponent<TMP_Text>().transform.position.y + txt.Count * transform.GetComponent<TMP_Text>().fontSize / 2
+        && p.y >= transform.GetComponent<TMP_Text>().transform.position.y - txt.Count * transform.GetComponent<TMP_Text>().fontSize / 2;
     }
 }

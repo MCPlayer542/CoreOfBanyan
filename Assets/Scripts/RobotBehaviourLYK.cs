@@ -18,9 +18,9 @@ public class RobotBehaviourLYK : MonoBehaviour
     {
         //s = Camera.main.GetComponent<GameServer>();
         self = GetComponent<PlayerBehaviour>();
-        self.isRobot=true;
+        self.isRobot = true;
         n = GameServer.n;
-        s.keySet[self.pid] = new(0,0,0,0,0,0);
+        GameServer.keySet[self.pid] = new(0, 0, 0, 0, 0, 0);
     }
 
     // Update is called once per frame
@@ -71,10 +71,10 @@ public class RobotBehaviourLYK : MonoBehaviour
                 dir = i;
             }
         }
-        Debug.Log(p);
-        Debug.Log(self.curpos);
+        //Debug.Log(p);
+        //Debug.Log(self.curpos);
         // Debug.Log(s.LBmap[self.curpos.x][self.curpos.y].owner);
-        Debug.Log(Calc_dis(self.curpos, p));
+        //Debug.Log(Calc_dis(self.curpos, p));
         // Debug.Log(Calc_dis(p,self.curpos+NeighborPos.Seek[dir]));
         if (self.TryMove(dir))
             last_move = Time.time;

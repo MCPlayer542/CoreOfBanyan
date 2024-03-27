@@ -6,9 +6,39 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
+public class InitialStatus
+{
+    public int size;
+    public int playerNumber;
+    public List<int> robotStatus;
+    public List<MKeySetClass> keySet;
+    public InitialStatus(int s, int p, List<int> r, List<MKeySetClass> k)
+    {
+        size = s;
+        playerNumber = p;
+        robotStatus = r;
+        keySet = k;
+    }
+}
+
+
+
 public class ManageGameManager : MonoBehaviour
 {
     // Start is called before the first frame update
+    public static bool gameStatus = false;
+    public static bool isTutorial = false;
+
+    static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
+
+    static MKeySetClass k1 = new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2);
+
+    static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
+
+
+    public static InitialStatus init = new(5, 2, new() { 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
+
+
 
     GameServer s = null;
     public static bool isPause = true;
@@ -51,33 +81,35 @@ public class ManageGameManager : MonoBehaviour
             }
         }
 
-        if (GameServer.GameOverFlag && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
-        {
-            ChangeDisplayStatus(new() { 2 });
-        }
     }
+
 
     public void NewGame()
     {
+        isTutorial = false;
         tutorial_level = 0;
         EndGame();
         maintheme.Stop();
         ingame.Play();
-        isPause = false;
+        GameServer.n = init.size;
+        GameServer.PlayerNumber = init.playerNumber;
+        GameServer.keySet = init.keySet;
+        GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
+        isPause = false;
         s = Camera.main.AddComponent<GameServer>();
-        s.end_game = end_game;
     }
     public void NewTutorial()
     {
+        isTutorial = true;
         ++tutorial_level;
         EndGameButMusic();
         maintheme.Stop();
         if (!ingame.isPlaying) ingame.Play();
-        isPause = false;
+        GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
+        isPause = false;
         s = Camera.main.AddComponent<TutorialServer>();
-        s.end_game = end_game;
     }
 
     public void EndGame()
@@ -139,7 +171,7 @@ public class ManageGameManager : MonoBehaviour
                     }
                 }
             }
-            for (int i = 0; i < s.PlayerNumber; ++i)
+            for (int i = 0; i < GameServer.PlayerNumber; ++i)
             {
                 s.players[i].energy = energys[i];
             }
@@ -173,19 +205,18 @@ public class ManageGameManager : MonoBehaviour
         return Input.GetKeyDown(k);
     }
 
-    public void ChangeDisplayStatus(List<int> lsid)
+    public void DisplayStatus(List<int> lsid)
     {
-        foreach (var d in displayObjects)
-        {
-            var r = d.transform;
-            for (int i = 0; i < r.childCount; ++i)
-            {
-                r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
-            }
-        }
         if (lsid == null)
         {
-            NewGame();
+            //Debug.Log(lsid);
+            if (isTutorial)
+            {
+                //Debug.Log("lsid");
+                --tutorial_level;
+                NewTutorial();
+            }
+            else NewGame();
             maintheme.Stop();
             return;
         }
@@ -205,6 +236,19 @@ public class ManageGameManager : MonoBehaviour
                 R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = true;
             }
         }
+    }
+
+    public void ChangeDisplayStatus(List<int> lsid)
+    {
+        foreach (var d in displayObjects)
+        {
+            var r = d.transform;
+            for (int i = 0; i < r.childCount; ++i)
+            {
+                r.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
+            }
+        }
+        DisplayStatus(lsid);
     }
 
 

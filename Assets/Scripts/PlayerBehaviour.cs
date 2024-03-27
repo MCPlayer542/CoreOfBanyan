@@ -31,8 +31,9 @@ public class OPQ
     {
         return head == tail;
     }
-    public int Size(){
-        return tail-head;
+    public int Size()
+    {
+        return tail - head;
     }
     public OPQ()
     {
@@ -42,7 +43,7 @@ public class OPQ
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    public int PestNumber=0;
+    public int PestNumber = 0;
     public bool Movable;
     public int pid;
     public float speed;
@@ -53,10 +54,10 @@ public class PlayerBehaviour : MonoBehaviour
     Vector3 prev;
     public float last_move;
     public PlayerNumberBehavior mNumberBehavior;
-    public AudioSource fast_return,pest_death,fruit_gain;
-    public bool alive = true,returning=false,reinforcing=false;
+    public AudioSource fast_return, pest_death, fruit_gain;
+    public bool alive = true, returning = false, reinforcing = false;
     public Neighbor anchoring = 0;
-    public bool isRobot=false;
+    public bool isRobot = false;
     public int KillCount = 0;
     // Start is called before the first frame update
     void Start()
@@ -74,7 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
         // s.LBmap[curpos.x][curpos.y].nearPlayer = true;
         // s.LBmap[curpos.x][curpos.y].nearRoot = true;
         // energy = 3;
-        
+
         last_move = -s.game_pace;
         mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
     }
@@ -95,15 +96,15 @@ public class PlayerBehaviour : MonoBehaviour
         if (GameServer.GameOverFlag) return;
         if (!alive) return;
 
-        if (ManageGameManager.GetKeyDown(s.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid])) returning=FastReturn();
-        else returning=false;
+        if (ManageGameManager.GetKeyDown(GameServer.keySet[pid].Back) && curpos != s.PosToCell(s.bornPos[pid])) returning = FastReturn();
+        else returning = false;
         if (s.LBmap[curpos.x][curpos.y].owner == -1)
         {
             s.BackHome(pid);
             s.UpdateMap();
         }
-        if (ManageGameManager.GetKeyDown(s.keySet[pid].Reinforce)) Reinforce();
-        else reinforcing=false;
+        if (ManageGameManager.GetKeyDown(GameServer.keySet[pid].Reinforce)) Reinforce();
+        else reinforcing = false;
     }
     public bool TryMove(int dir)
     {
@@ -165,10 +166,12 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             if (!TryCapture(curLand, preLand, cur, pre)) return false;
-            for(int i=0;i<s.PlayerNumber;++i){
-                if(cur==s.PosToCell(s.bornPos[i])){
-                    s.players[i].alive =false;
-                    s.LBmap[cur.x][cur.y].isRoot=false;
+            for (int i = 0; i < GameServer.PlayerNumber; ++i)
+            {
+                if (cur == s.PosToCell(s.bornPos[i]))
+                {
+                    s.players[i].alive = false;
+                    s.LBmap[cur.x][cur.y].isRoot = false;
                     var sr = s.map[cur.x][cur.y].transform.GetChild(6).GetComponent<SpriteRenderer>();
                     var round = Resources.Load<Sprite>("Textures/node");
                     sr.sprite = round;
@@ -178,11 +181,11 @@ public class PlayerBehaviour : MonoBehaviour
                     KillCount++;
                 }
             }
-            int alivePlayerNumber=0;
-            for(int i=0;i<s.PlayerNumber;++i)
-                if(s.players[i].alive)
+            int alivePlayerNumber = 0;
+            for (int i = 0; i < GameServer.PlayerNumber; ++i)
+                if (s.players[i].alive)
                     ++alivePlayerNumber;
-            if(alivePlayerNumber<=1) s.GameOver();
+            if (alivePlayerNumber <= 1) s.GameOver();
         }
 
 
@@ -194,16 +197,16 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (s.LBmap[cur.x][cur.y].mFruit != null)
         {
-            if(!isRobot) fruit_gain.Play();
-            float fruitEnergy=s.LBmap[cur.x][cur.y].GetFruitsEnergy();
-            mNumberBehavior.EatFruitNotice(s.LBmap[cur.x][cur.y].transform.position,fruitEnergy);
+            if (!isRobot) fruit_gain.Play();
+            float fruitEnergy = s.LBmap[cur.x][cur.y].GetFruitsEnergy();
+            mNumberBehavior.EatFruitNotice(s.LBmap[cur.x][cur.y].transform.position, fruitEnergy);
             energy += fruitEnergy;
             Destroy(s.LBmap[cur.x][cur.y].mFruit);
             s.LBmap[cur.x][cur.y].mFruit = null;
         }
         if (s.LBmap[cur.x][cur.y].mPest != null)
         {
-            if(!isRobot) pest_death.Play();
+            if (!isRobot) pest_death.Play();
             energy -= s.LBmap[cur.x][cur.y].GetPestsEnergy();
             PestNumber--;
             Destroy(s.LBmap[cur.x][cur.y].mPest);
@@ -286,9 +289,9 @@ public class PlayerBehaviour : MonoBehaviour
     bool Conflict(Vector2Int cur)
     {
         //Debug.Log("shit " + curpos + " " + s.players[1 - pid].curpos);
-        for (int i = 0; i < s.PlayerNumber; ++i)
+        for (int i = 0; i < GameServer.PlayerNumber; ++i)
         {
-            if(!s.players[i].alive) continue;
+            if (!s.players[i].alive) continue;
             if (i != pid && cur == s.players[i].curpos)
             {
                 if (s.players[i].energy < energy)
@@ -307,17 +310,17 @@ public class PlayerBehaviour : MonoBehaviour
     }
     public bool FastReturn()
     {
-        if(GameServer.GameOverFlag) return false;
-        if(!alive) return false;
-        if(curpos == s.PosToCell(s.bornPos[pid])) return false;
-        if(!isRobot) fast_return.Play();
+        if (GameServer.GameOverFlag) return false;
+        if (!alive) return false;
+        if (curpos == s.PosToCell(s.bornPos[pid])) return false;
+        if (!isRobot) fast_return.Play();
         s.LBmap[curpos.x][curpos.y].Captured(-1, s.LBmap[curpos.x][curpos.y].neighbor, 1);
         s.LBmap[curpos.x][curpos.y].neighbor = 0;
         return true;
     }
     public void Reinforce()
     {
-        reinforcing=true;
+        reinforcing = true;
         float amount = (float)energy * 0.025f;
         energy *= 0.9f;
         s.LBmap[curpos.x][curpos.y].hp += amount;
