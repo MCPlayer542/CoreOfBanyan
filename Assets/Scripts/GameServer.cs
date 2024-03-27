@@ -39,7 +39,7 @@ public class GameServer : MonoBehaviour
   public List<VJoystickBehavior> vjoysticks = new();
   public List<Vector2Int> wallList = new();
   public List<Color> colors = new();
-  public float game_pace =0.4f;// 1f / 3f;
+  public float game_pace = 0.4f;// 1f / 3f;
   public static AudioSource end_game = null;
 
   public Vector3 CellToPos(int x, int y)
@@ -84,6 +84,10 @@ public class GameServer : MonoBehaviour
       bornPos.Add(CellToPos(0, n));
       bornPos.Add(CellToPos(2 * n, n));
       bornPos.Add(CellToPos(n, 2 * n));
+    }
+    for (int i = 0; i < PlayerNumber; ++i)
+    {
+
     }
     keySet.Clear();
     ControlType = 0;
@@ -258,7 +262,7 @@ public class GameServer : MonoBehaviour
   }
   public void BackHome(int pid)
   {
-    if(!players[pid].returning&&!players[pid].isRobot) players[pid].forced_return.Play();
+    if (!players[pid].returning && !players[pid].isRobot) players[pid].forced_return.Play();
     players[pid].curpos = PosToCell(bornPos[pid]);
     players[pid].transform.position = bornPos[pid];
   }
