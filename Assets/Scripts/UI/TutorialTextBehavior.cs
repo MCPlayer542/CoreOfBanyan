@@ -46,6 +46,7 @@ public class TutorialTextBehavior : MonoBehaviour
         t = t + s;
         transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = t;
         transform.GetChild(2).GetComponent<UIElementBehavior>().isVisible = isEnterButton;
+        transform.GetChild(3).GetComponent<UIElementBehavior>().isVisible = isEnterButton;
     }
     public string GetText()
     {
