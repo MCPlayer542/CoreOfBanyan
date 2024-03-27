@@ -156,7 +156,8 @@ public class GameServer : MonoBehaviour
     }
     for (int i = 0; i <= 5; ++i)
     {
-      var p = players[i].AddComponent<RobotBehaviourHJQ>();
+      if (ManageGameManager.init.robotStatus[i] == 1) players[i].AddComponent<RobotBehaviourLYK>();
+      else if (ManageGameManager.init.robotStatus[i] == 2) players[i].AddComponent<RobotBehaviourHJQ>();
     }
   }
   /*void Update()

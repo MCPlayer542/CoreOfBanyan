@@ -71,10 +71,10 @@ public class RobotBehaviourLYK : MonoBehaviour
                 dir = i;
             }
         }
-        Debug.Log(p);
-        Debug.Log(self.curpos);
+        //Debug.Log(p);
+        //Debug.Log(self.curpos);
         // Debug.Log(s.LBmap[self.curpos.x][self.curpos.y].owner);
-        Debug.Log(Calc_dis(self.curpos, p));
+        //Debug.Log(Calc_dis(self.curpos, p));
         // Debug.Log(Calc_dis(p,self.curpos+NeighborPos.Seek[dir]));
         if (self.TryMove(dir))
             last_move = Time.time;

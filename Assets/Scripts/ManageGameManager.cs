@@ -27,7 +27,7 @@ public class ManageGameManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    static bool isTutorial = false;
+    public static bool isTutorial = false;
 
     static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
 
@@ -35,7 +35,8 @@ public class ManageGameManager : MonoBehaviour
 
     static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
 
-    InitialStatus init = new(5, 2, new() { 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
+
+    public static InitialStatus init = new(5, 2, new() { 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
 
 
 

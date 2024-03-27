@@ -5,14 +5,28 @@ using UnityEngine;
 public class SoloEZBehavior : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
+
+    static MKeySetClass k1 = new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2);
+
+    static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
+
+    InitialStatus init = new(5, 2, new() { 0, 1, 0, 0, 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (transform.gameObject.GetComponent<ClickScript>().isCollision() && Input.GetMouseButtonDown(0))
+        {
+            Camera.main.GetComponent<ManageGameManager>().EndGame();
+            ManageGameManager.isTutorial = false;
+            ManageGameManager.init = init;
+            Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(null);
+        }
     }
 }
