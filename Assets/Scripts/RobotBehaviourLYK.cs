@@ -20,6 +20,7 @@ public class RobotBehaviourLYK : MonoBehaviour
         self = GetComponent<PlayerBehaviour>();
         self.isRobot=true;
         n = GameServer.n;
+        s.keySet[self.pid] = new(0,0,0,0,0,0);
     }
 
     // Update is called once per frame
