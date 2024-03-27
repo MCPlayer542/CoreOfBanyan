@@ -4342,6 +4342,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 6644801377354271965, guid: 5bd5ef8129a7e7a4d86ac21c7d22776f, type: 3}
+      propertyPath: m_text
+      value: "2 vs 4\n "
+      objectReference: {fileID: 0}
     - target: {fileID: 7906759743596711805, guid: 5bd5ef8129a7e7a4d86ac21c7d22776f, type: 3}
       propertyPath: isVisible
       value: 0
