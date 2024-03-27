@@ -22,6 +22,7 @@ public class FruitTextBehavior : MonoBehaviour
         fruit_text.color = Color.green;
         fruit_text.text = "+" + (long)val;
         virpos = pos;
+        fruit_text.fontSize = size * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
         transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, virpos);
         status = true;
     }
@@ -31,8 +32,8 @@ public class FruitTextBehavior : MonoBehaviour
     {
         if (!status) return;
         virpos.y += move_speed * Time.smoothDeltaTime;
-        transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, virpos);
         fruit_text.fontSize = size * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
+        transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, virpos);
         Color c = fruit_text.color;
         c.a -= expire_speed * Time.smoothDeltaTime;
         fruit_text.color = c;
