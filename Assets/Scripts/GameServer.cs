@@ -46,12 +46,6 @@ public class GameServer : MonoBehaviour
   { //res.z=-4 for player
     return new(0.5f * (x + y), 0.866025f * (x - y), -4);
   }
-  public float game_pace = 0.4f;//1f / 3f;
-  public AudioSource end_game = null;
-  public Vector3 CellToPos(int x, int y)
-  { //res.z=-4 for player
-    return new(0.5f * (x + y), 0.866025f * (x - y), -4);
-  }
   public void Awake()
   {
     LandBehaviour.s = this;
