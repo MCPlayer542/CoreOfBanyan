@@ -65,8 +65,9 @@ public class GameServer : MonoBehaviour
     keySet.Clear();
     ControlType = 0;
     UpdateControlKeyCode();
-    for(int i=0;i<PlayerNumber;++i)
-      colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
+    // for(int i=0;i<PlayerNumber;++i)
+    //   colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
+    colors = new(){Color.green, Color.blue, Color.cyan, Color.magenta, Color.yellow, Color.gray};
 
     map.Clear();
     LBmap.Clear();
