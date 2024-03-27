@@ -298,8 +298,8 @@ public class GameServer : MonoBehaviour
   public virtual void GameOver()
   {
     end_game.Play();
-    //GameOverFlag = true;
+    GameOverFlag = true;
     Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 2 });
-    EndGame();
+    //EndGame();
   }
 }
