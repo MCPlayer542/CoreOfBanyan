@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
@@ -56,9 +57,7 @@ public class ManageGameManager : MonoBehaviour
 
     void Start()
     {
-        maintheme.volume = music_volume;
-        ingame.volume = music_volume;
-        end_game.volume = sound_effects_volume;
+        UpdateVolume();
     }
 
     // Update is called once per frame
@@ -299,6 +298,39 @@ public class ManageGameManager : MonoBehaviour
             }
         }
     }
-
+    public void ChangeMusicVolume(float v)
+    {
+        music_volume=v;
+        UpdateVolume();
+    }
+    public void ChangeSoundEffectsVolume(float v)
+    {
+        sound_effects_volume=v;
+        UpdateVolume();
+    }
+    void UpdateVolume()
+    {
+        maintheme.volume=music_volume;
+        ingame.volume=music_volume;
+        end_game.volume=sound_effects_volume;
+        if(s!=null)
+        {
+            foreach(PlayerBehaviour p in s.players)
+            {
+                p.UpdateVolume();
+            }
+            int n = GameServer.n;
+            for (int i = 0; i <= 2 * n; ++i)
+            {
+                for (int j = 0; j <= 2 * n; ++j)
+                {
+                    if (i - j <= n && j - i <= n)
+                    {
+                        s.LBmap[i][j].UpdateVolume();
+                    }
+                }
+            }
+        }
+    }
 
 }

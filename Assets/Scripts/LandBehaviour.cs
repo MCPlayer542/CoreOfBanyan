@@ -42,7 +42,7 @@ public class LandBehaviour : MonoBehaviour
         owner = -1;
         hp = 1;
         neighbor = 0;
-        capture_root.volume=ManageGameManager.sound_effects_volume;
+        UpdateVolume();
     }
 
     // Update is called once per frame
@@ -140,6 +140,10 @@ public class LandBehaviour : MonoBehaviour
             }
         }
 
+    }
+    public void UpdateVolume()
+    {
+        capture_root.volume=ManageGameManager.sound_effects_volume;
     }
     public void EndGame()
     {
