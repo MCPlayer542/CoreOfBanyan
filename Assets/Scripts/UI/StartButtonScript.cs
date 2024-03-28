@@ -23,9 +23,10 @@ public class StartButtonScript : MonoBehaviour
         {
             ManageGameManager.gameStatus = false;
             Camera.main.GetComponent<ManageGameManager>().EndGame();
-            ManageGameManager.isTutorial = false;
+            //ManageGameManager.isTutorial = false;
             Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(null);
             ManageGameManager.gameStatus = true;
+            Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { });
         }
     }
 }

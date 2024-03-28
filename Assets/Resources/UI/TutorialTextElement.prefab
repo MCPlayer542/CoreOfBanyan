@@ -1046,7 +1046,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 254.9, y: -166.3}
+  m_AnchoredPosition: {x: 254.9, y: 114514}
   m_SizeDelta: {x: 300000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3285678670040800364
@@ -1886,9 +1886,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05df85fb200fc0c4c922a65fb2ac4a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1: {x: 254.9, y: -176.3, z: 0}
+  P1: {x: 254.9, y: -166.3, z: 0}
   P2: {x: 0, y: 114514, z: 0}
-  PP1: {x: 254.9, y: -176.3, z: 0}
+  PP1: {x: 254.9, y: -166.3, z: 0}
   PP2: {x: 0, y: 114514, z: 0}
   sizeOfFont: 15
   UIStatus: 1
@@ -5688,9 +5688,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   P1: {x: 0, y: 0, z: 0}
-  P2: {x: 204.1, y: -176.2, z: 0}
+  P2: {x: 204.1, y: -156.2, z: 0}
   PP1: {x: 0, y: 0, z: 0}
-  PP2: {x: 204.1, y: -176.2, z: 0}
+  PP2: {x: 204.1, y: -156.2, z: 0}
   sizeOfFont: 0
   UIStatus: 1
   isBG: 0
