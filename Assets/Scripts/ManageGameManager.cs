@@ -15,7 +15,7 @@ public class InitialStatus
     public int wallWeight;
 
     public float gamePace;
-    public InitialStatus(int s, int p, List<int> r, int w = 0, float g = 3)
+    public InitialStatus(int s, int p, List<int> r, int w = 0, float g = 1 / 3)
     {
         size = s;
         playerNumber = p;
