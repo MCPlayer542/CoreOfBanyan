@@ -41,7 +41,9 @@ public class ManageGameManager : MonoBehaviour
         defaultk3 = new(KeyCode.T, KeyCode.G, KeyCode.F, KeyCode.H, KeyCode.Alpha4, KeyCode.Alpha5),
         defaultk4 = new(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L, KeyCode.Alpha7, KeyCode.Alpha8),
         presetk1 = new(KeyCode.W, KeyCode.E, KeyCode.A, KeyCode.D, KeyCode.Z, KeyCode.X, KeyCode.Alpha1, KeyCode.Alpha2);
-    static MKeySetClass k1 = defaultk1, k2 = defaultk2, k3 = k0, k4 = k0, k5 = k0, k6 = k0;
+    static MKeySetClass k1 = defaultk1, k2 = defaultk2, k3 = defaultk3, k4 = defaultk4, k5 = k0, k6 = k0;
+
+    static List<MKeySetClass> listKeySet = new List<MKeySetClass>() { k1, k2, k3, k4, k0, k0 };
 
     public static float music_volume = 0.5f, sound_effects_volume = 0.3f;
 
@@ -118,7 +120,7 @@ public class ManageGameManager : MonoBehaviour
         ingame.Play();
         GameServer.n = init.size - 1;
         GameServer.PlayerNumber = init.playerNumber;
-        GameServer.keySet = new() { k1, k2, k3, k4, k5, k6 };
+        GameServer.keySet = listKeySet;
         GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
         GameServer.gamePace = init.gamePace;

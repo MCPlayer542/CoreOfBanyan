@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt: 
   minNum: 0
-  maxNum: 2
+  maxNum: 6
   listLimit:
   - {fileID: 56408864}
   - {fileID: 32658627}
