@@ -40,8 +40,9 @@ public class CustomStartScript : MonoBehaviour
         if (transform.gameObject.GetComponent<ClickScript>().isCollision() && Input.GetMouseButtonDown(0))
         {
             curtime = Time.timeAsDouble;
+            Camera.main.GetComponent<ManageGameManager>().EndGame();
         }
-        if (Time.timeAsDouble - curtime < 0.3)
+        while (Time.timeAsDouble - curtime < 0.5 && ManageGameManager.s == null)
         {
             ManageGameManager.gameStatus = false;
             ManageGameManager.init = init;

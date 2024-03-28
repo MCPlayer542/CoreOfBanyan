@@ -37,7 +37,6 @@ public class KeysetNumScript : MonoBehaviour
             transform.GetComponent<TMP_Text>().text = txt;
         }
         int pid = Convert.ToInt32(txt);
-
         if (isJ)
         {
             ManageGameManager.listKeySet[pid - 1].vjoystick = true;
@@ -102,6 +101,10 @@ public class KeysetNumScript : MonoBehaviour
 
     public void shitChange()
     {
+        for (int i = 0; i < 14; ++i)
+        {
+            k[i].transform.gameObject.GetComponent<KeysetBehavior>().k = KeyCode.None;
+        }
         int pid = Convert.ToInt32(txt);
         isJ = ManageGameManager.listKeySet[pid - 1].vjoystick;
         var p = ManageGameManager.listKeySet[pid - 1];
