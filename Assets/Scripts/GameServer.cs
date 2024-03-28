@@ -167,7 +167,6 @@ public class GameServer : MonoBehaviour
       if (ManageGameManager.init.robotStatus[i] == 1) players[i].AddComponent<RobotBehaviourLYK>();
       else if (ManageGameManager.init.robotStatus[i] == 2) players[i].AddComponent<RobotBehaviourHJQ>();
     }
-    Debug.Log(keySet[0].vjoystick);
   }
   /*void Update()
   {
