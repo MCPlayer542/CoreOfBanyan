@@ -99,12 +99,7 @@ public class TutorialServer : GameServer
         }
         if (level == 4) Camera.main.AddComponent<PestAndFruitProducer>();
 
-        wallList = new() { };
-        foreach (var p in wallList)
-        {
-            LBmap[p.x][p.y].isWall = true;
-            map[p.x][p.y].SetActive(false);
-        }
+
         text = Instantiate(Resources.Load("UI/TutorialTextElement") as GameObject).GetComponent<TutorialTextBehavior>();
         TutorialInit();
     }
