@@ -15,16 +15,7 @@ public class HelpBehaviour : MonoBehaviour
     {
         if (transform.gameObject.GetComponent<ClickScript>().isCollision() && Input.GetMouseButtonDown(0))
         {
-            var R = Camera.main.GetComponent<ManageGameManager>().displayObjects[1].transform;
-            for (int i = 0; i < R.childCount; ++i)
-            {
-                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
-            }
-            R = Camera.main.GetComponent<ManageGameManager>().displayObjects[2].transform;
-            for (int i = 0; i < R.childCount; ++i)
-            {
-                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
-            }
+            Camera.main.GetComponent<ManageGameManager>().withdrawDisplayStatus(new() { 1, 2, 5 });
             Camera.main.GetComponent<ManageGameManager>().DisplayStatus(new() { 4 });
         }
     }

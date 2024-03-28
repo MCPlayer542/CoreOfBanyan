@@ -67,35 +67,8 @@ public class ManageGameManager : MonoBehaviour
         {
             isPause = true;
         }
-        if (isPause && s != null)
-        {
-            for (int i = 0; i <= 2 * GameServer.n; ++i)
-            {
-                for (int j = 0; j <= 2 * GameServer.n; ++j)
-                {
-                    if (i - j <= GameServer.n && j - i <= GameServer.n)
-                    {
-                        s.LBmap[i][j].hp = 114514;
-                    }
-                }
-            }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
-        {
-            var R = displayObjects[4].transform;
-            for (int i = 0; i < R.childCount; ++i)
-            {
-                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
-            }
-            //DisplayStatus(new() { 1 });
-        }
-
-        if (GameServer.GameOverFlag == false && Input.GetKeyDown(KeyCode.Escape) && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
-        {
-            ChangePauseStatus();
-            DisplayStatus(new() { 1 });
-        }
+        maintainUIStatus();
 
     }
 
@@ -103,11 +76,35 @@ public class ManageGameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //if(displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
-        }
-        else
-        {
+            if (displayObjects[3].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+            {
+                //Debug.Log("shit");
+                ChangeDisplayStatus(new() { 0 });
+            }
+            if (displayObjects[6].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+            {
+                ChangeDisplayStatus(new() { 0, 3 });
+            }
+            if (GameServer.GameOverFlag == false)
+            {
+                if (displayObjects[1].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+                {
+                    ResumeGame();
+                    withdrawDisplayStatus(new() { 1 });
+                }
+                else
+                {
+                    PauseGame();
+                    DisplayStatus(new() { 1 });
+                }
+            }
 
+            if (displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+            {
+                withdrawDisplayStatus(new() { 4 });
+                if (isTutorial) DisplayStatus(new() { 5 });
+                else DisplayStatus(new() { 1 });
+            }
         }
     }
 
@@ -170,6 +167,7 @@ public class ManageGameManager : MonoBehaviour
                 if (i - j <= GameServer.n && j - i <= GameServer.n)
                 {
                     hps[i].Add(s.LBmap[i][j].hp);
+                    //s.LBmap[i][j].hp = 1145141919810;
                 }
                 else
                 {
@@ -256,10 +254,10 @@ public class ManageGameManager : MonoBehaviour
             }
             if (sid == 0)
             {
-                maintheme.Play();
+                if (!maintheme.isPlaying) maintheme.Play();
                 var t = displayObjects[0].transform;
-                t.GetChild(2).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
-                t.GetChild(3).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
+                t.GetChild(2).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = true;
+                t.GetChild(3).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = true;
             }
             var R = displayObjects[sid].transform;
             for (int i = 0; i < R.childCount; ++i)
