@@ -325,10 +325,10 @@ public class PlayerBehaviour : MonoBehaviour
         if(!isRobot) reinforce.Play();
         float amount = (float)energy * 0.025f;
         energy *= 0.9f;
-        s.LBmap[curpos.x][curpos.y].hp += amount;
+        s.LBmap[curpos.x][curpos.y].Reinforce(amount);
         for (int i = 0, n = (int)s.LBmap[curpos.x][curpos.y].neighbor; i < 6; ++i)
             if ((n >> i & 1) == 1)
-                s.LBmap[curpos.x + NeighborPos.Seek[i].x][curpos.y + NeighborPos.Seek[i].y].hp += amount;
+                s.LBmap[curpos.x + NeighborPos.Seek[i].x][curpos.y + NeighborPos.Seek[i].y].Reinforce(amount);
     }
     public void EndGame()
     {
