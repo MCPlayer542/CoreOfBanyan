@@ -96,6 +96,7 @@ public class KeysetNumScript : MonoBehaviour
         {
             shitChange();
         }
+        CheckboxScript.isJS = isJ;
     }
 
 
