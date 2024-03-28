@@ -2266,6 +2266,7 @@ MonoBehaviour:
   - {fileID: 1720680445}
   - {fileID: 1107020585}
   - {fileID: 721918326}
+  - {fileID: 687275061}
   maintheme: {fileID: 519420034}
   ingame: {fileID: 519420035}
   end_game: {fileID: 519420036}
@@ -3007,16 +3008,16 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1467541958}
+  - {fileID: 59452126}
+  - {fileID: 2039589367}
   - {fileID: 1744263645}
   - {fileID: 1888375090}
   - {fileID: 280877438}
   - {fileID: 1944783551}
   - {fileID: 190770303}
   - {fileID: 600978630}
-  - {fileID: 1467541958}
-  - {fileID: 59452126}
   - {fileID: 1623787498}
-  - {fileID: 2039589367}
   - {fileID: 1212386446}
   - {fileID: 1616930862}
   - {fileID: 84121694}
