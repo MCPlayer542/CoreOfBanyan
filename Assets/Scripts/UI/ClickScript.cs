@@ -10,6 +10,7 @@ public class ClickScript : MonoBehaviour
 
     public static bool isVisible = true;
     public bool isActive = true;
+    public bool isDisplayAnchor=true;
     List<string> txt = new() { };
     void Awake()
     {
@@ -24,7 +25,7 @@ public class ClickScript : MonoBehaviour
             //Debug.Log("s");
             return;
         }
-        if (isActive)
+        if (isActive&&isDisplayAnchor)
         {
             var p = Input.mousePosition;
             if (isCollision())
