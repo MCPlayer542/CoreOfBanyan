@@ -36,6 +36,7 @@ public class GameServer : MonoBehaviour
   public static List<MKeySetClass> keySet = new();
   public static int n = 10;
   public static int PlayerNumber = 6;
+  public static float wallweight=0.4f;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
@@ -157,6 +158,7 @@ public class GameServer : MonoBehaviour
     Camera.main.AddComponent<PestAndFruitProducer>();
 
     wallList = new() { };
+    RandomWallGen();
     foreach (var p in wallList)
     {
       LBmap[p.x][p.y].isWall = true;
@@ -310,5 +312,106 @@ public class GameServer : MonoBehaviour
     if (ManageGameManager.isTutorial) Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 4,5 });
     else Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 2 });
     //EndGame();
+  }
+  void RandomWallGen()
+  {
+    List<List<bool>> visits=new(),queuing=new();
+    List<Vector2Int> queue=new();
+    int tot=0,cnt=0,idx;
+    float eps=1e-6f;
+    for (int i = 0; i <= 2 * n; ++i)
+    {
+      visits.Add(new List<bool>());
+      queuing.Add(new List<bool>());
+      for (int j = 0; j <= 2 * n; ++j)
+      {
+        if (i - j <= n && j - i <= n)
+        {
+          ++tot;
+          visits[i].Add(false);
+          queuing[i].Add(false);
+        }
+        else
+        {
+          visits[i].Add(true);
+          queuing[i].Add(true);
+        }
+      }
+    }
+    Vector2Int p,k;
+    foreach(Vector3 v in bornPos)
+    {
+      p=PosToCell(v);
+      queue.Add(p);
+      queuing[p.x][p.y]=true;
+    }
+    while(!ConnectivityCheck(visits)||(float)(tot-cnt)/tot>wallweight)
+    {
+      idx=(int)Random.Range(0,queue.Count-eps);
+      //Debug.Log(idx+","+queue.Count);
+      p=queue[idx];
+      queue.RemoveAt(idx);
+      ++cnt;
+      visits[p.x][p.y]=true;
+      for(int i=0;i<6;++i)
+      {
+        k=p+NeighborPos.Seek[i];
+        if(!OutOfScreen(k)&&!queuing[k.x][k.y])
+        {
+          queuing[k.x][k.y]=true;
+          queue.Add(k);
+        }
+      }
+    }
+    for (int i = 0; i <= 2 * n; ++i)
+    {
+      for (int j = 0; j <= 2 * n; ++j)
+      {
+        if (i - j <= n && j - i <= n) if(!visits[i][j]) wallList.Add(new(i,j));
+      }
+    }
+  }
+  bool ConnectivityCheck(List<List<bool>> map)
+  {
+    for(int i=1;i<PlayerNumber;++i)
+    {
+      if(!isConnected(players[0].curpos,players[i].curpos,map)) return false;
+    }
+    return true;
+  }
+  bool isConnected(Vector2Int s,Vector2Int e,List<List<bool>> map)
+  {
+    List<List<bool>> visits=new();
+    Queue<Vector2Int> queue=new();
+    for (int i = 0; i <= 2 * n; ++i)
+    {
+      visits.Add(new List<bool>());
+      for (int j = 0; j <= 2 * n; ++j)
+      {
+        if (i - j <= n && j - i <= n)
+        {
+          visits[i].Add(!map[i][j]);
+        }
+        else
+        {
+          visits[i].Add(true);
+        }
+      }
+    }
+    Vector2Int p,k;
+    queue.Enqueue(s);
+    while(queue.Count>0)
+    {
+      p=queue.Dequeue();
+      if(p==e) return true;
+      if(visits[p.x][p.y]) continue;
+      visits[p.x][p.y]=true;
+      for(int i=0;i<6;++i)
+      {
+        k=p+NeighborPos.Seek[i];
+        if(!OutOfScreen(k)&&!visits[k.x][k.y]) queue.Enqueue(k);
+      }
+    }
+    return false;
   }
 }
