@@ -78,7 +78,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             }
         }
         pid = mPlayer.pid;
-        lastUpdate = Time.time + s.game_pace / GameServer.PlayerNumber * pid;
+        lastUpdate = Time.time - s.game_pace / GameServer.PlayerNumber * pid;
         GameServer.keySet[pid] = new(0, 0, 0, 0, 0, 0);
     }
     void InitNodeMap()
