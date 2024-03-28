@@ -47,6 +47,7 @@ public class ManageGameManager : MonoBehaviour
     public List<GameObject> displayObjects = new();
     public AudioSource maintheme = null, ingame = null, end_game = null;
     public int tutorial_level = 0;
+
     void Start()
     {
         maintheme.volume=music_volume;
@@ -259,6 +260,26 @@ public class ManageGameManager : MonoBehaviour
             }
         }
         DisplayStatus(lsid);
+    }
+
+    public void withdrawDisplayStatus(List<int> lsid)
+    {
+        foreach (var sid in lsid)
+        {
+            if (sid < 0)
+            {
+                return;
+            }
+            if (sid == 0)
+            {
+                maintheme.Play();
+            }
+            var R = displayObjects[sid].transform;
+            for (int i = 0; i < R.childCount; ++i)
+            {
+                R.GetChild(i).GetComponent<UIElementBehavior>().isVisible = false;
+            }
+        }
     }
 
 
