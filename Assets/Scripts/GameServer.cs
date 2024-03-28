@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -11,17 +10,21 @@ using UnityEngine.UI;
 public class MKeySetClass
 {
   public KeyCode Up, Down, Left, Right, LUp, LDown, RUp, RDown, Back, Reinforce;
+  public bool vjoystick;
   public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right, KeyCode back, KeyCode reinforce)
   {
+    vjoystick=true;
     Up = up; Down = down; Left = left; Right = right; Back = back; Reinforce = reinforce;
   }
   public MKeySetClass(KeyCode lup, KeyCode rup, KeyCode left, KeyCode right, KeyCode ldown, KeyCode rdown, KeyCode back, KeyCode reinforce)
   {
+    vjoystick=false;
     LUp = lup; RUp = rup; Left = left; Right = right; LDown = ldown; RDown = rdown; Back = back; Reinforce = reinforce;
   }
   public bool isKeyDown()
   {
-    return ManageGameManager.GetKey(Up) || ManageGameManager.GetKey(Down) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
+    if(vjoystick) return ManageGameManager.GetKey(Up) || ManageGameManager.GetKey(Down) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
+    else return ManageGameManager.GetKey(LUp) || ManageGameManager.GetKey(RUp) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
   }
 }
 
@@ -89,9 +92,9 @@ public class GameServer : MonoBehaviour
     {
 
     }
-    keySet.Clear();
-    ControlType = 0;
-    UpdateControlKeyCode();
+    //keySet.Clear();
+    //ControlType = 0;
+    //UpdateControlKeyCode();
     // for(int i=0;i<PlayerNumber;++i)
     //   colors.Add(new(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
     colors = new() { new(0.1f, 0.8f, 0.1f), new(1f, 0.4f, 0.15f), Color.cyan, Color.magenta, Color.yellow, Color.gray };
@@ -164,6 +167,7 @@ public class GameServer : MonoBehaviour
       if (ManageGameManager.init.robotStatus[i] == 1) players[i].AddComponent<RobotBehaviourLYK>();
       else if (ManageGameManager.init.robotStatus[i] == 2) players[i].AddComponent<RobotBehaviourHJQ>();
     }
+    Debug.Log(keySet[0].vjoystick);
   }
   /*void Update()
   {

@@ -11,13 +11,11 @@ public class InitialStatus
     public int size;
     public int playerNumber;
     public List<int> robotStatus;
-    public List<MKeySetClass> keySet;
-    public InitialStatus(int s, int p, List<int> r, List<MKeySetClass> k)
+    public InitialStatus(int s, int p, List<int> r)
     {
         size = s;
         playerNumber = p;
         robotStatus = r;
-        keySet = k;
     }
 }
 
@@ -29,14 +27,10 @@ public class ManageGameManager : MonoBehaviour
     public static bool gameStatus = false;
     public static bool isTutorial = false;
 
-    static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
+    static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0),defaultk1 = new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2),defaultk2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period),presetk1=new(KeyCode.W,KeyCode.E,KeyCode.A,KeyCode.D,KeyCode.Z,KeyCode.X,KeyCode.Alpha1,KeyCode.Alpha2);
+    static MKeySetClass k1=defaultk1,k2=defaultk2,k3=k0,k4=k0,k5=k0,k6=k0;
 
-    static MKeySetClass k1 = new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2);
-
-    static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
-
-
-    public static InitialStatus init = new(5, 2, new() { 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
+    public static InitialStatus init = new(5, 2, new() {0,0,0,0,0,0});
 
 
 
@@ -99,7 +93,7 @@ public class ManageGameManager : MonoBehaviour
         ingame.Play();
         GameServer.n = init.size;
         GameServer.PlayerNumber = init.playerNumber;
-        GameServer.keySet = init.keySet;
+        GameServer.keySet = new(){k1,k2,k3,k4,k5,k6};
         GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
         isPause = false;

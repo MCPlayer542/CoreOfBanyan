@@ -32,6 +32,16 @@ public class VJoystickBehavior : MonoBehaviour
     {
         if (GameServer.GameOverFlag) return;
         if (!s.players[pid].alive) return;
+        if(!GameServer.keySet[pid].vjoystick)
+        {
+            if(ManageGameManager.GetKey(GameServer.keySet[pid].Left)) player.TryMove((int)DirID.LeftID);
+            if(ManageGameManager.GetKey(GameServer.keySet[pid].Right)) player.TryMove((int)DirID.RightID);
+            if(ManageGameManager.GetKey(GameServer.keySet[pid].LUp)) player.TryMove((int)DirID.LUpID);
+            if(ManageGameManager.GetKey(GameServer.keySet[pid].RUp)) player.TryMove((int)DirID.RUpID);
+            if(ManageGameManager.GetKey(GameServer.keySet[pid].LDown)) player.TryMove((int)DirID.LDownID);
+            if(ManageGameManager.GetKey(GameServer.keySet[pid].RDown)) player.TryMove((int)DirID.RDownID);
+            return;
+        }
         Vector3 p = transform.position;
         int tx = 0, ty = 0;
         if (ManageGameManager.GetKey(GameServer.keySet[pid].Up)) ty++;
