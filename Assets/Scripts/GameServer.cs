@@ -307,7 +307,7 @@ public class GameServer : MonoBehaviour
   {
     end_game.Play();
     GameOverFlag = true;
-    if (ManageGameManager.isTutorial) Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 5 });
+    if (ManageGameManager.isTutorial) Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 4,5 });
     else Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 2 });
     //EndGame();
   }
