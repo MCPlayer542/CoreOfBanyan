@@ -13,6 +13,7 @@ public class RobotBehaviourLYK : MonoBehaviour
     PlayerBehaviour self;
     int Left = 0, Right = 1, LUp = 2, RUp = 3, LDown = 4, RDown = 5;
     int n;
+    float last_move = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,12 +22,13 @@ public class RobotBehaviourLYK : MonoBehaviour
         self.isRobot = true;
         n = GameServer.n;
         GameServer.keySet[self.pid] = new(0, 0, 0, 0, 0, 0);
+        last_move = Time.time - s.game_pace / GameServer.PlayerNumber * self.pid;
     }
 
     // Update is called once per frame
-    float last_move = 0;
     void Update()
     {
+        if (ManageGameManager.isPause) return;
         if (Time.time - last_move <= s.game_pace)
             return;
         if (!s.LBmap[self.curpos.x][self.curpos.y].nearRoot)
