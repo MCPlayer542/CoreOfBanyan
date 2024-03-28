@@ -27,7 +27,7 @@ public class SoloEZBehavior : MonoBehaviour
         {
             curtime = Time.timeAsDouble;
         }
-        if (Time.timeAsDouble - curtime < 0.4)
+        if (Time.timeAsDouble - curtime < 0.3)
         {
             ManageGameManager.gameStatus = false;
             ManageGameManager.init = init;

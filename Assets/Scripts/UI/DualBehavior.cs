@@ -26,7 +26,7 @@ public class DualBehavior : MonoBehaviour
         {
             curtime = Time.timeAsDouble;
         }
-        if (Time.timeAsDouble - curtime < 0.4)
+        if (Time.timeAsDouble - curtime < 0.3)
         {
             ManageGameManager.gameStatus = false;
             ManageGameManager.init = new(5, 2, new() { 0, 0, 0, 0, 0, 0 });
