@@ -315,9 +315,21 @@ public class RobotBehaviourHJQ : MonoBehaviour
         if (p.x == 114514) return -1;
         return GetDirection(p);
     }
+    double CountRootNeighber(){
+        Vector2Int bp = s.PosToCell(s.bornPos[pid]);
+        double res=0;
+        foreach (var dlt in NeighborPos.Seek)
+        {
+            Vector2Int t = bp + dlt;
+            if (CanNotMove(t)) continue;
+            if(s.LBmap[t.x][t.y].nearRoot)res+=s.LBmap[t.x][t.y].hp;
+        }
+        return res;
+    }
 
     int IfFaceDanger()
     {
+        double CRN=CountRootNeighber();
         Vector2Int bp = s.PosToCell(s.bornPos[pid]);
         if (mPlayer.energy > 10 && NodeMap[bp.x][bp.y].Dist <= 1) mPlayer.Reinforce();
         for (int i = 0; i < GameServer.PlayerNumber; ++i)
@@ -326,6 +338,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             Vector2Int p = s.players[i].curpos;
             int dis1 = Math.Abs(bp.x - p.x) + Math.Abs(bp.y - p.y);
             int dis2 = Math.Abs(mPlayer.curpos.x - bp.x) + Math.Abs(mPlayer.curpos.y - bp.y);
+            if(dis1<=n/3*2&&dis2>n&&s.players[i].energy>CRN)return -1;
             if (dis1 <= 2 && s.players[i].energy > s.LBmap[bp.x][bp.y].hp)
             {
                 if (mPlayer.curpos == bp) return GetDirection(p);
@@ -342,10 +355,10 @@ public class RobotBehaviourHJQ : MonoBehaviour
         int res = IfFaceDanger();
         if (res != 114514) return res;
 
-        res = TryCut2();
+        res = GetConnect2();
         if (res != -1) return res;
 
-        res = GetConnect2();
+        res = TryCut2();
         if (res != -1) return res;
 
         double easyTargetEnergy = 1e6;
@@ -416,7 +429,10 @@ public class RobotBehaviourHJQ : MonoBehaviour
         if (Time.time - lastUpdate < s.game_pace * 1.05f) return;
         lastUpdate = Time.time;
         int Status = GetDir();
-        if (Status == -1) mPlayer.FastReturn();
+        if (Status == -1){
+            lastUpdate=-114514;
+            mPlayer.FastReturn();
+        }
         else mPlayer.TryMove(Status);
     }
 }
