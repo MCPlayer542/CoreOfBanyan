@@ -257,6 +257,9 @@ public class ManageGameManager : MonoBehaviour
             if (sid == 0)
             {
                 maintheme.Play();
+                var t = displayObjects[0].transform;
+                t.GetChild(2).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
+                t.GetChild(3).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
             }
             var R = displayObjects[sid].transform;
             for (int i = 0; i < R.childCount; ++i)
@@ -287,10 +290,6 @@ public class ManageGameManager : MonoBehaviour
             {
                 return;
             }
-            if (sid == 0)
-            {
-                maintheme.Play();
-            }
             var R = displayObjects[sid].transform;
             for (int i = 0; i < R.childCount; ++i)
             {
@@ -300,22 +299,22 @@ public class ManageGameManager : MonoBehaviour
     }
     public void ChangeMusicVolume(float v)
     {
-        music_volume=v;
+        music_volume = v;
         UpdateVolume();
     }
     public void ChangeSoundEffectsVolume(float v)
     {
-        sound_effects_volume=v;
+        sound_effects_volume = v;
         UpdateVolume();
     }
     void UpdateVolume()
     {
-        maintheme.volume=music_volume;
-        ingame.volume=music_volume;
-        end_game.volume=sound_effects_volume;
-        if(s!=null)
+        maintheme.volume = music_volume;
+        ingame.volume = music_volume;
+        end_game.volume = sound_effects_volume;
+        if (s != null)
         {
-            foreach(PlayerBehaviour p in s.players)
+            foreach (PlayerBehaviour p in s.players)
             {
                 p.UpdateVolume();
             }
