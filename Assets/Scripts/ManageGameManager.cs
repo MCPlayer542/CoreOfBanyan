@@ -123,7 +123,7 @@ public class ManageGameManager : MonoBehaviour
         ingame.Play();
         GameServer.n = init.size - 1;
         GameServer.PlayerNumber = init.playerNumber;
-        GameServer.keySet = listKeySet;
+        GameServer.keySet = new(listKeySet);
         GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
         GameServer.gamePace = init.gamePace;
