@@ -10,8 +10,8 @@ public class ClickScript : MonoBehaviour
 
     public static bool isVisible = true;
     public bool isActive = true;
-    public bool isDisplayAnchor=true;
-    List<string> txt = new() { };
+    public bool isDisplayAnchor = true;
+    public List<string> txt = new() { };
     void Awake()
     {
         txt = transform.GetComponent<TMP_Text>().text.Split("\n").ToList();
@@ -25,7 +25,7 @@ public class ClickScript : MonoBehaviour
             //Debug.Log("s");
             return;
         }
-        if (isActive&&isDisplayAnchor)
+        if (isActive && isDisplayAnchor)
         {
             var p = Input.mousePosition;
             if (isCollision())
@@ -54,7 +54,7 @@ public class ClickScript : MonoBehaviour
 
     public bool isCollision()
     {
-        if(!isActive) return false;
+        if (!isActive) return false;
         var p = Input.mousePosition;
         return p.x <= transform.GetComponent<TMP_Text>().transform.position.x + txt[0].Length * transform.GetComponent<TMP_Text>().fontSize / 2
         && p.x >= transform.GetComponent<TMP_Text>().transform.position.x - txt[0].Length * transform.GetComponent<TMP_Text>().fontSize / 2

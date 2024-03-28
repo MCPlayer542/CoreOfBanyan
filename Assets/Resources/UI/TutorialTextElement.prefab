@@ -5688,9 +5688,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   P1: {x: 0, y: 0, z: 0}
-  P2: {x: 204.1, y: -156.2, z: 0}
+  P2: {x: 204.1, y: -176.2, z: 0}
   PP1: {x: 0, y: 0, z: 0}
-  PP2: {x: 204.1, y: -156.2, z: 0}
+  PP2: {x: 204.1, y: -176.2, z: 0}
   sizeOfFont: 0
   UIStatus: 1
   isBG: 0

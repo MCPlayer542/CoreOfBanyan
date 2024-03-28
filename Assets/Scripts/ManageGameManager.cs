@@ -43,7 +43,7 @@ public class ManageGameManager : MonoBehaviour
         presetk1 = new(KeyCode.W, KeyCode.E, KeyCode.A, KeyCode.D, KeyCode.Z, KeyCode.X, KeyCode.Alpha1, KeyCode.Alpha2);
     static MKeySetClass k1 = defaultk1, k2 = defaultk2, k3 = defaultk3, k4 = defaultk4, k5 = k0, k6 = k0;
 
-    static List<MKeySetClass> listKeySet = new List<MKeySetClass>() { k1, k2, k3, k4, k0, k0 };
+    public static List<MKeySetClass> listKeySet = new List<MKeySetClass>() { k1, k2, k3, k4, k0, k0 };
 
     public static float music_volume = 0.5f, sound_effects_volume = 0.3f;
 
@@ -80,14 +80,17 @@ public class ManageGameManager : MonoBehaviour
         {
             if (displayObjects[3].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
             {
-                //Debug.Log("shit");
                 ChangeDisplayStatus(new() { 0 });
             }
             if (displayObjects[6].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
             {
                 ChangeDisplayStatus(new() { 0, 3 });
             }
-            if (GameServer.GameOverFlag == false)
+            if (displayObjects[7].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+            {
+                ChangeDisplayStatus(new() { 0 });
+            }
+            if (GameServer.GameOverFlag == false && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
             {
                 if (displayObjects[1].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
                 {
