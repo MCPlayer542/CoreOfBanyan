@@ -9258,7 +9258,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3171265269302077307, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
       propertyPath: m_text
-      value: "\u53F3\u4E0A\uFF08D+W / Right+Up\uFF09 \u5DE6\u4E0B\uFF08A+S / Right+Down\uFF09"
+      value: "\u53F3\u4E0A\uFF08D+W / Right+Up\uFF09 \u53F3\u4E0B\uFF08D+S / Right+Down\uFF09"
       objectReference: {fileID: 0}
     - target: {fileID: 3171265269302077307, guid: c3d88ef6156cf494596d036bb06cdcad, type: 3}
       propertyPath: m_fontSize
