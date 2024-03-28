@@ -94,6 +94,18 @@ public class ManageGameManager : MonoBehaviour
 
     }
 
+    void maintainUIStatus()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            //if(displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
+        }
+        else
+        {
+
+        }
+    }
+
 
     public void NewGame()
     {
