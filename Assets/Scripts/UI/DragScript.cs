@@ -17,6 +17,8 @@ public class DragScript : MonoBehaviour
 
     // Update is called once per frame
 
+    public bool isActive=true;
+
     bool dragStatus = false;
     Vector2 p;
     void Update()
@@ -39,6 +41,7 @@ public class DragScript : MonoBehaviour
 
     public bool isCollision()
     {
+        if(!isActive) return false;
         var t = transform.childCount;
         var p = Input.mousePosition;
         for (int i = 0; i < t; ++i)

@@ -43,6 +43,11 @@ public class RobotBehaviourHJQ : MonoBehaviour
     float lastUpdate;
     float reinforceProbability = 0.1f;
     float cutProbability = 0.4f;
+    bool CanNotMove(Vector2Int p){
+        if(s.OutOfScreen(p))return true;
+        if(s.LBmap[p.x][p.y].isWall)return true;
+        return false;
+    }
     int CountSetBits(int n)
     {
         int count = 0;
@@ -106,7 +111,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             foreach (var dlt in mSeek)
             {
                 Vector2Int y = x + dlt;
-                if (s.OutOfScreen(y)) continue;
+                if (CanNotMove(y)) continue;
                 if (s.LBmap[y.x][y.y].nearPlayer && s.LBmap[y.x][y.y].owner == pid && !mPlayer.IsNeighbor(s.LBmap[x.x][x.y], s.LBmap[y.x][y.y], x, y)) continue;
                 if (!NodeMap[y.x][y.y].vis)
                 {
@@ -156,7 +161,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         foreach (var dlt in NeighborPos.Seek)
         {
             Vector2Int t = mPlayer.curpos + dlt;
-            if (s.OutOfScreen(t)) continue;
+            if (CanNotMove(t)) continue;
             if (s.LBmap[t.x][t.y].owner == pid && s.LBmap[t.x][t.y].nearRoot != s.LBmap[mPlayer.curpos.x][mPlayer.curpos.y].nearRoot)
             {
                 p = t;
@@ -299,7 +304,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
         foreach (var dlt in NeighborPos.Seek)
         {
             Vector2Int t = mPlayer.curpos + dlt;
-            if (s.OutOfScreen(t)) continue;
+            if (CanNotMove(t)) continue;
             int deg = CountSetBits((int)s.LBmap[t.x][t.y].neighbor);
             if (s.LBmap[t.x][t.y].owner != -1 && s.LBmap[t.x][t.y].owner != pid && s.LBmap[t.x][t.y].nearRoot && deg >= num && mPlayer.energy > s.LBmap[t.x][t.y].hp)
             {
