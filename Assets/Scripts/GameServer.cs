@@ -13,30 +13,31 @@ public class MKeySetClass
   public bool vjoystick;
   public MKeySetClass(KeyCode up, KeyCode down, KeyCode left, KeyCode right, KeyCode back, KeyCode reinforce)
   {
-    vjoystick=true;
+    vjoystick = true;
     Up = up; Down = down; Left = left; Right = right; Back = back; Reinforce = reinforce;
   }
   public MKeySetClass(KeyCode lup, KeyCode rup, KeyCode left, KeyCode right, KeyCode ldown, KeyCode rdown, KeyCode back, KeyCode reinforce)
   {
-    vjoystick=false;
+    vjoystick = false;
     LUp = lup; RUp = rup; Left = left; Right = right; LDown = ldown; RDown = rdown; Back = back; Reinforce = reinforce;
   }
   public bool isKeyDown()
   {
-    if(vjoystick) return ManageGameManager.GetKey(Up) || ManageGameManager.GetKey(Down) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
+    if (vjoystick) return ManageGameManager.GetKey(Up) || ManageGameManager.GetKey(Down) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
     else return ManageGameManager.GetKey(LUp) || ManageGameManager.GetKey(RUp) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown) || ManageGameManager.GetKey(Left) || ManageGameManager.GetKey(Right) || ManageGameManager.GetKey(LDown) || ManageGameManager.GetKey(RDown);
   }
 }
 
 public class GameServer : MonoBehaviour
 {
+  public static float gamePace = 0.4f;
   public int ControlType;
   public static bool GameOverFlag = false;
   public List<Vector3> bornPos = new();
   public static List<MKeySetClass> keySet = new();
   public static int n = 10;
   public static int PlayerNumber = 6;
-  public static float wallweight=0.1f;
+  public static float wallweight = 0.1f;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
@@ -51,6 +52,7 @@ public class GameServer : MonoBehaviour
   }
   public void Awake()
   {
+    game_pace = gamePace;
     LandBehaviour.s = this;
     PlayerBehaviour.s = this;
     PestAndFruitProducer.mGameServer = this;
@@ -302,42 +304,49 @@ public class GameServer : MonoBehaviour
   {
     end_game.Play();
     GameOverFlag = true;
-    if (ManageGameManager.isTutorial) Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 4,5 });
+    if (ManageGameManager.isTutorial) Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 4, 5 });
     else Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(new() { 2 });
     //EndGame();
   }
-    void RandomWallGen()
+  void RandomWallGen()
   {
-    for(int i=0;i<=2*n;++i)
-      for(int j=0;j<=2*n;++j)
-        if(i-j<=n&&j-i<=n){
+    for (int i = 0; i <= 2 * n; ++i)
+      for (int j = 0; j <= 2 * n; ++j)
+        if (i - j <= n && j - i <= n)
+        {
           LBmap[i][j].isWall = false;
           map[i][j].SetActive(true);
         }
-    int mapNum = 3*n*n+3*n+1, wallNum = (int)(wallweight * mapNum), wallCnt=0, failCnt=0;
-    while(wallCnt<wallNum&&failCnt<10*wallNum){
-      int x = Random.Range(0,2*n+1), y = Random.Range(0,2*n+1);
-      if(x-y>n||y-x>n||LBmap[x][y].isWall) {
+    int mapNum = 3 * n * n + 3 * n + 1, wallNum = (int)(wallweight * mapNum), wallCnt = 0, failCnt = 0;
+    while (wallCnt < wallNum && failCnt < 10 * wallNum)
+    {
+      int x = Random.Range(0, 2 * n + 1), y = Random.Range(0, 2 * n + 1);
+      if (x - y > n || y - x > n || LBmap[x][y].isWall)
+      {
         ++failCnt;
         continue;
       }
       LBmap[x][y].isWall = true;
-      if(ConnectivityCheck(mapNum-wallCnt-1)){
+      if (ConnectivityCheck(mapNum - wallCnt - 1))
+      {
         ++wallCnt;
         map[x][y].SetActive(false);
       }
-      else {
+      else
+      {
         LBmap[x][y].isWall = false;
         ++failCnt;
       }
     }
-    if(wallCnt<wallNum) Debug.Log("fail: ("+wallCnt+"/"+wallNum+"), "+failCnt);
+    if (wallCnt < wallNum) Debug.Log("fail: (" + wallCnt + "/" + wallNum + "), " + failCnt);
     else Debug.Log("succeed");
   }
-  bool ConnectivityCheck(int spaceNum){
-    for(int i=0;i<PlayerNumber;++i){
+  bool ConnectivityCheck(int spaceNum)
+  {
+    for (int i = 0; i < PlayerNumber; ++i)
+    {
       var cur = PosToCell(bornPos[i]);
-      if(LBmap[cur.x][cur.y].isWall)
+      if (LBmap[cur.x][cur.y].isWall)
         return false;
     }
     int spaceCnt = 0;
@@ -345,12 +354,15 @@ public class GameServer : MonoBehaviour
     HashSet<Vector2Int> vis = new();
     q.Enqueue(PosToCell(bornPos[0]));
     vis.Add(PosToCell(bornPos[0]));
-    while(q.Count!=0){
+    while (q.Count != 0)
+    {
       var cur = q.Dequeue();
       ++spaceCnt;
-      for(int i=0;i<6;++i) {
-        var k=cur+NeighborPos.Seek[i];
-        if(!OutOfScreen(k)&&!vis.Contains(k)&&!LBmap[k.x][k.y].isWall){
+      for (int i = 0; i < 6; ++i)
+      {
+        var k = cur + NeighborPos.Seek[i];
+        if (!OutOfScreen(k) && !vis.Contains(k) && !LBmap[k.x][k.y].isWall)
+        {
           q.Enqueue(k);
           vis.Add(k);
         }
