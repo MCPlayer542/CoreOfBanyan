@@ -11,11 +11,17 @@ public class InitialStatus
     public int size;
     public int playerNumber;
     public List<int> robotStatus;
-    public InitialStatus(int s, int p, List<int> r)
+
+    public int wallWeight;
+
+    public float gamePace;
+    public InitialStatus(int s, int p, List<int> r, int w = 0, float g = 3)
     {
         size = s;
         playerNumber = p;
         robotStatus = r;
+        wallWeight = 0;
+        gamePace = g;
     }
 }
 
@@ -33,12 +39,12 @@ public class ManageGameManager : MonoBehaviour
         defaultk2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period),
         defaultk3 = new(KeyCode.T, KeyCode.G, KeyCode.F, KeyCode.H, KeyCode.Alpha4, KeyCode.Alpha5),
         defaultk4 = new(KeyCode.I, KeyCode.K, KeyCode.J, KeyCode.L, KeyCode.Alpha7, KeyCode.Alpha8),
-        presetk1=new(KeyCode.W,KeyCode.E,KeyCode.A,KeyCode.D,KeyCode.Z,KeyCode.X,KeyCode.Alpha1,KeyCode.Alpha2);
-    static MKeySetClass k1=defaultk1,k2=defaultk2,k3=defaultk3,k4=defaultk4,k5=k0,k6=k0;
+        presetk1 = new(KeyCode.W, KeyCode.E, KeyCode.A, KeyCode.D, KeyCode.Z, KeyCode.X, KeyCode.Alpha1, KeyCode.Alpha2);
+    static MKeySetClass k1 = defaultk1, k2 = defaultk2, k3 = defaultk3, k4 = defaultk4, k5 = k0, k6 = k0;
 
-    public static float music_volume=0.5f,sound_effects_volume=0.3f;
+    public static float music_volume = 0.5f, sound_effects_volume = 0.3f;
 
-    public static InitialStatus init = new(5, 2, new() {0,0,0,0,0,0});
+    public static InitialStatus init = new(5, 2, new() { 0, 0, 0, 0, 0, 0 });
 
 
 
@@ -50,9 +56,9 @@ public class ManageGameManager : MonoBehaviour
 
     void Start()
     {
-        maintheme.volume=music_volume;
-        ingame.volume=music_volume;
-        end_game.volume=sound_effects_volume;
+        maintheme.volume = music_volume;
+        ingame.volume = music_volume;
+        end_game.volume = sound_effects_volume;
     }
 
     // Update is called once per frame
@@ -96,7 +102,7 @@ public class ManageGameManager : MonoBehaviour
 
     void maintainUIStatus()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             //if(displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
         }
@@ -116,7 +122,7 @@ public class ManageGameManager : MonoBehaviour
         ingame.Play();
         GameServer.n = init.size;
         GameServer.PlayerNumber = init.playerNumber;
-        GameServer.keySet = new(){k1,k2,k3,k4,k5,k6};
+        GameServer.keySet = new() { k1, k2, k3, k4, k5, k6 };
         GameServer.end_game = end_game;
         GameServer.GameOverFlag = false;
         isPause = false;
