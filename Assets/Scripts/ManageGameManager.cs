@@ -36,6 +36,8 @@ public class ManageGameManager : MonoBehaviour
         presetk1=new(KeyCode.W,KeyCode.E,KeyCode.A,KeyCode.D,KeyCode.Z,KeyCode.X,KeyCode.Alpha1,KeyCode.Alpha2);
     static MKeySetClass k1=defaultk1,k2=defaultk2,k3=defaultk3,k4=defaultk4,k5=k0,k6=k0;
 
+    public static float music_volume=0.5f,sound_effects_volume=0.3f;
+
     public static InitialStatus init = new(5, 2, new() {0,0,0,0,0,0});
 
 
@@ -47,7 +49,9 @@ public class ManageGameManager : MonoBehaviour
     public int tutorial_level = 0;
     void Start()
     {
-
+        maintheme.volume=music_volume;
+        ingame.volume=music_volume;
+        end_game.volume=sound_effects_volume;
     }
 
     // Update is called once per frame

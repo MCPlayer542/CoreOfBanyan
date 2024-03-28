@@ -78,6 +78,12 @@ public class PlayerBehaviour : MonoBehaviour
 
         last_move = -s.game_pace;
         mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
+
+        fast_return.volume=ManageGameManager.sound_effects_volume;
+        pest_death.volume=ManageGameManager.sound_effects_volume;
+        fruit_gain.volume=ManageGameManager.sound_effects_volume;
+        forced_return.volume=ManageGameManager.sound_effects_volume;
+        reinforce.volume=ManageGameManager.sound_effects_volume;
     }
     private const float S3_2 = 0.8660254f;
     Vector3 Linear(Vector3 a, Vector3 b, float t)

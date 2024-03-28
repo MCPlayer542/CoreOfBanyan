@@ -42,6 +42,7 @@ public class LandBehaviour : MonoBehaviour
         owner = -1;
         hp = 1;
         neighbor = 0;
+        capture_root.volume=ManageGameManager.sound_effects_volume;
     }
 
     // Update is called once per frame
