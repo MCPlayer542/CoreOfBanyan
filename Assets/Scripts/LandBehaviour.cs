@@ -25,6 +25,7 @@ public class NeighborPos
 public class LandBehaviour : MonoBehaviour
 {
     const float k3 = 0.5f;
+    public const float blink_time=0.5f;
     public static GameServer s;
     // Start is called before the first frame update
     public int owner;
@@ -36,12 +37,14 @@ public class LandBehaviour : MonoBehaviour
     public bool isRoot = false;
     public bool isWall = false;
     public AudioSource capture_root;
+    public float last_reinforce;
 
     void Awake()
     {
         owner = -1;
         hp = 1;
         neighbor = 0;
+        last_reinforce=-blink_time;
         UpdateVolume();
     }
 
@@ -140,6 +143,11 @@ public class LandBehaviour : MonoBehaviour
             }
         }
 
+    }
+    public void Reinforce(float amount)
+    {
+        hp+=amount;
+        last_reinforce=Time.time;
     }
     public void UpdateVolume()
     {
