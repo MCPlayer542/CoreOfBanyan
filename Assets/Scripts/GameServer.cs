@@ -52,6 +52,7 @@ public class GameServer : MonoBehaviour
   }
   public void Awake()
   {
+    //Debug.Log(wallweight);
     game_pace = gamePace;
     LandBehaviour.s = this;
     PlayerBehaviour.s = this;

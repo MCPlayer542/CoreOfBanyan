@@ -31,6 +31,8 @@ public class CustomStartScript : MonoBehaviour
         , Convert.ToInt32(t.GetChild(4).GetChild(0).GetChild(0).GetComponent<CustomNumBehavior>().txt)
         , 1.0f / Convert.ToInt32(t.GetChild(5).GetChild(0).GetChild(0).GetComponent<CustomNumBehavior>().txt));
 
+        //Debug.Log("shit + " + Convert.ToInt32(t.GetChild(4).GetChild(0).GetChild(0).GetComponent<CustomNumBehavior>().txt));
+
         for (int i = A; i < A + B; ++i) init.robotStatus[i] = 1;
         for (int i = A + B; i < A + B + C; ++i) init.robotStatus[i] = 2;
 

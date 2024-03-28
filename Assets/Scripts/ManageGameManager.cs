@@ -21,7 +21,7 @@ public class InitialStatus
         size = s;
         playerNumber = p;
         robotStatus = r;
-        wallWeight = 0;
+        wallWeight = w;
         gamePace = g;
     }
 }
@@ -123,6 +123,8 @@ public class ManageGameManager : MonoBehaviour
         GameServer.GameOverFlag = false;
         GameServer.gamePace = init.gamePace;
         GameServer.wallweight = 0.1f * init.wallWeight;
+        //Debug.Log(init.wallWeight);
+        //Debug.Log(GameServer.wallweight);
         isPause = false;
         s = Camera.main.AddComponent<GameServer>();
     }
