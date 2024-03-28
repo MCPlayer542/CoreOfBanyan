@@ -57,8 +57,11 @@ public class ManageGameManager : MonoBehaviour
     public AudioSource maintheme = null, ingame = null, end_game = null;
     public int tutorial_level = 0;
 
+    double startT;
+
     void Start()
     {
+        startT = Time.timeAsDouble;
         UpdateVolume();
     }
 
@@ -70,7 +73,7 @@ public class ManageGameManager : MonoBehaviour
             isPause = true;
         }
 
-        maintainUIStatus();
+        if (Time.timeAsDouble - startT > 0.2) maintainUIStatus();
 
     }
 
@@ -109,7 +112,7 @@ public class ManageGameManager : MonoBehaviour
             if (displayObjects[4].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
             {
                 withdrawDisplayStatus(new() { 4 });
-                if (isTutorial) DisplayStatus(new() { 5 });
+                if (isTutorial && GameServer.GameOverFlag) DisplayStatus(new() { 5 });
                 else DisplayStatus(new() { 1 });
             }
         }
