@@ -84,7 +84,8 @@ public class ManageGameManager : MonoBehaviour
             }
             if (displayObjects[6].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
             {
-                ChangeDisplayStatus(new() { 0, 3 });
+                DisplayStatus(new() { 3 });
+                withdrawDisplayStatus(new() { 6 });
             }
             if (displayObjects[7].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
             {
@@ -268,6 +269,8 @@ public class ManageGameManager : MonoBehaviour
                 var t = displayObjects[0].transform;
                 t.GetChild(2).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = true;
                 t.GetChild(3).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = true;
+                t.GetChild(4).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = true;
+                t.GetChild(5).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = true;
             }
             var R = displayObjects[sid].transform;
             for (int i = 0; i < R.childCount; ++i)

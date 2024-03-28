@@ -19,6 +19,8 @@ public class SettingBehavior : MonoBehaviour
             var t = Camera.main.GetComponent<ManageGameManager>().displayObjects[0].transform;
             t.GetChild(2).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
             t.GetChild(3).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
+            t.GetChild(4).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
+            t.GetChild(5).GetChild(0).GetChild(0).GetComponent<ClickScript>().isActive = false;
             Camera.main.GetComponent<ManageGameManager>().DisplayStatus(new() { 7 });
         }
     }
