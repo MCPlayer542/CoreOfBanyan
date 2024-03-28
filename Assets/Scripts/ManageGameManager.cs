@@ -130,7 +130,7 @@ public class ManageGameManager : MonoBehaviour
         GameServer.gamePace = init.gamePace;
         GameServer.wallweight = 0.1f * init.wallWeight;
         //Debug.Log(init.wallWeight);
-        //Debug.Log(GameServer.wallweight);
+        Debug.Log(listKeySet[0].vjoystick);
         isPause = false;
         s = Camera.main.AddComponent<GameServer>();
     }

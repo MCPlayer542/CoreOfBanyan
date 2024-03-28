@@ -27,6 +27,7 @@ public class KeysetNumScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isJ = CheckboxScript.isJS;
         if (isCollision())
         {
             transform.GetComponent<TMP_Text>().text = "n\n" + txt + "\nv";
