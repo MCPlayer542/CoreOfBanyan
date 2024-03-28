@@ -88,6 +88,7 @@ public class ManageGameManager : MonoBehaviour
             }
             if (displayObjects[7].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible)
             {
+                //displayObjects[7].transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<KeysetNumScript>().shitChange();
                 ChangeDisplayStatus(new() { 0 });
             }
             if (GameServer.GameOverFlag == false && (!displayObjects[0].transform.GetChild(0).GetComponent<UIElementBehavior>().isVisible))
