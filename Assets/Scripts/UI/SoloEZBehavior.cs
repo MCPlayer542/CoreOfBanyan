@@ -12,7 +12,7 @@ public class SoloEZBehavior : MonoBehaviour
 
     static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
 
-    InitialStatus init = new(5, 2, new() { 0, 1, 0, 0, 0, 0 }, new() { k1, k0, k0, k0, k0, k0 });
+    InitialStatus init = new(5, 2, new() { 0, 1, 0, 0, 0, 0 });
     void Start()
     {
 

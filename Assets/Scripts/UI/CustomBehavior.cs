@@ -11,7 +11,7 @@ public class CustomBehavior : MonoBehaviour
 
     static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
 
-    InitialStatus init = new(10, 6, new() { 0, 0, 2, 2, 2, 2 }, new() { k1, k2, k0, k0, k0, k0 });
+    InitialStatus init = new(10, 6, new() { 0, 0, 2, 2, 2, 2 });
     void Start()
     {
 

@@ -42,7 +42,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
     public List<Vector2Int> mSeek = new() { new(1, 1), new(1, 0), new(0, 1), new(-1, -1), new(0, -1), new(-1, 0) };
     float lastUpdate;
     float reinforceProbability = 0.1f;
-    float cutProbability = 0.5f;
+    float cutProbability = 0.4f;
     int CountSetBits(int n)
     {
         int count = 0;

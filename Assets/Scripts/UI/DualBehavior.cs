@@ -5,13 +5,13 @@ using UnityEngine;
 public class DualBehavior : MonoBehaviour
 {
     // Start is called before the first frame update
-    static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
+    // static MKeySetClass k0 = new(0, 0, 0, 0, 0, 0);
 
-    static MKeySetClass k1 = new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2);
+    // static MKeySetClass k1 = new(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Alpha1, KeyCode.Alpha2);
 
-    static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
+    // static MKeySetClass k2 = new(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.Comma, KeyCode.Period);
 
-    InitialStatus init = new(5, 2, new() { 0, 0, 0, 0, 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
+    // InitialStatus init = new(5, 2, new() { 0, 0, 0, 0, 0, 0 }, new() { k1, k2, k0, k0, k0, k0 });
     void Start()
     {
 
@@ -29,7 +29,7 @@ public class DualBehavior : MonoBehaviour
         if (Time.timeAsDouble - curtime < 0.4)
         {
             ManageGameManager.gameStatus = false;
-            ManageGameManager.init = init;
+            ManageGameManager.init = new(5, 2, new() { 0, 0, 0, 0, 0, 0 });
             Camera.main.GetComponent<ManageGameManager>().EndGame();
             ManageGameManager.isTutorial = false;
             Camera.main.GetComponent<ManageGameManager>().ChangeDisplayStatus(null);
