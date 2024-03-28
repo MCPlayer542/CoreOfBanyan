@@ -17,8 +17,10 @@ public class CustomBehavior : MonoBehaviour
     {
         if (transform.gameObject.GetComponent<ClickScript>().isCollision() && Input.GetMouseButtonDown(0))
         {
-            Camera.main.GetComponent<ManageGameManager>().withdrawDisplayStatus(new(){3});
-        Camera.main.GetComponent<ManageGameManager>().DisplayStatus(new() { 6 });
+            Camera.main.GetComponent<ManageGameManager>().withdrawDisplayStatus(new() { 0 });
+            Camera.main.GetComponent<ManageGameManager>().withdrawDisplayStatus(new() { 3 });
+
+            Camera.main.GetComponent<ManageGameManager>().DisplayStatus(new() { 6 });
         }
     }
 }
