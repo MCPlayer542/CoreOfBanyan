@@ -9,17 +9,18 @@ public class PlayerNumberBehavior : MonoBehaviour
     // Start is called before the first frame update
     public PlayerBehaviour mPlayerBehaviour;
     public GameServer mGameServer;
-    public TMP_Text mOldEnergyUI, mEnergyUI, mEatFruitUI;
-    float eatTime;
-    float sizeOfFontOldEnergyUI = 0.5f, sizeOfFontEnergyUI = 0.3f;
-    float sizeOfFontEatFruitNotice = 0.3f;
+    public TMP_Text mEnergyUI, mEatFruitUI, mIdentityUI;
+    float sizeOfFontEnergyUI = 0.3f;
+    float startTime=-114;
     void Start()
     {
         mPlayerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
-        mOldEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         mEnergyUI = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        mIdentityUI = transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
         mGameServer = PlayerBehaviour.s;
         mEnergyUI.color = Color.blue;
+        mIdentityUI.color = Color.red;
+        startTime=Time.time;
     }
     public void EatFruitNotice(Vector3 pos, float E)
     {
@@ -27,30 +28,7 @@ public class PlayerNumberBehavior : MonoBehaviour
         Vector3 random_bias = new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
         FruitTextBehavior fruit_text = Instantiate(Resources.Load("FruitText") as GameObject).transform.GetChild(0).GetChild(0).GetComponent<FruitTextBehavior>();
         fruit_text.init(pos + random_bias, E);
-        // var t = mEatFruitUI;
-        // eatTime = Time.time;
-        // t.text = "+" + (int)E;
-        // Vector3 p = mPlayerBehaviour.transform.position;
-        // p.y += 0.3f;
-        // Color c = mEatFruitUI.color;
-        // c.a = 1;
-        // mEatFruitUI.color = c;
-        // transform.GetChild(0).GetChild(1).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
-        // t.fontSize = sizeOfFontEatFruitNotice * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
-    /*void UpdateEatNoticeUI()
-    {
-        // if (Time.time - eatTime > mGameServer.game_pace * 1.5f)
-        // {
-        //     Color c = mEatFruitUI.color;
-        //     c.a = 0;
-        //     mEatFruitUI.color = c;
-        //     return;
-        // }
-        // Vector3 p = mPlayerBehaviour.transform.position;
-        // p.y += 0.3f;
-        // transform.GetChild(0).GetChild(1).GetComponent<Transform>().position = RectTransformUtility.WorldToScreenPoint(Camera.main, p);
-    }*/
     void UpdateEnergyUI()
     {
         var p = mPlayerBehaviour;
@@ -61,20 +39,22 @@ public class PlayerNumberBehavior : MonoBehaviour
         v.y += 0.3f;
         t.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, v);
         t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
-        /*if (p.pid == 0)
-        {
-            t.rectTransform.localPosition = new Vector2(-Screen.width / 2 + t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
-        }
-        else
-        {
-            t.rectTransform.localPosition = new Vector2(Screen.width / 2 - t.fontSize * t.text.Length / 2.0f, Screen.height / 2 - 20);
-        }*/
+    }
+    void UpdateIdentityUI(){
+        var p = mPlayerBehaviour;
+        var t = mIdentityUI;
+        if(Time.time-startTime>2){Color c=t.color;c.a=0;t.color=c;}
+        t.text = p.isRobot?("CPU" + (p.pid+1)):("P"+(p.pid+1));
+        Vector3 v = mPlayerBehaviour.transform.position;
+        v.y += 0.5f;
+        t.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, v);
+        t.fontSize = sizeOfFontEnergyUI * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
     }
     // Update is called once per frame
     void Update()
     {
         if (ManageGameManager.isPause) return;
-
+        UpdateIdentityUI();
         UpdateEnergyUI();
     }
 }
