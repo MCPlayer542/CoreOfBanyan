@@ -26,7 +26,7 @@ public class SoloHardBehavior : MonoBehaviour
         {
             curtime = Time.timeAsDouble;
         }
-        if (Time.timeAsDouble - curtime < 0.3)
+        while (Time.timeAsDouble - curtime < 0.5 && ManageGameManager.s == null)
         {
             ManageGameManager.gameStatus = false;
             ManageGameManager.init = init;

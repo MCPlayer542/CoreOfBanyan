@@ -9,7 +9,7 @@ public class CustomNumBehavior : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    string txt = "";
+    public string txt = "";
 
     public int minNum = 0, maxNum = 100;
 

@@ -49,7 +49,7 @@ public class ManageGameManager : MonoBehaviour
 
 
 
-    GameServer s = null;
+    public static GameServer s = null;
     public static bool isPause = true;
     public List<GameObject> displayObjects = new();
     public AudioSource maintheme = null, ingame = null, end_game = null;
