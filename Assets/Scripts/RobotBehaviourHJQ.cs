@@ -331,7 +331,6 @@ public class RobotBehaviourHJQ : MonoBehaviour
     {
         double CRN=CountRootNeighber();
         Vector2Int bp = s.PosToCell(s.bornPos[pid]);
-        if (mPlayer.energy > 10 && NodeMap[bp.x][bp.y].Dist <= 1) mPlayer.Reinforce();
         for (int i = 0; i < GameServer.PlayerNumber; ++i)
         {
             if (i == pid) continue;
@@ -346,6 +345,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
                 return -1;
             }
         }
+        if (mPlayer.energy > 10 && NodeMap[bp.x][bp.y].Dist <= 1) mPlayer.Reinforce();
         return 114514;
     }
 
