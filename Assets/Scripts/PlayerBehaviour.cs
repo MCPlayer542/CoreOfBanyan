@@ -46,7 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     public int PestNumber = 0;
     public bool Movable;
     public int pid;
-    public float speed;
+    public double speed;
     public double energy;
     public Vector2Int curpos;
     public static GameServer s;
@@ -54,7 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
     Vector3 prev;
     public float last_move;
     public PlayerNumberBehavior mNumberBehavior;
-    public AudioSource fast_return, pest_death, fruit_gain,forced_return,reinforce;
+    public AudioSource fast_return, pest_death, fruit_gain, forced_return, reinforce;
     public bool alive = true, returning = false, reinforcing = false;
     public Neighbor anchoring = 0;
     public bool isRobot = false;
@@ -77,10 +77,10 @@ public class PlayerBehaviour : MonoBehaviour
         // energy = 3;
 
         last_move = -s.game_pace;
-        mNumberBehavior=gameObject.GetComponent<PlayerNumberBehavior>();
+        mNumberBehavior = gameObject.GetComponent<PlayerNumberBehavior>();
         UpdateVolume();
     }
-    private const float S3_2 = 0.8660254f;
+    private const double S3_2 = 0.8660254f;
     Vector3 Linear(Vector3 a, Vector3 b, float t)
     {
         return a + (b - a) * t;
@@ -199,7 +199,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (s.LBmap[cur.x][cur.y].mFruit != null)
         {
             if (!isRobot) fruit_gain.Play();
-            float fruitEnergy = s.LBmap[cur.x][cur.y].GetFruitsEnergy();
+            double fruitEnergy = s.LBmap[cur.x][cur.y].GetFruitsEnergy();
             mNumberBehavior.EatFruitNotice(s.LBmap[cur.x][cur.y].transform.position, fruitEnergy);
             energy += fruitEnergy;
             Destroy(s.LBmap[cur.x][cur.y].mFruit);
@@ -322,8 +322,8 @@ public class PlayerBehaviour : MonoBehaviour
     public void Reinforce()
     {
         reinforcing = true;
-        if(!isRobot) reinforce.Play();
-        float amount = (float)energy * 0.025f;
+        if (!isRobot) reinforce.Play();
+        double amount = (double)energy * 0.025f;
         energy *= 0.9f;
         s.LBmap[curpos.x][curpos.y].Reinforce(amount);
         for (int i = 0, n = (int)s.LBmap[curpos.x][curpos.y].neighbor; i < 6; ++i)
@@ -336,10 +336,10 @@ public class PlayerBehaviour : MonoBehaviour
     }
     public void UpdateVolume()
     {
-        fast_return.volume=ManageGameManager.sound_effects_volume;
-        pest_death.volume=ManageGameManager.sound_effects_volume;
-        fruit_gain.volume=ManageGameManager.sound_effects_volume;
-        forced_return.volume=ManageGameManager.sound_effects_volume;
-        reinforce.volume=ManageGameManager.sound_effects_volume;
+        fast_return.volume = ManageGameManager.sound_effects_volume;
+        pest_death.volume = ManageGameManager.sound_effects_volume;
+        fruit_gain.volume = ManageGameManager.sound_effects_volume;
+        forced_return.volume = ManageGameManager.sound_effects_volume;
+        reinforce.volume = ManageGameManager.sound_effects_volume;
     }
 }

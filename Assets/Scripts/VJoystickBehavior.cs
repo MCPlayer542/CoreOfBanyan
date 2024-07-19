@@ -24,7 +24,7 @@ public class VJoystickBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed=2f/s.game_pace;
+        speed = 2f / s.game_pace;
     }
 
     // Update is called once per frame
@@ -32,14 +32,14 @@ public class VJoystickBehavior : MonoBehaviour
     {
         if (GameServer.GameOverFlag) return;
         if (!s.players[pid].alive) return;
-        if(!GameServer.keySet[pid].vjoystick)
+        if (!GameServer.keySet[pid].vjoystick)
         {
-            if(ManageGameManager.GetKey(GameServer.keySet[pid].Left)) player.TryMove((int)DirID.LeftID);
-            if(ManageGameManager.GetKey(GameServer.keySet[pid].Right)) player.TryMove((int)DirID.RightID);
-            if(ManageGameManager.GetKey(GameServer.keySet[pid].LUp)) player.TryMove((int)DirID.LUpID);
-            if(ManageGameManager.GetKey(GameServer.keySet[pid].RUp)) player.TryMove((int)DirID.RUpID);
-            if(ManageGameManager.GetKey(GameServer.keySet[pid].LDown)) player.TryMove((int)DirID.LDownID);
-            if(ManageGameManager.GetKey(GameServer.keySet[pid].RDown)) player.TryMove((int)DirID.RDownID);
+            if (ManageGameManager.GetKey(GameServer.keySet[pid].Left)) player.TryMove((int)DirID.LeftID);
+            if (ManageGameManager.GetKey(GameServer.keySet[pid].Right)) player.TryMove((int)DirID.RightID);
+            if (ManageGameManager.GetKey(GameServer.keySet[pid].LUp)) player.TryMove((int)DirID.LUpID);
+            if (ManageGameManager.GetKey(GameServer.keySet[pid].RUp)) player.TryMove((int)DirID.RUpID);
+            if (ManageGameManager.GetKey(GameServer.keySet[pid].LDown)) player.TryMove((int)DirID.LDownID);
+            if (ManageGameManager.GetKey(GameServer.keySet[pid].RDown)) player.TryMove((int)DirID.RDownID);
             return;
         }
         Vector3 p = transform.position;
@@ -76,7 +76,7 @@ public class VJoystickBehavior : MonoBehaviour
 
     Neighbor GetPotentialMovementDeter()
     {
-        Tuple<float, int> dir = new(Vector2.Distance(anchor.curpos[6], transform.position) * 100, 6);
+        Tuple<double, int> dir = new(Vector2.Distance(anchor.curpos[6], transform.position) * 100, 6);
         for (int i = 0; i < 6; ++i)
         {
             var t = Vector2.Distance(anchor.curpos[i], transform.position);

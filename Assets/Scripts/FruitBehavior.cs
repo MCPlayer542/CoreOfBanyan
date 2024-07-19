@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class FruitBehavior : MonoBehaviour
 {
-    const float blink_duration = 3;
-    public static float life_time;
+    const double blink_duration = 3;
+    public static double life_time;
     public LandBehaviour owner;
     SpriteRenderer blink_renderer;
-    float profit, spawn_time;
+    double profit, spawn_time;
     // Start is called before the first frame update
     void Start()
     {
         spawn_time = Time.time;
-        profit = (float)owner.hp;
+        profit = owner.hp;
         blink_renderer = GetComponent<SpriteRenderer>();
     }
 
@@ -26,14 +26,14 @@ public class FruitBehavior : MonoBehaviour
             owner.mFruit = null;
             Destroy(gameObject);
         }
-        if (Time.time - spawn_time >= life_time-blink_duration)
+        if (Time.time - spawn_time >= life_time - blink_duration)
         {
             Color v = blink_renderer.color;
-            float dt = Time.time - spawn_time;
-            if (dt - Mathf.Floor(dt) < 0.5) v.a = 0;
+            double dt = Time.time - spawn_time;
+            if (dt - System.Math.Floor(dt) < 0.5) v.a = 0;
             else v.a = 1;
             blink_renderer.color = v;
         }
     }
-    public float getEnergy() { return profit; }
+    public double getEnergy() { return profit; }
 }

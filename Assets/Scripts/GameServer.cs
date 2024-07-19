@@ -37,7 +37,7 @@ public class GameServer : MonoBehaviour
   public static List<MKeySetClass> keySet = new();
   public static int n = 10;
   public static int PlayerNumber = 6;
-  public static float wallweight = 0.1f;
+  public static double wallweight = 0.1f;
   public List<List<GameObject>> map = new();
   public List<List<LandBehaviour>> LBmap = new();
   public List<PlayerBehaviour> players = new();
@@ -179,7 +179,7 @@ public class GameServer : MonoBehaviour
 
     UpdateMap();
   }*/
-  float CalcDis(Vector3 p, Vector2Int q)
+  double CalcDis(Vector3 p, Vector2Int q)
   {
     // only used in PosToCell
     return (p.x - (q.x + q.y) * 0.5f) * (p.x - (q.x + q.y) * 0.5f) + (p.y - (q.x - q.y) * 0.866025f) * (p.y - (q.x - q.y) * 0.866025f);
@@ -187,12 +187,12 @@ public class GameServer : MonoBehaviour
   public Vector2Int PosToCell(Vector3 p)
   {
     Vector2Int res = new(0, 0);
-    float dis2 = CalcDis(p, res);
+    double dis2 = CalcDis(p, res);
     for (int i = -1; i <= 2 * n + 1; ++i)
     {
       for (int j = -1; j <= 2 * n + 1; ++j)
       {
-        float tmp = CalcDis(p, new(i, j));
+        double tmp = CalcDis(p, new(i, j));
         if (tmp < dis2)
         {
           dis2 = tmp;

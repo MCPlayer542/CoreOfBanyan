@@ -13,7 +13,7 @@ public class RobotBehaviourLYK : MonoBehaviour
     PlayerBehaviour self;
     int Left = 0, Right = 1, LUp = 2, RUp = 3, LDown = 4, RDown = 5;
     int n;
-    float last_move = 0;
+    double last_move = 0;
     // Start is called before the first frame update
     void Start()
     {

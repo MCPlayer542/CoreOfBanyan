@@ -17,10 +17,10 @@ public class FruitTextBehavior : MonoBehaviour
     {
         move_speed = GameServer.n * speed_rate;
     }
-    public void init(Vector3 pos, float val)
+    public void init(Vector3 pos, double val)
     {
         fruit_text.color = Color.green;
-        fruit_text.text = "+" + (long)val;
+        fruit_text.text = "+" + (long)System.Math.Min(val, 9999999999999.0);
         virpos = pos;
         fruit_text.fontSize = size * Vector2.Distance(RectTransformUtility.WorldToScreenPoint(Camera.main, new(1, 0, 0)), RectTransformUtility.WorldToScreenPoint(Camera.main, new(0, 0, 0)));
         transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, virpos);

@@ -17,13 +17,24 @@ public class DragScript : MonoBehaviour
 
     // Update is called once per frame
 
-    public bool isActive=true;
+    public bool isActive = true;
 
     bool dragStatus = false;
     Vector2 p;
     void Update()
     {
-        dragStatus = isCollision() && Input.GetMouseButton(0);
+        var mousePos = Input.mousePosition;
+        mousePos.x = Math.Max(0, Math.Min(mousePos.x, Screen.width));
+        mousePos.y = Math.Max(0, Math.Min(mousePos.y, Screen.height));
+        if (!dragStatus)
+        {
+            dragStatus = isCollision() && Input.GetMouseButton(0);
+            p = mousePos;
+        }
+        else
+        {
+            dragStatus = Input.GetMouseButton(0);
+        }
         if (dragStatus && Input.GetMouseButton(0))
         {
             var t = transform.childCount;
@@ -31,25 +42,25 @@ public class DragScript : MonoBehaviour
             {
                 var r = transform.GetChild(i);
                 var R = r.GetComponent<UIElementBehavior>();
-                float scale = Math.Min(Screen.width / UIElementBehavior.Width, Screen.height / UIElementBehavior.Height);
-                R.PP1 = R.PP1 + (Vector3)((Vector2)(Input.mousePosition) - p)/scale;
-                R.PP2 = R.PP2 + (Vector3)((Vector2)(Input.mousePosition) - p)/scale;
+                float scale = (float)Math.Min(Screen.width / UIElementBehavior.Width, Screen.height / UIElementBehavior.Height);
+                R.PP1 = R.PP1 + (Vector3)((Vector2)(mousePos) - p) / scale;
+                R.PP2 = R.PP2 + (Vector3)((Vector2)(mousePos) - p) / scale;
             }
         }
-        p = Input.mousePosition;
+        p = mousePos;
     }
 
     public bool isCollision()
     {
-        if(!isActive) return false;
+        if (!isActive) return false;
         var t = transform.childCount;
         var p = Input.mousePosition;
         for (int i = 0; i < t; ++i)
         {
             var r = transform.GetChild(i);
             var R = r.GetChild(0).GetChild(1).GetComponent<RawImage>();
-            if (p.x <= R.rectTransform.position.x+R.rectTransform.rect.xMax*R.transform.localScale.x && p.x >= R.rectTransform.position.x+R.rectTransform.rect.xMin*R.transform.localScale.x
-            && p.y <= R.rectTransform.position.y+R.rectTransform.rect.yMax*R.transform.localScale.y && p.y >= R.rectTransform.position.y+R.rectTransform.rect.yMin*R.transform.localScale.y)
+            if (p.x <= R.rectTransform.position.x + R.rectTransform.rect.xMax * R.transform.localScale.x && p.x >= R.rectTransform.position.x + R.rectTransform.rect.xMin * R.transform.localScale.x
+            && p.y <= R.rectTransform.position.y + R.rectTransform.rect.yMax * R.transform.localScale.y && p.y >= R.rectTransform.position.y + R.rectTransform.rect.yMin * R.transform.localScale.y)
             {
                 //Debug.Log("coll");
                 return true;

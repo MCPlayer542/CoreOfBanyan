@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class PestAndFruitProducer : MonoBehaviour
 {
-    private float PestsProbability;
-    private float FruitsProbability;
+    private double PestsProbability;
+    private double FruitsProbability;
     public static GameServer mGameServer = null;
     // Start is called before the first frame update
     void Start()

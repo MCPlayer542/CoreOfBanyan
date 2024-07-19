@@ -24,8 +24,8 @@ public class NeighborPos
 }
 public class LandBehaviour : MonoBehaviour
 {
-    const float k3 = 0.5f;
-    public const float blink_time=0.5f;
+    const double k3 = 0.5f;
+    public const double blink_time = 0.5f;
     public static GameServer s;
     // Start is called before the first frame update
     public int owner;
@@ -37,19 +37,19 @@ public class LandBehaviour : MonoBehaviour
     public bool isRoot = false;
     public bool isWall = false;
     public AudioSource capture_root;
-    public float last_reinforce;
+    public double last_reinforce;
 
     void Awake()
     {
         owner = -1;
         hp = 1;
         neighbor = 0;
-        last_reinforce=-blink_time;
+        last_reinforce = -blink_time;
         UpdateVolume();
     }
 
     // Update is called once per frame
-    readonly float Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
+    readonly double Constant1 = 0.2f, Constant2 = 0.5f, Constant3 = 0.5f;
     void Update()
     {
         if (ManageGameManager.isPause) return;
@@ -68,7 +68,7 @@ public class LandBehaviour : MonoBehaviour
         }
     }
 
-    public void Captured(int new_owner, Neighbor new_neighbor, float new_hp)
+    public void Captured(int new_owner, Neighbor new_neighbor, double new_hp)
     {
         if (isRoot) capture_root.Play();
         var cur = s.PosToCell(transform.position);
@@ -108,8 +108,8 @@ public class LandBehaviour : MonoBehaviour
             }
         }
     }
-    public float GetFruitsEnergy() { return mFruit.GetComponent<FruitBehavior>().getEnergy(); }
-    public float GetPestsEnergy() { return 0; }
+    public double GetFruitsEnergy() { return mFruit.GetComponent<FruitBehavior>().getEnergy(); }
+    public double GetPestsEnergy() { return 0; }
 
 
     Dictionary<Neighbor, int> dict = new() { { Neighbor.Left, 3 }, { Neighbor.Right, 0 }, { Neighbor.LUp, 4 }, { Neighbor.RUp, 5 }, { Neighbor.LDown, 2 }, { Neighbor.RDown, 1 } };
@@ -144,14 +144,14 @@ public class LandBehaviour : MonoBehaviour
         }
 
     }
-    public void Reinforce(float amount)
+    public void Reinforce(double amount)
     {
-        hp+=amount;
-        last_reinforce=Time.time;
+        hp += amount;
+        last_reinforce = Time.time;
     }
     public void UpdateVolume()
     {
-        capture_root.volume=ManageGameManager.sound_effects_volume;
+        capture_root.volume = ManageGameManager.sound_effects_volume;
     }
     public void EndGame()
     {

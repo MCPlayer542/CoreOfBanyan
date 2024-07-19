@@ -17,7 +17,7 @@ public class UIElementBehavior : MonoBehaviour
 
     public static float Width = 600, Height = 400;
 
-    static float cursorFloat = 30;
+    static float cursordouble = 30;
 
     public Vector3 P1, P2;
 
@@ -55,11 +55,15 @@ public class UIElementBehavior : MonoBehaviour
         Vector3 p1 = PP1, p2 = PP2;
 
         float scale = Math.Min(Screen.width / Width, Screen.height / Height);
+
+        var mousePos = Input.mousePosition;
+        mousePos.x = Math.Max(0, Math.Min(mousePos.x, Screen.width));
+        mousePos.y = Math.Max(0, Math.Min(mousePos.y, Screen.height));
         if (isBG)
         {
             scale = Math.Max(Screen.width / Width, Screen.height / Height);
-            p1 = new(p1.x + cursorFloat * Input.mousePosition.x / Screen.width, p1.y + cursorFloat * Input.mousePosition.y / Screen.height, p1.z);
-            p2 = new(p2.x + cursorFloat * Input.mousePosition.x / Screen.width, p2.y + cursorFloat * Input.mousePosition.y / Screen.height, p2.z);
+            p1 = new(p1.x + cursordouble * mousePos.x / Screen.width, p1.y + cursordouble * mousePos.y / Screen.height, p1.z);
+            p2 = new(p2.x + cursordouble * mousePos.x / Screen.width, p2.y + cursordouble * mousePos.y / Screen.height, p2.z);
         }
 
 

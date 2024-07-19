@@ -40,12 +40,13 @@ public class RobotBehaviourHJQ : MonoBehaviour
     public List<Vector2Int> targetList = new();
     public List<List<NodeInformation>> NodeMap = new();
     public List<Vector2Int> mSeek = new() { new(1, 1), new(1, 0), new(0, 1), new(-1, -1), new(0, -1), new(-1, 0) };
-    float lastUpdate;
-    float reinforceProbability = 0.1f;
-    float cutProbability = 0.4f;
-    bool CanNotMove(Vector2Int p){
-        if(s.OutOfScreen(p))return true;
-        if(s.LBmap[p.x][p.y].isWall)return true;
+    double lastUpdate;
+    double reinforceProbability = 0.1f;
+    double cutProbability = 0.4f;
+    bool CanNotMove(Vector2Int p)
+    {
+        if (s.OutOfScreen(p)) return true;
+        if (s.LBmap[p.x][p.y].isWall) return true;
         return false;
     }
     int CountSetBits(int n)
@@ -315,21 +316,22 @@ public class RobotBehaviourHJQ : MonoBehaviour
         if (p.x == 114514) return -1;
         return GetDirection(p);
     }
-    double CountRootNeighber(){
+    double CountRootNeighber()
+    {
         Vector2Int bp = s.PosToCell(s.bornPos[pid]);
-        double res=0;
+        double res = 0;
         foreach (var dlt in NeighborPos.Seek)
         {
             Vector2Int t = bp + dlt;
             if (CanNotMove(t)) continue;
-            if(s.LBmap[t.x][t.y].nearRoot)res+=s.LBmap[t.x][t.y].hp;
+            if (s.LBmap[t.x][t.y].nearRoot) res += s.LBmap[t.x][t.y].hp;
         }
         return res;
     }
 
     int IfFaceDanger()
     {
-        double CRN=CountRootNeighber();
+        double CRN = CountRootNeighber();
         Vector2Int bp = s.PosToCell(s.bornPos[pid]);
         for (int i = 0; i < GameServer.PlayerNumber; ++i)
         {
@@ -337,7 +339,7 @@ public class RobotBehaviourHJQ : MonoBehaviour
             Vector2Int p = s.players[i].curpos;
             int dis1 = Math.Abs(bp.x - p.x) + Math.Abs(bp.y - p.y);
             int dis2 = Math.Abs(mPlayer.curpos.x - bp.x) + Math.Abs(mPlayer.curpos.y - bp.y);
-            if(dis1<=n/3*2&&dis2>n&&s.players[i].energy>CRN)return -1;
+            if (dis1 <= n / 3 * 2 && dis2 > n && s.players[i].energy > CRN) return -1;
             if (dis1 <= 2 && s.players[i].energy > s.LBmap[bp.x][bp.y].hp)
             {
                 if (mPlayer.curpos == bp) return GetDirection(p);
@@ -390,10 +392,11 @@ public class RobotBehaviourHJQ : MonoBehaviour
             Vector2Int p2 = GetCapture(E);
             if (p1.x == 114514 && p2.x == 114514) return -1;
             if (p1.x == 114514) return GetDirection(p2);
-            if (p2.x == 114514){
-                if(UnityEngine.Random.Range(0f, 1f) < cutProbability)return GetDirection(p1);
+            if (p2.x == 114514)
+            {
+                if (UnityEngine.Random.Range(0f, 1f) < cutProbability) return GetDirection(p1);
                 return -1;
-            } 
+            }
             if (NodeMap[p1.x][p1.y].Dist < NodeMap[p2.x][p2.y].Dist) return GetDirection(p1);
             if (Math.Max(p2.x - bp.x, p2.y - bp.y) < n) return GetDirection(p2);
             return -1;
@@ -429,8 +432,9 @@ public class RobotBehaviourHJQ : MonoBehaviour
         if (Time.time - lastUpdate < s.game_pace * 1.05f) return;
         lastUpdate = Time.time;
         int Status = GetDir();
-        if (Status == -1){
-            lastUpdate=-114514;
+        if (Status == -1)
+        {
+            lastUpdate = -114514;
             mPlayer.FastReturn();
         }
         else mPlayer.TryMove(Status);
